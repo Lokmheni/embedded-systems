@@ -125,46 +125,48 @@ int main( void )
 
 
     // Exercise 9
-    /*
-        printf("Exercise 9\n");
-        // TO COMPLETE:
-        // Allocate memory for two matrices and initialize them as follows
-        // m3 = [ 	1 2			2 Columns x 3 rows
-        // 			3 4
-        // 			5 6 ]
-        //
-        // m4 = [	1 2 3		3 Columns x 2 rows
-        // 			4 5 6 ]
-        //
-        // Pay attention in allocating memory for the structures and for the
-        // corresponding arrays
-        //
 
-        tMatrix *m3 = ...
-        m3->cols = ...
-        m3->rows = ...
-        m3->mat = ...
-        tMatrix *m4 = ...
-        ...
+    printf( "Exercise 9\n" );
+    // TO COMPLETE:
+    // Allocate memory for two matrices and initialize them as follows
+    // m3 = [ 	1 2			2 Columns x 3 rows
+    // 			3 4
+    // 			5 6 ]
+    //
+    // m4 = [	1 2 3		3 Columns x 2 rows
+    // 			4 5 6 ]
+    //
+    // Pay attention in allocating memory for the structures and for the
+    // corresponding arrays
+    //
 
-        //Initialization
-        for(i=0;i<6;i++)
-            m3->mat[i] = m4->mat[i] = i+1;
 
-        //Multiplication of the 2 matrices
-        tMatrix *result4 = multMatrices2(m3,m4);
-        printMatrix(result4->mat,result4->rows,result4->cols);
-        printf("The sum is %i \n",
-       sumMatrix(result4->mat,result4->rows,result4->cols));
+    tMatrix* m3 = malloc( sizeof( tMatrix ) );
+    m3->cols    = 2;
+    m3->rows    = 3;
+    m3->mat     = malloc( 6 * sizeof( int ) );
+    tMatrix* m4 = = malloc( sizeof( tMatrix ) );
+    m3->cols      = 3;
+    m3->rows      = 2;
+    m3->mat       = malloc( 6 * sizeof( int ) );
 
-        // TO COMPLETE: Release properly the memory corresponding only to the
-        // matrices m3 and m4. Do not forget the memory of the arrays
-        //
-        free(...);
-        free(...);
-        free(...);
-        free(...);
-    */
+    // Initialization
+    for ( i = 0; i < 6; i++ ) m3->mat[ i ] = m4->mat[ i ] = i + 1;
+
+    // Multiplication of the 2 matrices
+    tMatrix* result4 = multMatrices2( m3, m4 );
+    printMatrix( result4->mat, result4->rows, result4->cols );
+    printf( "The sum is %i \n",
+            sumMatrix( result4->mat, result4->rows, result4->cols ) );
+
+    // TO COMPLETE: Release properly the memory corresponding only to the
+    // matrices m3 and m4. Do not forget the memory of the arrays
+    //
+    free( m3->mat );
+    free( m3 );
+    free( m4->mat );
+    free( m4 );
+
 
     // Exercise 10
     /*
