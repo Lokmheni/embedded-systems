@@ -145,10 +145,10 @@ int main( void )
     m3->cols    = 2;
     m3->rows    = 3;
     m3->mat     = malloc( 6 * sizeof( int ) );
-    tMatrix* m4 = = malloc( sizeof( tMatrix ) );
-    m3->cols      = 3;
-    m3->rows      = 2;
-    m3->mat       = malloc( 6 * sizeof( int ) );
+    tMatrix* m4 = malloc( sizeof( tMatrix ) );
+    m3->cols    = 3;
+    m3->rows    = 2;
+    m3->mat     = malloc( 6 * sizeof( int ) );
 
     // Initialization
     for ( i = 0; i < 6; i++ ) m3->mat[ i ] = m4->mat[ i ] = i + 1;

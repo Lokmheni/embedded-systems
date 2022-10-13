@@ -76,10 +76,10 @@ void multMatrices( int mat1[], int mat2[], int rows, int columns, int result[] )
 
 tMatrix* multMatrices2( tMatrix* m1, tMatrix* m2 )
 {
-    tMatrix* ret;
-    ret->cols = m1->rows;
-    ret->rows = m2->cols;
-    ret->mat  = malloc( m1->rows * m2->cols * sizeof( int ) );
+    tMatrix* ret = calloc( 1, sizeof( tMatrix ) );
+    ret->cols    = m1->rows;
+    ret->rows    = m2->cols;
+    ret->mat     = malloc( m1->rows * m2->cols * sizeof( int ) );
     multMatrices( m1->mat, m2->mat, m1->rows, m2->cols, ret->mat );
     return ret;
 }
