@@ -61,12 +61,12 @@ void multMatrices( int mat1[], int mat2[], int rows, int columns, int result[] )
     int i, j, k;
     for ( i = 0; i < rows; i++ )
         {
-            for ( j = 0; j < rows; j++ )
+            for ( j = 0; j < columns; j++ )
                 {
                     tmp = 0;
-                    for ( k = 0; k < rows; k++ )
+                    for ( k = 0; k < columns; k++ )
                         {
-                            tmp += mat1[ rows * j + k ] * mat2[ rows * k + i ];
+                            tmp += mat1[ rows * j + k ] * mat2[ columns * k + i ];
                         }
                     result[ i + rows * j ] = tmp;
                 }
@@ -77,8 +77,8 @@ void multMatrices( int mat1[], int mat2[], int rows, int columns, int result[] )
 tMatrix* multMatrices2( tMatrix* m1, tMatrix* m2 )
 {
     tMatrix* ret;
-    ret->cols = m1->cols;
-    ret->rows = m2->rows;
+    ret->cols = m1->rows;
+    ret->rows = m2->cols;
     ret->mat  = malloc( m1->rows * m2->cols * sizeof( int ) );
     multMatrices( m1->mat, m2->mat, m1->rows, m2->cols, ret->mat );
     return ret;
