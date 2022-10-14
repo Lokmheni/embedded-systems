@@ -18,11 +18,12 @@
  * 		rows: Number of rows in the matrix
  * 		cols: Number of columns in the matrix
  */
-typedef struct{
-	int *mat;
-	int rows;
-	int cols;
-}tMatrix;
+typedef struct
+{
+    int* mat;
+    int  rows;
+    int  cols;
+} tMatrix;
 
 /*
  * Print the matrix that receives as parameter in a proper way.
@@ -30,7 +31,7 @@ typedef struct{
  * 		mat[]: an array of integer that represents the matrix
  * 		rows, columns: number of rows and columns of the matrix
  */
-void printMatrix(int mat[], int rows, int columns);
+void printMatrix( int mat[], int rows, int columns );
 
 /*
  * Function that initializes a square matrix as an identity matrix
@@ -40,20 +41,20 @@ void printMatrix(int mat[], int rows, int columns);
  * 		columns: number of columns of the matrix (equals to the number
  * 		of rows)
  */
-void identity(int mat[], int columns);
+void identity( int mat[], int columns );
 
 /*
  * This function return an integer that is equal to the summation
  * of all the components of the matrix
  */
-int sumMatrix(int mat[], int rows, int columns);
+int sumMatrix( int mat[], int rows, int columns );
 
 /*
  * This function multiplies two square matrices (same number of
  * rows and columns). The result is stored in the 5th parameter
  * which is an array of integer representing the resulting matrix
  */
-void multMatrices(int mat1[], int mat2[], int rows, int columns,int result[]);
+void multMatrices( int mat1[], int mat2[], int rows, int columns, int result[] );
 
 /*
  * This function multiply two matrices represented by the data structure
@@ -64,7 +65,7 @@ void multMatrices(int mat1[], int mat2[], int rows, int columns,int result[]);
  * This memory has to be released by the programmer in a proper way.
  */
 
-tMatrix* multMatrices2(tMatrix* m1, tMatrix* m2);
+tMatrix* multMatrices2( tMatrix* m1, tMatrix* m2 );
 
 /*
  * Declare a procedure that takes 3 parameters:
@@ -72,8 +73,7 @@ tMatrix* multMatrices2(tMatrix* m1, tMatrix* m2);
  * 		output: the value of the summation of all the diagonal components
  * 			of the matrix
  */
-
-//void sumDiagonal(..,.. );
+void sumDiagonal( const tMatrix* in_matrix, int* sum );
 
 
 #endif /* MATRIX_H_ */

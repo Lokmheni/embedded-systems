@@ -8,7 +8,7 @@
 
 #include "matrix.h"
 
-#define SIDE_SIZE 540
+#define SIDE_SIZE 54
 #define LENGTH    SIDE_SIZE* SIDE_SIZE
 
 //---------------------------------------------------------------------------------
@@ -146,9 +146,9 @@ int main( void )
     m3->rows    = 3;
     m3->mat     = malloc( 6 * sizeof( int ) );
     tMatrix* m4 = malloc( sizeof( tMatrix ) );
-    m3->cols    = 3;
-    m3->rows    = 2;
-    m3->mat     = malloc( 6 * sizeof( int ) );
+    m4->cols    = 3;
+    m4->rows    = 2;
+    m4->mat     = malloc( 6 * sizeof( int ) );
 
     // Initialization
     for ( i = 0; i < 6; i++ ) m3->mat[ i ] = m4->mat[ i ] = i + 1;
@@ -169,24 +169,25 @@ int main( void )
 
 
     // Exercise 10
-    /*
-        printf("Exercise 10\n");
 
-        int diagonal_value;
+    printf( "Exercise 10\n" );
 
-         // TO COMPLETE: After implementing sumDiagonal(...) call this procedure using
-         // result4 as input parameter and diagonal_value as output parameter
-         // sumDiagonal(....)
-         //
-         // sumDiagonal(.., ...);
+    int diagonal_value;
 
-        printf("The sum of the diagonal is %i\n",diagonal_value);
+    // TO COMPLETE: After implementing sumDiagonal(...) call this procedure using
+    // result4 as input parameter and diagonal_value as output parameter
+    // sumDiagonal(....)
+    //
+    sumDiagonal( result4, &diagonal_value );
 
-        // TO COMPLETE: Release properly the memory corresponding to the mmatrix
-        // result4. Do not forget the memory of the arrays
-        //
-        free...
-    */
+    printf( "The sum of the diagonal is %i\n", diagonal_value );
+
+    // TO COMPLETE: Release properly the memory corresponding to the mmatrix
+    // result4. Do not forget the memory of the arrays
+    //
+    free( result4->mat );
+    free( result4 );
+
 
     while ( 1 )
         {
