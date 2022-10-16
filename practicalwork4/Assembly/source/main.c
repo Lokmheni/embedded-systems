@@ -9,6 +9,7 @@
 
 extern int Sum( int a, int b );
 extern int SumArray( int* array, int length );
+extern int MultMatrix( int* mat1, int* mat2, int matrixLength, int* matR );
 
 // Integer square root function declaration
 
@@ -68,18 +69,19 @@ int main( void )
 
 
     // exercise 3
-    /*
-        printf("\n Exercise 3 \n");
-        int Mat1[9]={1,2,3,4,5,6,7,8,9};
-        int MatR[9];
-        MultMatrix(Mat1 , Mat1, 3, MatR);
-        printf("\n MatR = \n\n"
-                "\t%d\t%d\t%d\n\n"
-                "\t%d\t%d\t%d\n\n"
-                "\t%d\t%d\t%d\n\n",
-                MatR[0], MatR[1], MatR[2], MatR[3], MatR[4], MatR[5], MatR[6],
-       MatR[7], MatR[8]);
-    */
+
+    printf( "\n Exercise 3 \n" );
+    int Mat1[ 9 ] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int MatR[ 9 ];
+    MultMatrix( Mat1, Mat1, 3, MatR );
+    printf(
+        "\n MatR = \n\n"
+        "\t%d\t%d\t%d\n\n"
+        "\t%d\t%d\t%d\n\n"
+        "\t%d\t%d\t%d\n\n",
+        MatR[ 0 ], MatR[ 1 ], MatR[ 2 ], MatR[ 3 ], MatR[ 4 ], MatR[ 5 ], MatR[ 6 ],
+        MatR[ 7 ], MatR[ 8 ] );
+
 
     // exercise 4
     /*
