@@ -71,7 +71,9 @@ int main( void )
     // exercise 3
 
     printf( "\n Exercise 3 \n" );
-    int Mat1[ 9 ] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int Mat1[ 9 ] = { 1, 2, 3,
+                      4, 5, 6, 
+                      7, 8, 9 };
     int MatR[ 9 ];
     MultMatrix( Mat1, Mat1, 3, MatR );
     printf(

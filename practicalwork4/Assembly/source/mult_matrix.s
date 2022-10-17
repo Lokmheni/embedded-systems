@@ -35,7 +35,7 @@ fori:
             mul r12,r6,r2 @r12 = len * k
             add r8,r10,r6
             ldr r8,[r0,r8,lsl #2] @A_ik
-            add r9, r12,r11
+            add r9, r12,r5
             ldr r9,[r1,r9,lsl#2] @B_kj
 
             mul r9,r8 @A_ik * B_kj
@@ -47,8 +47,8 @@ fori:
         endfork:
 
     @now we store result into C_ij
-    add r8,r4,r11
-    str r6,[r3,r8,lsl #2]
+    add r8,r10,r5
+    str r7,[r3,r8,lsl #2]
 
     add r5,#1
     b forj
