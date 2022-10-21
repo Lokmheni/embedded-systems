@@ -11,6 +11,7 @@ extern int Sum( int a, int b );
 extern int SumArray( int* array, int length );
 extern int MultMatrix( int* mat1, int* mat2, int matrixLength, int* matR );
 extern int sum6( int a, int b, int c, int d, int e, int f );
+extern int sumMatrix6( int* Matrix );
 
 // Integer square root function declaration
 
@@ -92,14 +93,14 @@ int main( void )
 
 
     // exercise 5
-    /*
-        printf("\n Exercise 5 \n");
-        int Mat6[36];
-        int i;
-        for(i=1;i<37;i++) Mat6[i-1]=i;
-        a = sumMatrix6(Mat6);
-        printf("\n sumMatrix6 = %d \n", a);
-    */
+
+    printf( "\n Exercise 5 \n" );
+    int Mat6[ 36 ];
+    int i;
+    for ( i = 1; i < 37; i++ ) Mat6[ i - 1 ] = i;
+    a = sumMatrix6( Mat6 );
+    printf( "\n sumMatrix6 = %d \n", a );
+
 
     // Exercise 6
     /*
