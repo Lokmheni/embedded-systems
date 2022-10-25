@@ -58,7 +58,7 @@ int main( void )
 
 
     // Exercise 2
-
+    /*
     // Initialization of the display
     initChronoDisp_Main();
 
@@ -81,62 +81,62 @@ int main( void )
     irqEnable( IRQ_TIMER0 );
     irqEnable( IRQ_TIMER1 );
 
-
-    /*
-        //Exercise 3 (Comment exercise 1 and 2)
-
-        //Initialize the display and the color of the display
-        initChronoDisp_Main();
-        changeColorDisp_Main(RED);
-
-        //Initialize the interrupts correctly
-        ...
-
-        //Set the minutes, the seconds and the mseconds
-        min = sec = msec = 0;
-
-        //Configure the timer (i.e. TIMER0) correctly
-        TIMER_DATA(0) = ...
-        TIMER0_CR = ...
-
-        //Associate the interrupt handler and enable the interrupt line
-        ...
-        ...
     */
 
-    /*
-        //Exercise 4
+    // Exercise 3 (Comment exercise 1 and 2)
 
-        //Associate the interrupt handler for the VBLANK interrupt line and
-       enable it
-        ...
-        ...
-    */
+    // Initialize the display and the color of the display
+    initChronoDisp_Main();
+    changeColorDisp_Main( RED );
 
-    /*
-        //Exercise 5
+    // Initialize the interrupts correctly
+    TODO;
 
-        //Configure the timer correctly, associate the handler and enable the
-       interrupt
-        ...
-        ...
-        ...
-        ...
-    */
+    // Set the minutes, the seconds and the mseconds
+    min = sec = msec = 0;
 
-    /*
-        //Exercise 6
+    // Configure the timer (i.e. TIMER0) correctly
+    TIMER_DATA( 0 ) = TODO;
+    TIMER0_CR       = TODO;
 
-        //Configure the interruption to be fired when button A is pressed
-        REG_KEYCNT = (1<<14)| KEY_A;
-        //Associate the handler and enable the line of interrupt
-        ...
-        ...
-    */
+    // Associate the interrupt handler and enable the interrupt line
+    TODO;
+    TODO;
+    * /
+
+        /*
+            //Exercise 4
+
+            //Associate the interrupt handler for the VBLANK interrupt line and
+           enable it
+            TODO;
+            TODO;
+        */
+
+        /*
+            //Exercise 5
+
+            //Configure the timer correctly, associate the handler and enable the
+           interrupt
+            TODO;
+            TODO;
+            TODO;
+            TODO;
+        */
+
+        /*
+            //Exercise 6
+
+            //Configure the interruption to be fired when button A is pressed
+            REG_KEYCNT = (1<<14)| KEY_A;
+            //Associate the handler and enable the line of interrupt
+            TODO;
+            TODO;
+        */
 
 
-    while ( 1 )
-        {
-            swiWaitForVBlank();
-        }
+        while ( 1 )
+    {
+        swiWaitForVBlank();
+    }
 }
