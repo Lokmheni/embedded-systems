@@ -5,6 +5,10 @@
 
 #include "chrono_display.h"
 
+
+int lastcolor;
+
+
 extern int
 iSqrt(int);
 
@@ -41,13 +45,53 @@ Timer0()
                     min++;
                 }
         }
+}
+
+void
+vBlankIsr()
+{
     updateChronoDisp_Main(min, sec, msec);
 }
 
+
+void
+colorChangeIsr()
+{
+    switch (lastcolor)
+        {
+            case RED:
+                lastcolor = GREEN;
+                break;
+            case GREEN:
+                lastcolor = BLUE;
+                break;
+            case BLUE:
+                lastcolor = YELLOW;
+                break;
+            case YELLOW:
+                lastcolor = RED;
+                break;
+            default:
+                lastcolor = RED;
+                break;
+        }
+    changeColorDisp_Main(lastcolor);
+}
+
+
+void
+keyInterruptIsr()
+{
+    printf("Keypressed at %d:%d:%d\n", min, sec, msec);
+}
+
+
+// ============================================================================
+// ------------------------------------main------------------------------------
+// ============================================================================
 int
 main(void)
 {
-    consoleDemoInit();
 
     // Exercise 1
     /*
@@ -103,8 +147,11 @@ main(void)
     // Exercise 3 (Comment exercise 1 and 2)
 
     // Initialize the display and the color of the display
+    consoleDemoInit();
+    printf("HELLOWORLD\n");
     initChronoDisp_Main();
     changeColorDisp_Main(RED);
+
 
     // Initialize the interrupts correctly
     irqInit();
@@ -122,35 +169,33 @@ main(void)
     irqEnable(IRQ_TIMER0);
 
 
-    /*
-        //Exercise 4
+    // Exercise 4
 
-        //Associate the interrupt handler for the VBLANK interrupt line
-       and enable it
-        TODO;
-        TODO;
-    */
+    // Associate the interrupt handler for the VBLANK interrupt line
+    // and enable it TODO;
+    irqSet(IRQ_VBLANK, vBlankIsr);
+    irqEnable(IRQ_VBLANK);
 
-    /*
-        //Exercise 5
 
-        //Configure the timer correctly, associate the handler and enable
-       the interrupt
-        TODO;
-        TODO;
-        TODO;
-        TODO;
-    */
+    // Exercise 5
 
-    /*
-        //Exercise 6
+    // Configure the timer correctly, associate the handler and enable the
+    // interrupt;
+    lastcolor   = RED;
+    TIMER3_CR   = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
+    TIMER3_DATA = TIMER_FREQ_1024(1);
+    irqSet(IRQ_TIMER3, colorChangeIsr);
+    irqEnable(IRQ_TIMER3);
 
-        //Configure the interruption to be fired when button A is pressed
-        REG_KEYCNT = (1<<14)| KEY_A;
-        //Associate the handler and enable the line of interrupt
-        TODO;
-        TODO;
-    */
+
+    // Exercise 6
+
+    // Configure the interruption to be fired when button A is pressed
+    REG_KEYCNT = (1 << 14) | KEY_A;
+    // Associate the handler and enable the line of interrupt
+    irqSet(IRQ_KEYS, keyInterruptIsr);
+    irqEnable(IRQ_KEYS);
+
 
     while (1)
         {
