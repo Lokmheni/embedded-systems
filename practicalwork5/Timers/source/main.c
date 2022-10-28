@@ -57,6 +57,8 @@ vBlankIsr()
 void
 colorChangeIsr()
 {
+    int t = (int)TIMER3_DATA;
+    printf("%d\n", t);
     switch (lastcolor)
         {
             case RED:
