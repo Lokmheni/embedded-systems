@@ -104,7 +104,7 @@ void DrawVerticalLine(enum BUFFER_TYPE bT, int y, int y2, int x, u16 color)
         {
         case MAIN:
             int i;
-            for (i = y % P_Graphics_mainH; y < y2 % P_Graphics_mainH; i++)
+            for (i = (y % P_Graphics_mainH); i < (y2 % P_Graphics_mainH); i++)
                 {
                     P_Graphics_mainBuffer[P_Graphics_mainW * i + x] = color;
                 }
@@ -118,4 +118,8 @@ void DrawVerticalLine(enum BUFFER_TYPE bT, int y, int y2, int x, u16 color)
 void DrawRectangle(enum BUFFER_TYPE bT, int top, int bottom, int left,
                    int right, u16 color)
 {
+    DrawVerticalLine(bT, top, bottom, left, color);
+    DrawVerticalLine(bT, top, bottom, right, color);
+    DrawHorizontalLine(bT, left, right, top, color);
+    DrawHorizontalLine(bT, left, right, bottom, color);
 }
