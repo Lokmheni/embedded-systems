@@ -1,10 +1,11 @@
 
 #include <nds.h>
+
 #include "P_Graphics.h"
 
-u16* mapMemory;
-int MapCols;
-int MapRows;
+static u16* mapMemory;
+static int  MapCols;
+static int  MapRows;
 
 void P_Map16x16_configureBG2();
 void P_Map16x16_configureBG2_Sub();
