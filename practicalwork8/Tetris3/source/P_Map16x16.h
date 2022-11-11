@@ -1,10 +1,11 @@
 
 #include <nds.h>
+
 #include "P_Graphics.h"
 
-u16* mapMemory;
-int MapCols;
-int MapRows;
+static u16* mapMemory;
+static int  MapCols;
+static int  MapRows;
 
 /*
  * This function is called in the initialization of the P_Map16x16 to
