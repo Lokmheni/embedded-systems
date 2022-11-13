@@ -3,6 +3,7 @@
 
 #include <nds/arm9/background.h>
 
+#include "background.h"
 #include "controls.h"
 // Declare the tiles emptyTile and fullTile as explained in the manual
 // u8 emptyTile[64] =...
@@ -98,7 +99,7 @@ void P_Map16x16_configureBG3()
      */
 
     // Background configuration
-    BGCTRL[3] = BG_MAP_BASE(0) | BgSize_B16_256x256;
+    BGCTRL[3] = BG_MAP_BASE(0) | BgSize_B8_256x256;
 
     // AFfine Matrix
     bgTransform[3]->hdx = 256;
@@ -107,8 +108,8 @@ void P_Map16x16_configureBG3()
     bgTransform[3]->vdx = 0;
 
     // Copy of the palette and the bitmap
-    dmaCopy(controlsPal, BG_PALETTE, controlsPalLen);
-    dmaCopy(controlsBitmap, BG_GFX, controlsBitmapLen);
+    dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen);
+    dmaCopy(backgroundBitmap, BG_GFX, backgroundBitmapLen);
 }
 
 void P_Map16x16_Init(int cols, int rows)
