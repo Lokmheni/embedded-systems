@@ -56,7 +56,6 @@ void P_Map16x16_configureBG2()
     REG_BG2PD = 256;
 
     // Initialize pointer to the graphic memory
-    // mapMemory = ...
     mapMemory = BG_GFX;
 }
 
@@ -72,8 +71,8 @@ void P_Map16x16_configureBG2_Sub()
     REG_BG2PD_SUB = 256;
 
 
-    swiCopy(controlsPal, BG_PALETTE_SUB, controlsPalLen);
-    swiCopy(controlsBitmap, BG_GFX_SUB, controlsBitmapLen);
+    dmaCopy(controlsPal, BG_PALETTE_SUB, controlsPalLen);
+    dmaCopy(controlsBitmap, BG_GFX_SUB, controlsBitmapLen);
 }
 
 void P_Map16x16_configureBG0()
@@ -132,19 +131,24 @@ void P_Map16x16_configureBG3()
      */
 
     // Background configuration
-    BGCTRL[3] = BG_MAP_BASE(0) | BgSize_B8_256x256;
+    // BGCTRL[3] = BG_MAP_BASE(0) | BgSize_B8_256x256;
 
-    // AFfine Matrix
-    bgTransform[3]->hdx = 256;
-    bgTransform[3]->vdy = 256;
-    bgTransform[3]->hdy = 0;
-    bgTransform[3]->vdx = 0;
+    // // AFfine Matrix
+    // bgTransform[3]->hdx = 256;
+    // bgTransform[3]->vdy = 256;
+    // bgTransform[3]->hdy = 0;
+    // bgTransform[3]->vdx = 0;
 
-    // Copy of the palette and the bitmap
+    // // Copy of the palette and the bitmap
+    // dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen);
+    // dmaCopy(backgroundBitmap, BG_GFX, backgroundBitmapLen);
+    // BG_PALETTE[255] = RGB15(31, 31, 0);
+    // BG_PALETTE[254] = RGB15(0, 0, 0);
+
+    BGCTRL[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(26) | BG_TILE_BASE(0);
+    dmaCopy(backgroundTiles, BG_TILE_RAM(0), backgroundTilesLen);
     dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen);
-    dmaCopy(backgroundBitmap, BG_GFX, backgroundBitmapLen);
-    BG_PALETTE[255] = RGB15(31, 31, 0);
-    BG_PALETTE[254] = RGB15(0, 0, 0);
+    dmaCopy(backgroundMap, BG_MAP_RAM(26), backgroundMapLen);
 }
 
 void P_Map16x16_Init(int cols, int rows)

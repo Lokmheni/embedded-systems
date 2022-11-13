@@ -4,11 +4,12 @@
 //======================================================================
 //
 //	background, 256x192@8, 
-//	+ palette 256 entries, not compressed
-//	+ bitmap not compressed
-//	Total size: 512 + 49152 = 49664
+//	+ palette 253 entries, not compressed
+//	+ 113 tiles (t|f reduced) not compressed
+//	+ regular map (flat), not compressed, 32x24 
+//	Total size: 506 + 7232 + 1536 = 9274
 //
-//	Time-stamp: 2022-11-13, 18:23:58
+//	Time-stamp: 2022-11-13, 20:04:19
 //	Exported by Cearn's GBA Image Transmogrifier, v0.9.1
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -17,11 +18,14 @@
 #ifndef GRIT_BACKGROUND_H
 #define GRIT_BACKGROUND_H
 
-#define backgroundBitmapLen 49152
-extern const unsigned int backgroundBitmap[12288];
+#define backgroundTilesLen 7232
+extern const unsigned int backgroundTiles[1808];
 
-#define backgroundPalLen 512
-extern const unsigned short backgroundPal[256];
+#define backgroundMapLen 1536
+extern const unsigned short backgroundMap[768];
+
+#define backgroundPalLen 506
+extern const unsigned short backgroundPal[254];
 
 #endif // GRIT_BACKGROUND_H
 
