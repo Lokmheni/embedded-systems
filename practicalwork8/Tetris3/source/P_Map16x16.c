@@ -71,8 +71,8 @@ void P_Map16x16_configureBG2_Sub()
     REG_BG2PD_SUB = 256;
 
 
-    dmaCopy(controlsPal, BG_PALETTE_SUB, controlsPalLen);
-    dmaCopy(controlsBitmap, BG_GFX_SUB, controlsBitmapLen);
+    dmaCopy(controlsPal, BG_PALETTE_SUB, controlsPalLen / 2);
+    dmaCopy(controlsBitmap, BG_GFX_SUB, controlsBitmapLen / 2);
 }
 
 void P_Map16x16_configureBG0()
@@ -97,11 +97,11 @@ void P_Map16x16_configureBG0()
     BGCTRL[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4);
 
     // Copy the empty tile and the full tile to the corresponding RAM location
-    // according to the chosen TILE_BASE. If dmaCopy is used, do not forget to
+    // according to the chosen TILE_BASE. If dmaCopy is used, do not forget /2to
     // cast the destination pointer as a 'byte pointer'
     // Hint: Use the macro BG_TILE_RAM to get the destination address
-    dmaCopy(emptyTile, (u8*)BG_TILE_RAM(4), sizeof(emptyTile));
-    dmaCopy(fullTile, (u8*)BG_TILE_RAM(4) + sizeof(emptyTile),
+    dmaCopy(emptyTile, (u8*)BG_TILE_RAM(4), sizeof(emptyTile) / 2);
+    dmaCopy(fullTile, (u8*)BG_TILE_RAM(4) + sizeof(emptyTile / 2),
             sizeof(fullTile));
 
     // Assign components 254 and 255 as explained in the manual
@@ -141,15 +141,15 @@ void P_Map16x16_configureBG3()
     // bgTransform[3]->vdx = 0;
 
     // // Copy of the palette and the bitmap
-    // dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen);
-    // dmaCopy(backgroundBitmap, BG_GFX, backgroundBitmapLen);
+    // dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen/2);
+    // dmaCopy(backgroundBitmap, BG_GFX, backgroundBitmapLen/2);
     // BG_PALETTE[255] = RGB15(31, 31, 0);
     // BG_PALETTE[254] = RGB15(0, 0, 0);
 
     BGCTRL[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(26) | BG_TILE_BASE(0);
-    dmaCopy(backgroundTiles, BG_TILE_RAM(0), backgroundTilesLen);
-    dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen);
-    dmaCopy(backgroundMap, BG_MAP_RAM(26), backgroundMapLen);
+    dmaCopy(backgroundTiles, BG_TILE_RAM(0), backgroundTilesLen / 2);
+    dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen / 2);
+    dmaCopy(backgroundMap, BG_MAP_RAM(26), backgroundMapLen / 2);
 }
 
 void P_Map16x16_Init(int cols, int rows)
