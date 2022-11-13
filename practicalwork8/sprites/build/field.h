@@ -4,13 +4,13 @@
 //======================================================================
 //
 //	field, 256x192@8, 
-//	+ palette 256 entries, not compressed
+//	+ palette 253 entries, not compressed
 //	+ 769 tiles (t|f reduced) not compressed
 //	+ regular map (flat), not compressed, 32x24 
-//	Total size: 512 + 49216 + 1536 = 51264
+//	Total size: 506 + 49216 + 1536 = 51258
 //
-//	Time-stamp: 2020-08-19, 13:05:52
-//	Exported by Cearn's GBA Image Transmogrifier, v0.8.3
+//	Time-stamp: 2022-11-13, 21:57:23
+//	Exported by Cearn's GBA Image Transmogrifier, v0.9.1
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
@@ -24,8 +24,8 @@ extern const unsigned int fieldTiles[12304];
 #define fieldMapLen 1536
 extern const unsigned short fieldMap[768];
 
-#define fieldPalLen 512
-extern const unsigned short fieldPal[256];
+#define fieldPalLen 506
+extern const unsigned short fieldPal[254];
 
 #endif // GRIT_FIELD_H
 
