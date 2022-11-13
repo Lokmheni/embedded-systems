@@ -6,10 +6,43 @@
 #include "background.h"
 #include "controls.h"
 // Declare the tiles emptyTile and fullTile as explained in the manual
-// u8 emptyTile[64] =...
+// clang-format off
+u8 emptyTile[64] = {
+    0,       0,       0,       0,       0,       0,       0,       0,
 
-// u8 fullTile[64] =...
+    0,       0,       0,       0,       0,       0,       0,       0,
 
+    0,       0,       0,       0,       0,       0,       0,       0,
+
+    0,       0,       0,       0,       0,       0,       0,       0,
+
+    0,       0,       0,       0,       0,       0,       0,       0,
+
+    0,       0,       0,       0,       0,       0,       0,       0,
+
+    0,       0,       0,       0,       0,       0,       0,       0,
+
+    0,       0,       0,       0,       0,       0,       0,       0,
+};
+
+u8 fullTile[64] ={
+    255,     255,     255,     255,     255,     255,     255,     255,
+
+    255,     254,     254,     254,     254,     254,     254,     255,
+
+    255,     254,     254,     254,     254,     254,     254,     255,
+
+    255,     254,     254,     254,     254,     254,     254,     255,
+
+    255,     254,     254,     254,     254,     254,     254,     255,
+
+    255,     254,     254,     254,     254,     254,     254,     255,
+
+    255,     254,     254,     254,     254,     254,     254,     255,
+
+    255,     255,     255,     255,     255,     255,     255,     255,
+};
+// clang-format on
 
 void P_Map16x16_configureBG2()
 {
@@ -62,22 +95,22 @@ void P_Map16x16_configureBG0()
      */
 
     // Configure BG 0 to represent the game field
-    // BGCTRL[0] = ...
+    BGCTRL[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4);
 
     // Copy the empty tile and the full tile to the corresponding RAM location
     // according to the chosen TILE_BASE. If dmaCopy is used, do not forget to
     // cast the destination pointer as a 'byte pointer'
     // Hint: Use the macro BG_TILE_RAM to get the destination address
-    // dmaCopy(...
-    // dmaCopy(...
+    dmaCopy(emptyTile, BG_TILE_RAM(4), sizeof(emptyTile));
+    dmaCopy(fullTile, BG_TILE_RAM(4) + sizeof(emptyTile), sizeof(fullTile));
 
     // Assign components 254 and 255 as explained in the manual
-    // BG_PALETTE[254] = ...
-    // BG_PALETTE[255] = ...
+    BG_PALETTE[254] = ARGB16(1, 0, 0, 0);
+    BG_PALETTE[255] = ARGB16(1, 31, 31, 0);
 
     // Set the pointer mapMemory to the RAM location of the chosen MAP_BASE
     // Hint: use the macro BG_MAP_RAM
-    // mapMemory = ...
+    mapMemory = BG_MAP_RAM(25);
 }
 
 void P_Map16x16_configureBG3()
@@ -110,6 +143,8 @@ void P_Map16x16_configureBG3()
     // Copy of the palette and the bitmap
     dmaCopy(backgroundPal, BG_PALETTE, backgroundPalLen);
     dmaCopy(backgroundBitmap, BG_GFX, backgroundBitmapLen);
+    BG_PALETTE[255] = RGB15(31, 31, 0);
+    BG_PALETTE[254] = RGB15(0, 0, 0);
 }
 
 void P_Map16x16_Init(int cols, int rows)
@@ -136,40 +171,39 @@ void P_Map16x16_Init(int cols, int rows)
 
 void SetMap16x16To(int index16, bool full)
 {
-    /*	    //switch x and y
-            int x = index16 % MapCols;
-            int y = index16 / MapCols;
-            //now inverse x
-            y = -(y-MapRows+1);
-            index16 = x * MapRows + y;
-    #ifdef FB0
-            u16 value = full ? RGB15(31,0,0) : RGB15(0,0,0);
-            FillRectangle(MAIN,x*16, x*16+16, y*16, y*16+16,value);
-    #endif
+    // switch x and y
+    int x   = index16 % MapCols;
+    int y   = index16 / MapCols;
+    // now inverse x
+    y       = -(y - MapRows + 1);
+    index16 = x * MapRows + y;
+#ifdef FB0
+    u16 value = full ? RGB15(31, 0, 0) : RGB15(0, 0, 0);
+    FillRectangle(MAIN, x * 16, x * 16 + 16, y * 16, y * 16 + 16, value);
+#endif
 
-    #ifdef ROTOSCALE
-            u16 value = full ? ARGB16(1,31,0,0) : ARGB16(1,0,0,0);
-            FillRectangle(MAIN,x*16, x*16+16, y*16, y*16+16,value);
-    #endif
+#ifdef ROTOSCALE
+    u16 value = full ? ARGB16(1, 31, 0, 0) : ARGB16(1, 0, 0, 0);
+    FillRectangle(MAIN, x * 16, x * 16 + 16, y * 16, y * 16 + 16, value);
+#endif
 
-    #ifdef TILES
-        int value = full ? 1 : 0;
-        //convert index16x16 to 32x32
-        //also make it fall right->left rather than top->bottom
-        //
-        //  0  1  2  3     12  8  4  0
-        //  4  5  6  7  => 13  9  5  1
-        //  8  9 10 11  => 14 10  6  2
-        // 12 13 14 15     15 11  7  3
+#ifdef TILES
+    int value = full ? 1 : 0;
+    // convert index16x16 to 32x32
+    // also make it fall right->left rather than top->bottom
+    //
+    //  0  1  2  3     12  8  4  0
+    //  4  5  6  7  => 13  9  5  1
+    //  8  9 10 11  => 14 10  6  2
+    // 12 13 14 15     15 11  7  3
 
-        //16x16->32*32 CONVERSION
-        int index32;
-        index32 =  index16*2;
-        index32 += (index16/16)*32;
-        mapMemory[index32] = value;
-        mapMemory[index32+1] = value;
-        mapMemory[index32+32] = value;
-        mapMemory[index32+32+1] = value;
-    #endif
-    */
+    // 16x16->32*32 CONVERSION
+    int index32;
+    index32 = index16 * 2;
+    index32 += (index16 / 16) * 32;
+    mapMemory[index32]          = value;
+    mapMemory[index32 + 1]      = value;
+    mapMemory[index32 + 32]     = value;
+    mapMemory[index32 + 32 + 1] = value;
+#endif
 }
