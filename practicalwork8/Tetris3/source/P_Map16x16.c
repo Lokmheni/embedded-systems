@@ -100,8 +100,9 @@ void P_Map16x16_configureBG0()
     // according to the chosen TILE_BASE. If dmaCopy is used, do not forget to
     // cast the destination pointer as a 'byte pointer'
     // Hint: Use the macro BG_TILE_RAM to get the destination address
-    dmaCopy(emptyTile, BG_TILE_RAM(4), sizeof(emptyTile));
-    dmaCopy(fullTile, BG_TILE_RAM(4) + sizeof(emptyTile), sizeof(fullTile));
+    dmaCopy(emptyTile, (u8*)BG_TILE_RAM(4), sizeof(emptyTile));
+    dmaCopy(fullTile, (u8*)BG_TILE_RAM(4) + sizeof(emptyTile),
+            sizeof(fullTile));
 
     // Assign components 254 and 255 as explained in the manual
     BG_PALETTE[254] = ARGB16(1, 0, 0, 0);
