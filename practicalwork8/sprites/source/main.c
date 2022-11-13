@@ -26,9 +26,9 @@ void configureBG0()
     BGCTRL[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
     // Copy data to display background (tiles, palette and map)
-    dmaCopy(fieldTiles, BG_TILE_RAM(1), fieldTilesLen / 2);
-    dmaCopy(fieldPal, BG_PALETTE, fieldPalLen / 2);
-    dmaCopy(fieldMap, BG_MAP_RAM(0), fieldMapLen / 2);
+    dmaCopy(fieldTiles, BG_TILE_RAM(1), fieldTilesLen);
+    dmaCopy(fieldPal, BG_PALETTE, fieldPalLen);
+    dmaCopy(fieldMap, BG_MAP_RAM(0), fieldMapLen);
 }
 
 
@@ -45,8 +45,8 @@ void configureSprites()
         oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 
     // Copy data for the graphic (palette and bitmap)
-    dmaCopy(ballPal, SPRITE_PALETTE, ballPalLen / 2);
-    dmaCopy(ballTiles, gfx, ballTilesLen / 2);
+    dmaCopy(ballPal, SPRITE_PALETTE, ballPalLen);
+    dmaCopy(ballTiles, gfx, ballTilesLen);
 }
 
 int main(void)
