@@ -37,8 +37,7 @@ void P_Graphics_setup_main()
     VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
 
     // Configure the main engine in the corresponding mode and activate
-    // Backgrounds 3 and 0
-    REG_DISPCNT = MODE_5_2D | DISPLAY_BG3_ACTIVE;
+    REG_DISPCNT = MODE_0_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG3_ACTIVE;
 
 
     // Enable a proper RAM memory bank for sub engine
