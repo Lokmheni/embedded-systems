@@ -1,4 +1,6 @@
 #include <nds.h>
+#include <nds/arm9/input.h>
+#include <nds/input.h>
 #include <stdio.h>
 
 
@@ -8,7 +10,8 @@ int main(void)
     //---------------------------------------------------------------------------------
 
     // Do not forget to initialize the console
-    //...
+    consoleDemoInit();
+
 
     /*************
      * Exercise 2
@@ -30,19 +33,25 @@ int main(void)
 
 
     // The main infinite loop
-    while (1)
+    scanKeys();
+
+    for (;;)
         {
-            /*************
-             * Exercise 1
-             *************/
-            // Scan the keys
-            //...
-            // Identify which key was pressed and print it in the console
-            // u16 keys = ...
-            //...
+            // GET KEYS
+            scanKeys();
 
-
-            /*******************/
+            // hanlde keys
+            u32 k = keysUp();
+            if (k & KEY_A)
+                printf("Key A pressed\n");
+            if (k & KEY_B)
+                printf("Key B pressed\n");
+            if (k & KEY_X)
+                printf("Key X pressed\n");
+            if (k & KEY_Y)
+                printf("Key Y pressed\n");
+            // end of loop
+            swiWaitForVBlank();
 
 
             /*************
