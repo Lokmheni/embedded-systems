@@ -75,13 +75,16 @@ int main(void)
              * Exercise 3 (Do not forget to comment exercise 2)
              *************/
             // Declare a touchPosition variable
-            //...
+            touchPosition touch;
 
             // Read the touchscreen
-            //...
+            touchRead(&touch);
 
-            // Identify a valid touched coordinates and print them
-            //...
+            if (touch.px && touch.py)
+                {
+                    printf("Touch in <%d,%d>", touch.px, touch.py);
+                }
+
 
             /**************/
         }
