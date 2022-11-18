@@ -4,6 +4,23 @@
 #include <stdio.h>
 
 
+// TODO run on device
+
+
+void IsrKeys()
+{
+    u16 key = ~(REG_KEYINPUT);
+
+    if (key & KEY_UP)
+        printf("Key UP pressed <ISR>\n");
+    if (key & KEY_DOWN)
+        printf("Key DOWN pressed <ISR>\n");
+    if (key & KEY_LEFT)
+        printf("Key LEFT pressed <ISR>\n");
+    if (key & KEY_DOWN)
+        printf("Key DOWN pressed <ISR>\n");
+}
+
 //---------------------------------------------------------------------------------
 int main(void)
 {
@@ -17,18 +34,18 @@ int main(void)
      * Exercise 2
      *************/
     // Initialize the interrupt system
-    //...
+    irqInit();
 
     /*Configure the keys to throw an interrupt with the keys
     UP, DOWN, LEFT or RIGHT*/
-    // REG_KEYCNT = ...
+    REG_KEYCNT = BIT(14) | KEY_LEFT | KEY_RIGHT | KEY_UP | KEY_DOWN;
 
     // Set the ISR to the IRQ line and enable the IRQ line
-    //...
-    //...
+    irqSet(IRQ_KEYS, IsrKeys);
+    irqEnable(IRQ_KEYS);
 
     // Do not forget to enable the IRQ line for the VBLANK
-    //...
+    irqEnable(IRQ_VBLANK);
     /********************/
 
 
