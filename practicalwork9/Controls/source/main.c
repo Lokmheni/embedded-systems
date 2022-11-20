@@ -12,13 +12,13 @@ void IsrKeys()
     u16 key = ~(REG_KEYINPUT);
 
     if (key & KEY_UP)
-        printf("Key UP pressed <ISR>\n");
+        printf("Key UP pressed    <ISR>\n");
     if (key & KEY_DOWN)
-        printf("Key DOWN pressed <ISR>\n");
+        printf("Key DOWN pressed  <ISR>\n");
     if (key & KEY_LEFT)
-        printf("Key LEFT pressed <ISR>\n");
-    if (key & KEY_DOWN)
-        printf("Key DOWN pressed <ISR>\n");
+        printf("Key LEFT pressed  <ISR>\n");
+    if (key & KEY_RIGHT)
+        printf("Key RIGHT pressed <ISR>\n");
 }
 
 //---------------------------------------------------------------------------------
@@ -34,18 +34,18 @@ int main(void)
      * Exercise 2
      *************/
     // Initialize the interrupt system
-    irqInit();
+    // irqInit();
 
-    /*Configure the keys to throw an interrupt with the keys
-    UP, DOWN, LEFT or RIGHT*/
-    REG_KEYCNT = BIT(14) | KEY_LEFT | KEY_RIGHT | KEY_UP | KEY_DOWN;
+    // /*Configure the keys to throw an interrupt with the keys
+    // UP, DOWN, LEFT or RIGHT*/
+    // REG_KEYCNT = BIT(14) | KEY_LEFT | KEY_RIGHT | KEY_UP | KEY_DOWN;
 
-    // Set the ISR to the IRQ line and enable the IRQ line
-    irqSet(IRQ_KEYS, IsrKeys);
-    irqEnable(IRQ_KEYS);
+    // // Set the ISR to the IRQ line and enable the IRQ line
+    // irqSet(IRQ_KEYS, IsrKeys);
+    // irqEnable(IRQ_KEYS);
 
-    // Do not forget to enable the IRQ line for the VBLANK
-    irqEnable(IRQ_VBLANK);
+    // // Do not forget to enable the IRQ line for the VBLANK
+    // irqEnable(IRQ_VBLANK);
     /********************/
 
 
@@ -68,7 +68,6 @@ int main(void)
             if (k & KEY_Y)
                 printf("Key Y pressed\n");
             // end of loop
-            swiWaitForVBlank();
 
 
             /*************
@@ -80,12 +79,13 @@ int main(void)
             // Read the touchscreen
             touchRead(&touch);
 
+            int x = touch.px;
+            int y = touch.py;
             if (touch.px && touch.py)
-                {
-                    printf("Touch in <%d,%d>", touch.px, touch.py);
-                }
+                printf("Touch in <%d,%d>\n", x, y);
 
 
             /**************/
+            swiWaitForVBlank();
         }
 }
