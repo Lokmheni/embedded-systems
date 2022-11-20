@@ -21,7 +21,8 @@ int main(void)
 
 
     // Declaration of the touch struct
-    touchPosition touch;
+    touchPosition touch, lastTouchPos;
+    bool          lastTouch;
     while (1)
         {
             scanKeys();
@@ -29,7 +30,34 @@ int main(void)
             touchRead(&touch);
             // If the touch is different to (0,0), change the color of the pixel
             if (touch.px || touch.py)
-                VRAM_A[touch.py * 256 + touch.px] = ARGB16(1, 0, 0, 0);
+                {
+                    if (lastTouch)
+                        {
+                            int x = lastTouchPos.px;
+                            int y = lastTouchPos.py;
+                            while (x != touch.px || y != touch.py)
+                                {
+                                    VRAM_A[y * 256 + x] = ARGB16(1, 0, 0, 0);
+                                    x += x < touch.px ? 1
+                                       : x > touch.px ? -1
+                                                      : 0;
+                                    y += y < touch.py ? 1
+                                       : y > touch.py ? -1
+                                                      : 0;
+                                }
+                        }
+                    else
+                        {
+                            VRAM_A[touch.py * 256 + touch.px] =
+                                ARGB16(1, 0, 0, 0);
+                        }
+                    lastTouch    = true;
+                    lastTouchPos = touch;
+                }
+            else
+                {
+                    lastTouch = false;
+                }
 
             swiWaitForVBlank();
         }
