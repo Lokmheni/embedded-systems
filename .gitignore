@@ -54,3 +54,15 @@ dkms.conf
 *.nds
 
 *.arm9
+
+parcticalwork3/.vscode/
+
+parcticalwork3/Matrixes/.vscode/
+
+practicalwork5/.vscode/settings.json
+
+practicalwork5/Timers/build/
+
+practicalwork6/.vscode/c_cpp_properties.json
+
+*.json

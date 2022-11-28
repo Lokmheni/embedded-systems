@@ -1,0 +1,71 @@
+BasedOnStyle: Google
+
+# BreakBeforeBraces: Allman
+BreakBeforeBraces: GNU
+
+# BraceWrapping:
+#     SplitEmptyFunction: false
+#     BeforeElse: true
+#     AfterFunction: true
+
+EmptyLineBeforeAccessModifier: Always
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 2
+
+SpacesInParentheses: true
+SpacesInSquareBrackets: true
+SpacesInConditionalStatement: true
+SpacesInCStyleCastParentheses: true
+
+SpacesInAngles: false
+SpaceInEmptyParentheses: false
+
+SpaceBeforeCaseColon: true
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+
+SpaceBeforeSquareBrackets: false
+
+SpaceAfterCStyleCast: true
+SpaceAfterLogicalNot: true
+
+AlignConsecutiveAssignments: AcrossComments
+AlignConsecutiveBitFields: AcrossComments
+AlignConsecutiveMacros: AcrossComments
+AlignOperands: AlignAfterOperator
+AlignTrailingComments: true
+
+AlignConsecutiveDeclarations: Consecutive
+
+AllowShortBlocksOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+
+BinPackParameters: true
+BinPackArguments: true
+IndentWidth: 4
+TabWidth: 4
+PointerAlignment: Left
+DerivePointerAlignment: false
+UseTab: Never
+AccessModifierOffset: -4
+FixNamespaceComments: true
+NamespaceIndentation: All
+IndentCaseLabels: true
+
+ColumnLimit: 87 
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeIsMainRegex: "(_test)?$" # its .h file
+IncludeCategories:
+    # Headers in <> with extension.
+    - Regex: '<([A-Za-z0-9.\/-_])+>'
+      Priority: 1
+    # Headers in "" with extension.
+    - Regex: '"([A-Za-z0-9.\/-_])+"'
+      Priority: 2

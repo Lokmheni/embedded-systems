@@ -1,0 +1,40 @@
+BasedOnStyle: llvm
+
+# BreakBeforeBraces: Allman
+BreakBeforeBraces:  GNU
+
+# BraceWrapping:
+#     SplitEmptyFunction: false
+#     BeforeElse: true
+#     AfterFunction: true
+
+
+MaxEmptyLinesToKeep: 2
+
+
+AlignConsecutiveAssignments: AcrossComments
+AlignConsecutiveBitFields: AcrossComments
+AlignConsecutiveMacros: AcrossComments
+AlignOperands: AlignAfterOperator
+AlignTrailingComments: true
+
+AlignConsecutiveDeclarations: Consecutive
+
+
+IndentWidth: 4
+TabWidth: 4
+PointerAlignment: Left
+DerivePointerAlignment: false
+UseTab: Never
+
+
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeIsMainRegex: "(_test)?$" # its .h file
+IncludeCategories:
+    # Headers in <> with extension.
+    - Regex: '<([A-Za-z0-9.\/-_])+>'
+      Priority: 1
+    # Headers in "" with extension.
+    - Regex: '"([A-Za-z0-9.\/-_])+"'
+      Priority: 2
