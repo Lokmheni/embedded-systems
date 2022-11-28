@@ -1,0 +1,5 @@
+apt install desmume
+apt install gcc-arm-none-eabi
+https://devkitpro.org/wiki/devkitPro_pacman //<- use this to install devkitpro
+sudo dkp-pacman -S nds-dev //<- install nds-dev
+
