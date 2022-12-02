@@ -20,14 +20,15 @@
 #define DAMAGE_SPECIAL 10
 #define MAX_HEALTH     100
 
-typdef enum {
-    IDLE,
-    ATTACK,
-    MOVE_LEFT,
-    MOVE_RIGHT,
-    BLOCK,
-    JUMP,
-    SPECIAL_ATTACK,
+typedef enum
+{
+    PLAYER_IDLE,
+    PLAYER_ATTACK,
+    PLAYER_MOVE_LEFT,
+    PLAYER_MOVE_RIGHT,
+    PLAYER_BLOCK,
+    PLAYER_JUMP,
+    PLAYER_SPECIAL_ATTACK,
 } PlayerState;
 
 typedef enum
@@ -38,12 +39,12 @@ typedef enum
 
 typedef enum
 {
-    IDLE,
-    WALK,
-    JUMP,
-    NORMAL_ATTACK,
-    SPECIAL_ATTACK,
-    BLOCK,
+    ACTION_IDLE,
+    ACTION_WALK,
+    ACTION_JUMP,
+    ACTION_NORMAL_ATTACK,
+    ACTION_SPECIAL_ATTACK,
+    ACTION_BLOCK,
 } ActionType;
 
 
