@@ -20,8 +20,7 @@
 #define DAMAGE_SPECIAL 10
 #define MAX_HEALTH     100
 
-enum PlayerState
-{
+typdef enum {
     IDLE,
     ATTACK,
     MOVE_LEFT,
@@ -29,15 +28,15 @@ enum PlayerState
     BLOCK,
     JUMP,
     SPECIAL_ATTACK,
-};
+} PlayerState;
 
-enum direction
+typedef enum
 {
     LEFT,
     RIGHT
-};
+} Direction;
 
-enum ActionType
+typedef enum
 {
     IDLE,
     WALK,
@@ -45,21 +44,21 @@ enum ActionType
     NORMAL_ATTACK,
     SPECIAL_ATTACK,
     BLOCK,
-};
+} ActionType;
 
 
-struct Player
+typedef struct
 {
     int        pos_x;
     int        pos_y;
     int        y_speed;
     int        health;
     ActionType action;
-    direction  dir;
-};
+    Direction  dir;
+} Player;
 
 
-void move(Player* plr, direction dir, bool jmp = false, int dist = SPEED);
+void move(Player* plr, Direction dir, bool jmp = false, int dist = SPEED);
 
 
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);

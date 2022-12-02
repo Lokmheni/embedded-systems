@@ -13,6 +13,6 @@
 #include "settings.h"
 
 
-PlayMode selected_game_mode() {}
+PlayMode selected_game_mode() { return SINGLE_PLAYER_MODE; }
 
 bool handle_settings() { return false; }

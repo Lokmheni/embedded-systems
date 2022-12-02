@@ -14,14 +14,14 @@
 #define __SOUND_H
 
 
-enum SoundEffect
+typedef enum
 {
-    ATTACK,
-    BLOCK,
-    HURT,
-    MOVE,
-    JUMP
-};
+    ATTACK_SOUND,
+    BLOCK_SOUND,
+    HURT_SOUND,
+    MOVE_SOUND,
+    JUM_SOUNDP
+} SoundEffect;
 
 
 void init_sound();
@@ -30,7 +30,7 @@ void play_music();
 
 void stop_music();
 
-void play_sound_effect( SoundEffect sound );
+void play_sound_effect(SoundEffect sound);
 
 
-#endif  // __SOUND_H
+#endif // __SOUND_H
