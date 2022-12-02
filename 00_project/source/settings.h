@@ -16,8 +16,8 @@
 
 typedef enum
 {
-    MULTI_PLAYER_MODE,
-    SINGLE_PLAYER_MODE
+    PLAY_MODE_MULTI_PLAYER,
+    PLAY_MODE_SINGLE_PLAYER
 } PlayMode;
 
 
