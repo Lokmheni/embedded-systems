@@ -37,5 +37,6 @@
 #define DAMAGE_NORMAL  5
 #define DAMAGE_SPECIAL 10
 #define MAX_HEALTH     100
+#define BLOCK_FACTOR   2
 
 #endif // __CONSTANS_H

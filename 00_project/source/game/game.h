@@ -66,6 +66,20 @@ typedef struct
 void move(Player* plr, Direction dir, bool jmp, int dist);
 
 
+/**
+ * @brief Evaluate if player takes damage and subtract the damage from health
+ * (based on damage position and player position, takes into account blocking)
+ *
+ * @note Health of player may drop below 0. This case is to be handled outside
+ * this function
+ *
+ * @param plr player subject to damage
+ * @param dmg_x x coordinate of damage
+ * @param dmg_y y coordinate of damage
+ * @param damage amount of damage dealt
+ * @return true if player was hit (regadles of the amount of damage)
+ * @return false if player was not hit
+ */
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
 
 

@@ -44,7 +44,20 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
 
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
 {
-    return false;
+    // test x
+    if (plr->pos_x > dmg_x || (plr->pos_y - SPRITE_WIDTH) < dmg_x)
+        return false;
+    // test y
+    if (plr->pos_y < dmg_y || plr->pos_y + SPRITE_HEIGHT > dmg_y)
+        return false;
+
+    // reduce damage if blocked
+    if (plr->action = ACTION_TYPE_BLOCK)
+        plr->health -= damage / BLOCK_FACTOR;
+    else
+        plr->health -= damage;
+
+    return true;
 }
 
 
