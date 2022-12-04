@@ -54,6 +54,15 @@ typedef struct
 } Player;
 
 
+/**
+ * @brief Update the x,y and speed coordinates of Player
+ *
+ * @param[in,out] plr Player to be updated
+ * @param dir Direction in which player should move
+ * @param jmp If player is initializing jump (only has effect if player is on
+ *            the ground)
+ * @param dist distance the player should move (speed of the player)
+ */
 void move(Player* plr, Direction dir, bool jmp, int dist);
 
 

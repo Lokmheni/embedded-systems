@@ -10,8 +10,36 @@
  */
 #include "game.h"
 
+#include "constants.h"
 
 void move(Player* plr, Direction dir, bool jmp, int dist)
+{
+    // update direction
+    plr->dir = dir;
+    // update position x
+    plr->pos_x += dist;
+    if (plr->pos_x < 0)
+        plr->pos_x = 0;
+    else if (plr->pos_x > SCREEN_WIDTH - SPRITE_WIDTH)
+        {
+            plr->pos_x = SCREEN_WIDTH - SPRITE_WIDTH;
+        }
+    // update position y
+    if (plr->pos_y > SPRITE_FLOOR_HEIGHT) // check if already jumping
+        {
+            plr->pos_y += plr->y_speed;
+            if (plr->pos_y < SPRITE_FLOOR_HEIGHT)
+                {
+                    plr->pos_y   = SPRITE_FLOOR_HEIGHT;
+                    plr->y_speed = 0;
+                }
+        }
+    else if (jmp)
+        {
+            plr->y_speed = JUMP_SPEED - GRAVITY;
+            plr->pos_y   = JUMP_SPEED;
+        }
+}
 
 
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
