@@ -16,10 +16,10 @@
 
 #include "game.h"
 
-send_status( PlayerState* const plr );
-send_damage( int dmg_x, dmg_y );
+send_status(PlayerState* const plr);
+send_damage(int dmg_x, int dmg_y);
 
-receive_status( PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y );
+receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y);
 
 
-#endif  // __BLUETOOTH_H
+#endif // __BLUETOOTH_H

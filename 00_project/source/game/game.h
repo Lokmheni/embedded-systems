@@ -10,15 +10,10 @@
  */
 #ifndef __GAME_H
 #define __GAME_H
+#include <nds.h>
 
+#include "constants.h"
 
-#define SPEED   5 // number of pixels to move per game iteration
-#define GRAVITY 10
-
-
-#define DAMAGE_NORMAL  5
-#define DAMAGE_SPECIAL 10
-#define MAX_HEALTH     100
 
 typedef enum
 {
@@ -59,7 +54,7 @@ typedef struct
 } Player;
 
 
-void move(Player* plr, Direction dir, bool jmp = false, int dist = SPEED);
+void move(Player* plr, Direction dir, bool jmp, int dist);
 
 
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
