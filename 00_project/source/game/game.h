@@ -83,6 +83,13 @@ void move(Player* plr, Direction dir, bool jmp, int dist);
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
 
 
+/**
+ * @brief Evaluate the position (coordinates) where a player would do damage
+ *
+ * @param[in,out] plr the relevant player
+ * @param[out] dmg_x x coordinate of damage
+ * @param[out] dmg_y y coordinate of damage
+ */
 void do_damage(Player* const plr, int* dmg_x, int* dmg_y);
 
 #endif // __GAME_H
