@@ -73,7 +73,7 @@ void move(Player* plr, Direction dir, bool jmp, int dist);
  * @note Health of player may drop below 0. This case is to be handled outside
  * this function
  *
- * @param plr player subject to damage
+ * @param[in,out] plr player subject to damage
  * @param dmg_x x coordinate of damage
  * @param dmg_y y coordinate of damage
  * @param damage amount of damage dealt

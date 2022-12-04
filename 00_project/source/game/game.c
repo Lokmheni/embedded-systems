@@ -52,7 +52,7 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
         return false;
 
     // reduce damage if blocked
-    if (plr->action = ACTION_TYPE_BLOCK)
+    if (plr->action == ACTION_TYPE_BLOCK)
         plr->health -= damage / BLOCK_FACTOR;
     else
         plr->health -= damage;
