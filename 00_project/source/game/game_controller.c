@@ -52,5 +52,11 @@ void reset_game()
     set_stage();
     score_local  = 0;
     score_remote = 0;
+    is_remote    = false; // TODO CHANGE based on bt status
+    is_play      = true;
 }
-void new_round() { set_stage(); }
+void new_round()
+{
+    set_stage();
+    is_play = true;
+}
