@@ -1,5 +1,5 @@
 /**
- * @file bluetooth.c
+ * @file wifi.c
  * @author Simon Thür and Lokman Mheni
  * @brief
  * @version 0.1
@@ -10,7 +10,7 @@
  */
 
 
-#include "bluetooth.h"
+#include "wifi.h"
 
 
 void send_status(PlayerState* const plr) {}
