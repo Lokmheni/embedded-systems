@@ -10,9 +10,10 @@
  */
 
 
+#include "game_controller.h"
+
 #include <nds.h>
 
-#include "game_conrtoller.h"
 
 bool update_game() {}
 void reset_game() { return false; }
