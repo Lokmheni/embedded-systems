@@ -28,7 +28,7 @@
 
 
 //===================================================================
-// SCREEN
+// GAME
 //===================================================================
 #define SPEED      5 // number of pixels to move per game iteration
 #define JUMP_SPEED 10
@@ -38,5 +38,7 @@
 #define DAMAGE_SPECIAL 10
 #define MAX_HEALTH     100
 #define BLOCK_FACTOR   2
+
+#define SPRITE_START_POS 10 // distance from left screen border
 
 #endif // __CONSTANS_H
