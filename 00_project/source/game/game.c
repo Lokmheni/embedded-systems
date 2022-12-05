@@ -53,7 +53,11 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
 
     // reduce damage if blocked
     if (plr->action == ACTION_TYPE_BLOCK)
-        plr->health -= damage / BLOCK_FACTOR;
+        {
+            plr->health -= damage / BLOCK_FACTOR;
+            // #TODO maybe add that only half of sprite is blocked by block
+            // damage (e.g. a shield)
+        }
     else
         plr->health -= damage;
 
