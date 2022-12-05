@@ -15,6 +15,33 @@
 #include <nds.h>
 
 
+//===================================================================
+// Get values
+//===================================================================
+/**
+ * @brief Get the player local object
+ *
+ * @return Player
+ */
+Player get_player_local();
+/**
+ * @brief Get the player remote object
+ *
+ * @return Player
+ */
+Player get_player_remote();
+/**
+ * @brief Get the scores of the game
+ *
+ * @param[in,out] score_local
+ * @param[in,out] score_remote
+ */
+void get_scores(int* local, int* remote);
+
+
+//===================================================================
+// Control
+//===================================================================
 /**
  * @brief Set the characters (local and remote) to starting positions
  *
@@ -50,7 +77,7 @@ void new_round();
 
 
 // DEBUG
-#ifdef CONSOLE
+#ifdef CONSOLE_DEBUG
 // uses printf!
 void print_players();
 // uses printf!

@@ -26,6 +26,18 @@ bool is_remote;
 bool is_play;
 
 
+// getters
+Player get_player_local() { return player_local; }
+Player get_player_remote() { return player_remote; }
+void   get_scores(int* local, int* remote)
+{
+    *local  = score_local;
+    *remote = score_remote;
+}
+
+// ctrl
+
+
 int update_game() { return 0; }
 
 
