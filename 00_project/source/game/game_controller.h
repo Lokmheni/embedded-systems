@@ -50,10 +50,11 @@ void new_round();
 
 
 // DEBUG
+#ifdef CONSOLE
 // uses printf!
 void print_players();
 // uses printf!
 void print_game_state();
-
+#endif
 
 #endif // __GAME_CONTROLLER_H

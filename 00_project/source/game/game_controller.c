@@ -63,6 +63,7 @@ void new_round()
 }
 
 
+#ifdef CONSOLE_DEBUG
 void print_players()
 {
     printf("Player_local: x:%d, y:%d, h:%d,ys:%d,d:%d\n", player_local.pos_x,
@@ -78,3 +79,4 @@ void print_game_state()
            is_play, is_remote);
     print_players();
 }
+#endif
