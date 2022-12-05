@@ -10,7 +10,7 @@
  */
 #include "game.h"
 
-#include "constants.h"
+#include "../constants.h"
 
 void move(Player* plr, Direction dir, bool jmp, int dist)
 {

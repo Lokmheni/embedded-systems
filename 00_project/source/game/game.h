@@ -12,8 +12,6 @@
 #define __GAME_H
 #include <nds.h>
 
-#include "constants.h"
-
 
 typedef enum
 {
