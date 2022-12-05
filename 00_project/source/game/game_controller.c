@@ -15,8 +15,8 @@
 #include <nds.h>
 #include <stdio.h>
 
+#include "../constants.h"
 #include "game.h"
-#include "input.h"
 
 // player items
 Player player_local, player_remote;
