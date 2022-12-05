@@ -38,7 +38,12 @@ void   get_scores(int* local, int* remote)
 // ctrl
 
 
-int update_game() { return 0; }
+int update_game()
+{
+    move(&player_local, DIRECTION_LEFT, TRUE, SPEED);
+
+    return 0;
+}
 
 
 void set_stage()
