@@ -13,7 +13,7 @@
 #include <nds.h>
 
 
-typedef enum
+typedef enum PlayerState
 {
     PLAYER_STATE_IDLE,
     PLAYER_STATE_ATTACK,
@@ -24,13 +24,13 @@ typedef enum
     PLAYER_STATE_SPECIAL_ATTACK,
 } PlayerState;
 
-typedef enum
+typedef enum Direction
 {
     DIRECTION_LEFT,
     DIRECTION_RIGHT
 } Direction;
 
-typedef enum
+typedef enum ActionType
 {
     ACTION_TYPE_IDLE,
     ACTION_TYPE_WALK,
@@ -41,12 +41,12 @@ typedef enum
 } ActionType;
 
 
-typedef struct
+typedef struct __attribute__((__packed__)) Player
 {
-    int        pos_x;
-    int        pos_y;
-    int        y_speed;
-    int        health;
+    u8         pos_x;
+    u8         pos_y;
+    u8         y_speed;
+    u8         health;
     ActionType action;
     Direction  dir;
 } Player;
