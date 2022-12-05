@@ -34,8 +34,8 @@ Player get_player_remote();
 /**
  * @brief Get the scores of the game
  *
- * @param[in,out] score_local
- * @param[in,out] score_remote
+ * @param[out] score_local
+ * @param[out] score_remote
  */
 void get_scores(int* local, int* remote);
 
@@ -48,7 +48,6 @@ void get_scores(int* local, int* remote);
  *
  */
 void set_stage();
-
 
 /**
  * @brief Execute next step of the game (for now, we assume that it also takes
@@ -67,7 +66,6 @@ int update_game();
  *
  */
 void reset_game();
-
 
 /**
  * @brief Start new round, only resets health and positions. Ideally one should
