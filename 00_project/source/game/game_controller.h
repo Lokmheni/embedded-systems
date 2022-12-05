@@ -1,5 +1,5 @@
 /**
- * @file game_conrtoller.h
+ * @file game_controller.h
  * @author Simon Thür and Lokman Mheni
  * @brief
  * @version 0.1
@@ -47,5 +47,13 @@ void reset_game();
  *
  */
 void new_round();
+
+
+// DEBUG
+// uses printf!
+void print_players();
+// uses printf!
+void print_game_state();
+
 
 #endif // __GAME_CONTROLLER_H

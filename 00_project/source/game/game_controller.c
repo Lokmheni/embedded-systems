@@ -13,6 +13,7 @@
 #include "game_controller.h"
 
 #include <nds.h>
+#include <stdio.h>
 
 #include "game.h"
 #include "input.h"
@@ -59,4 +60,21 @@ void new_round()
 {
     set_stage();
     is_play = true;
+}
+
+
+void print_players()
+{
+    printf("Player_local: x:%d, y:%d, h:%d,ys:%d,d:%d\n", player_local.pos_x,
+           player_local.pos_y, player_local.health, player_local.y_speed,
+           player_local.dir);
+    printf("Player_remote: x:%d, y:%d, h:%d,ys:%d,d:%d\n", player_remote.pos_x,
+           player_remote.pos_y, player_remote.health, player_remote.y_speed,
+           player_remote.dir);
+}
+void print_game_state()
+{
+    printf("Score: %d:%d\nPlaying:%d\nRemote:%d\n", score_local, score_remote,
+           is_play, is_remote);
+    print_players();
 }
