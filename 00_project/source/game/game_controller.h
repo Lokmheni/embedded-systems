@@ -14,6 +14,7 @@
 #define __GAME_CONTROLLER_H
 #include <nds.h>
 
+#include "game.h"
 
 //===================================================================
 // Get values

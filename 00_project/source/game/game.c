@@ -28,6 +28,7 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
     if (plr->pos_y > SPRITE_FLOOR_HEIGHT) // check if already jumping
         {
             plr->pos_y += plr->y_speed;
+            plr->y_speed -= GRAVITY;
             if (plr->pos_y < SPRITE_FLOOR_HEIGHT)
                 {
                     plr->pos_y   = SPRITE_FLOOR_HEIGHT;
@@ -37,7 +38,7 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
     else if (jmp)
         {
             plr->y_speed = JUMP_SPEED - GRAVITY;
-            plr->pos_y   = JUMP_SPEED;
+            plr->pos_y   = SPRITE_FLOOR_HEIGHT + JUMP_SPEED;
         }
 }
 

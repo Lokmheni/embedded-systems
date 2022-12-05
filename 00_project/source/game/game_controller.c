@@ -57,7 +57,7 @@ void set_stage()
     player_local.pos_x    = SPRITE_START_POS;
     // specifics remote
     player_remote.dir     = DIRECTION_LEFT;
-    player_remote.pos_y   = SCREEN_WIDTH - SPRITE_START_POS - SPRITE_WIDTH;
+    player_remote.pos_x   = SCREEN_WIDTH - SPRITE_START_POS - SPRITE_WIDTH;
 }
 
 void reset_game()
