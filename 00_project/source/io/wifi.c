@@ -12,6 +12,7 @@
 
 #include "wifi.h"
 
+#include "../constants.h"
 
 // used to detect changes (to then only send that which has changed)
 Player old_plr_state;
@@ -21,13 +22,13 @@ typedef enum MsgType
 {
     WIFI_SYNC,
     WIFI_STOP,
-    WIFI_PLAYER_X_DIR_SPEED,
-    WIFI_PLAYER_Y_YS_ACTION,
+    WIFI_PLAYER_X_DIR_ACTION,
+    WIFI_PLAYER_Y_YS_HP,
     WIFI_DAMAGE_X_Y_DMG,
 } MsgType;
 
 
-typedef struct WifiMsg
+typedef struct __attribute__((__packed__)) WifiMsg
 {
     MsgType msg;
     u8      dat1;
@@ -36,6 +37,34 @@ typedef struct WifiMsg
 } WifiMsg;
 
 
+void send_status(Player* const plr)
+{
+    // check jump and health
+    if ((plr->y_speed && old_plr_state.pos_y == SPRITE_FLOOR_HEIGHT) ||
+        plr->health != old_plr_state.health)
+        {
+            WifiMsg transfer;
+            transfer.msg  = WIFI_PLAYER_Y_YS_HP;
+            transfer.dat1 = plr->pos_y;
+            transfer.dat2 = plr->y_speed;
+            transfer.dat3 = plr->health;
+        }
+    // check necessity for x dir speed
+    if (plr->dir != old_plr_state.dir || plr->action != old_plr_state.action)
+        {
+            WifiMsg transfer;
+
+            transfer.msg  = WIFI_PLAYER_X_DIR_ACTION;
+            transfer.dat1 = plr->pos_x;
+            transfer.dat2 = plr->dir;
+            transfer.dat3 = plr->action;
+
+            sendData(&transfer, sizeof(transfer));
+        }
+}
+void send_damage(int dmg_x, int dmg_y) {}
+
+void receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y) {}
 bool wifi_connect_network()
 {
     // WiFi initialization
@@ -52,8 +81,3 @@ void wifi_disconnect_network()
     // Disconnect the WiFi
     void disconnectFromWiFi();
 }
-
-void send_status(Player* const plr) {}
-void send_damage(int dmg_x, int dmg_y) {}
-
-void receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y) {}

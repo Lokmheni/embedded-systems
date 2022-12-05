@@ -34,18 +34,20 @@ typedef enum ActionType
 {
     ACTION_TYPE_IDLE,
     ACTION_TYPE_WALK,
-    ACTION_TYPE_JUMP,
+    ACTION_TYPE_JUMP_INPLACE, // TODO IMPLEMENT INPLACE AND MOVE
+    ACTION_TYPE_JUMP_MOVE,
     ACTION_TYPE_NORMAL_ATTACK,
     ACTION_TYPE_SPECIAL_ATTACK,
-    ACTION_TYPE_BLOCK,
+    ACTION_TYPE_BLOCK_INPLACE,
+    ACTION_TYPE_BLOCK_MOVE,
 } ActionType;
 
 
-typedef struct __attribute__((__packed__)) Player
+typedef struct Player
 {
     u8         pos_x;
     u8         pos_y;
-    u8         y_speed;
+    s8         y_speed;
     u8         health;
     ActionType action;
     Direction  dir;
