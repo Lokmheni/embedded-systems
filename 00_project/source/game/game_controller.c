@@ -24,12 +24,6 @@ int  score_remote, score_local;
 bool is_remote;
 bool is_play;
 
-/**
- * @brief Set the characters (local and remote) to starting positions
- *
- */
-void set_stage();
-
 
 int update_game() { return 0; }
 

@@ -14,6 +14,14 @@
 #define __GAME_CONTROLLER_H
 #include <nds.h>
 
+
+/**
+ * @brief Set the characters (local and remote) to starting positions
+ *
+ */
+void set_stage();
+
+
 /**
  * @brief Execute next step of the game (for now, we assume that it also takes
  * care of bluetooth transmission)
@@ -27,6 +35,7 @@ int update_game();
 
 /**
  * @brief Set/Reset the game stage, points health etc.
+ * (also starts game already)
  *
  */
 void reset_game();
