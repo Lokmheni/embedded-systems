@@ -11,8 +11,11 @@
 
 
 #include "input.h"
+#include <nds.h>
+#include <stdio.h>
 
 
+u16* gfx;
 
 void get_input(RequestedAction* action, RequestedMovement* movement) {}
 
@@ -63,9 +66,8 @@ void get_touch_input() {
 			int x = touch.px;
 			int y = touch.py;
 
-			if((x > 86 && x < 160) && ((y > 64 && y < 69) || (y > 72 && y < 77))){
+			if((x > 78 && x < 178) && ((y > 75 && y < 75+21) || (y > 75+21 && y < 75+42)))
 				init_main_screen();
-		}
 
 		else
 			continue;

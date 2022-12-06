@@ -13,6 +13,12 @@
 #ifndef __INPUT_H_
 #define __INPUT_H_
 
+#define SCREEN_WIDTH	256
+#define	SCREEN_HEIGHT	192
+
+#define	SPRITE_WIDTH	32
+#define	SPRITE_HEIGHT	32
+
 
 typedef enum
 {
