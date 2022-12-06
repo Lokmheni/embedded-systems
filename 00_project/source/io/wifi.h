@@ -17,6 +17,25 @@
 #include "WiFi_minilib.h"
 
 
+typedef enum MsgType
+{
+    WIFI_SYNC,
+    WIFI_STOP,
+    WIFI_PLAYER_X_DIR_ACTION,
+    WIFI_PLAYER_Y_YS_HP,
+    WIFI_DAMAGE_X_Y_DMG,
+} MsgType;
+
+
+typedef struct __attribute__((__packed__)) WifiMsg
+{
+    MsgType msg;
+    u8      dat1;
+    u8      dat2;
+    u8      dat3;
+} WifiMsg;
+
+
 // wifi usability shit
 /**
  * @brief Transfer player updates to remote device.
@@ -37,7 +56,16 @@ void send_status(Player* const plr);
  */
 void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg);
 
-void receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y);
+/**
+ * @brief Receive messages from remote. No handling of data is done at this
+ *        stage other than confirming the correct length of packet
+ *
+ * @param[out] rec recieved message
+ * @return true if the correct packet size was received
+ * @return false if the packet size was not of correct size (includes packet
+ *         size 0, e.g. no messages received)
+ */
+bool receive_changes(WifiMsg* rec);
 
 
 // wifi setup and control shit

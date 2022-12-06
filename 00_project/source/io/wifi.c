@@ -18,25 +18,6 @@
 Player old_plr_state;
 
 
-typedef enum MsgType
-{
-    WIFI_SYNC,
-    WIFI_STOP,
-    WIFI_PLAYER_X_DIR_ACTION,
-    WIFI_PLAYER_Y_YS_HP,
-    WIFI_DAMAGE_X_Y_DMG,
-} MsgType;
-
-
-typedef struct __attribute__((__packed__)) WifiMsg
-{
-    MsgType msg;
-    u8      dat1;
-    u8      dat2;
-    u8      dat3;
-} WifiMsg;
-
-
 void send_status(Player* const plr)
 {
     // check jump and health
@@ -73,7 +54,12 @@ void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg)
     sendData(&transfer, sizeof(transfer));
 }
 
-void receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y) {}
+bool receive_changes(WifiMsg* rec)
+{
+    return receiveData(rec, sizeof(rec)) == sizeof(rec);
+}
+
+
 bool wifi_connect_network()
 {
     // WiFi initialization
