@@ -62,7 +62,16 @@ void send_status(Player* const plr)
             sendData(&transfer, sizeof(transfer));
         }
 }
-void send_damage(int dmg_x, int dmg_y) {}
+void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg)
+{
+    WifiMsg transfer;
+    transfer.msg  = WIFI_DAMAGE_X_Y_DMG;
+    transfer.dat1 = dmg_x;
+    transfer.dat2 = dmg_y;
+    transfer.dat3 = dmg;
+
+    sendData(&transfer, sizeof(transfer));
+}
 
 void receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y) {}
 bool wifi_connect_network()

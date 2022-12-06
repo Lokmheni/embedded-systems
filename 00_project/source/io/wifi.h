@@ -18,8 +18,24 @@
 
 
 // wifi usability shit
+/**
+ * @brief Transfer player updates to remote device.
+ * @note  This function can be called even when no changes are made, as it
+ * detects itself changes and transmits only when necessary
+ *
+ * @param[in] plr local player current state
+ */
 void send_status(Player* const plr);
-void send_damage(int dmg_x, int dmg_y);
+
+/**
+ * @brief Transfer damage done to remote device (irrelevant of whether the
+ *        target was hit)
+ *
+ * @param dmg_x x coord of damage
+ * @param dmg_y y coord of damage
+ * @param dmg amount of damage done if it strikes
+ */
+void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg);
 
 void receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y);
 
