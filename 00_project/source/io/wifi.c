@@ -46,7 +46,7 @@ void send_status(Player* const plr)
             WifiMsg transfer;
             transfer.msg  = WIFI_PLAYER_Y_YS_HP;
             transfer.dat1 = plr->pos_y;
-            transfer.dat2 = plr->y_speed;
+            transfer.dat2 = *(u8*)&plr->y_speed;
             transfer.dat3 = plr->health;
         }
     // check necessity for x dir speed
