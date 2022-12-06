@@ -16,8 +16,11 @@
 
 //#include "game.h"
 
-
 void init_screens();
+
+void init_main_screen();
+
+void init_sub_screen();
 
 void configureSprites();
 

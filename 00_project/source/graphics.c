@@ -15,24 +15,14 @@
 #include "play_mode.h"
 #include "paysage.h"
 #include "player.h"
+#include "input.h"
 
 #define	SPRITE_WIDTH	32
 #define	SPRITE_HEIGHT	32
 
-
-void init_main_screen(){
-	//Activate and configure VRAM bank to work in background mode
-	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
-
-	//BG0 configuration for the background
-	BGCTRL[0] = BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1) | BG_32x32;
-
-	//Copy data to display background (tiles, palette and map)
-	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
-	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
-	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
-	configureSprites();
-
+void init_screens(){
+	REG_DISPCNT = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	init_sub_screen();
 }
 
 void init_sub_screen() {
@@ -51,26 +41,21 @@ void init_sub_screen() {
 	REG_BG2PC_SUB = 0;
 	REG_BG2PB_SUB = 0;
 	REG_BG2PD_SUB = 256;
-	// 4) Read the touchscreen position
-	while(1){
-		touchPosition touch;
-		touchRead(&touch);
-		scanKeys();
-		int keys = keysHeld();
-		// 4) If touched, set the background in main
-		if(keys & KEY_TOUCH){
-			int x = touch.px;
-			int y = touch.py;
+	get_touch_input();
+}
 
-			if((x > 86 && x < 160) && ((y > 64 && y < 69) || (y > 72 && y < 77))){
-				init_main_screen();
-		}
+void init_main_screen(){
+	//Activate and configure VRAM bank to work in background mode
+	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
 
-		else
-			continue;
-		}
+	//BG0 configuration for the background
+	BGCTRL[0] = BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1) | BG_32x32;
 
-	}
+	//Copy data to display background (tiles, palette and map)
+	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
+	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
+	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
+	configureSprites();
 }
 
 void configureSprites() {
@@ -87,37 +72,7 @@ void configureSprites() {
 	//Copy data for the graphic (palette and bitmap)
 	swiCopy(playerPal, SPRITE_PALETTE, playerPalLen/2);
 	swiCopy(playerTiles, gfx, playerTilesLen/2);
-	//Position
-	int x = 0, y = 0, keys;
-	while(1){
-		//Read held keys
-		scanKeys();
-		keys = keysHeld();
-
-		//Modify position of the sprite accordingly
-		if((keys & KEY_RIGHT) && (x < (SCREEN_WIDTH - SPRITE_WIDTH))) x+=2;
-		if((keys & KEY_DOWN) && (y < (SCREEN_HEIGHT - SPRITE_HEIGHT))) y+=2;
-		if((keys & KEY_LEFT) && (x  > 0)) x-=2;
-		if((keys & KEY_UP) && (y  > 0)) y-=2;
-
-		oamSet(&oamMain, 	// oam handler
-			0,				// Number of sprite
-			x, y,			// Coordinates
-			0,				// Priority
-			0,				// Palette to use
-			SpriteSize_32x32,			// Sprite size
-			SpriteColorFormat_256Color,	// Color format
-			gfx,			// Loaded graphic to display
-			-1,				// Affine rotation to use (-1 none)
-			false,			// Double size if rotating
-			false,			// Hide this sprite
-			false, false,	// Horizontal or vertical flip
-			false			// Mosaic
-			);
-		swiWaitForVBlank();
-		//Update the sprites
-		oamUpdate(&oamMain);
-	}
+	get_keys();
 }
 
 

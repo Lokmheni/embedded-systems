@@ -11,9 +11,8 @@ int main(void) {
 	
     consoleDemoInit();
     //printf("\nTemplate nds\n");
-    // 2) Main engine configuration in rotoscale mode
-    REG_DISPCNT = MODE_0_2D | DISPLAY_BG0_ACTIVE;
-    init_sub_screen();
+    //set screens
+    init_screens();
     while(1)
         swiWaitForVBlank();	
 }
