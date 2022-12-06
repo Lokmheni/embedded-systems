@@ -15,15 +15,17 @@
 
 #include "../game/game.h"
 #include "WiFi_minilib.h"
+#include "wifi_instr.h"
 
 
 typedef enum MsgType
 {
-    WIFI_SYNC,
-    WIFI_STOP,
+    WIFI_SYNC_INSTR_SCORE,
+    WIFI_POLLY_PLAYERS,
     WIFI_PLAYER_X_DIR_ACTION,
     WIFI_PLAYER_Y_YS_HP,
     WIFI_DAMAGE_X_Y_DMG,
+    WIFI_ACK_LM,
 } MsgType;
 
 
@@ -65,7 +67,7 @@ void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg);
  * @return false if the packet size was not of correct size (includes packet
  *         size 0, e.g. no messages received)
  */
-bool receive_changes(WifiMsg* rec);
+bool receive_messages(WifiMsg* rec);
 
 
 // wifi setup and control shit

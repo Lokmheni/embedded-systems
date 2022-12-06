@@ -40,7 +40,7 @@ void send_status(Player* const plr)
             transfer.dat2 = plr->dir;
             transfer.dat3 = plr->action;
 
-            sendData(&transfer, sizeof(transfer));
+            sendData((char*)&transfer, sizeof(transfer));
         }
 }
 void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg)
@@ -51,12 +51,21 @@ void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg)
     transfer.dat2 = dmg_y;
     transfer.dat3 = dmg;
 
-    sendData(&transfer, sizeof(transfer));
+    sendData((char*)&transfer, sizeof(transfer));
 }
 
-bool receive_changes(WifiMsg* rec)
+bool receive_messages(WifiMsg* rec)
 {
-    return receiveData(rec, sizeof(rec)) == sizeof(rec);
+    if (receiveData((char*)rec, sizeof(rec)) != sizeof(rec))
+        return false;
+
+    if (rec->msg == WIFI_SYNC_INSTR_SCORE && (rec->dat1 & REQ_ACK))
+        {
+            rec->msg = WIFI_ACK_LM;
+            sendData((char*)rec, sizeof(rec));
+            rec->msg = WIFI_SYNC_INSTR_SCORE;
+        }
+    return true;
 }
 
 
