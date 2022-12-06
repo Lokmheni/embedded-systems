@@ -14,7 +14,7 @@
 #define __GRAPHICS_H
 
 
-//#include "game.h"
+#include "game/game.h"
 
 void init_screens();
 
@@ -23,6 +23,8 @@ void init_main_screen();
 void init_sub_screen();
 
 void configureSprites();
+
+void show_timer();
 
 //void sprite_pos_local(PlayerState* const player);
 

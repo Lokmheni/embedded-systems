@@ -11,6 +11,7 @@
 
 
 #include "input.h"
+#include "graphics.h"
 #include <nds.h>
 #include <stdio.h>
 
@@ -21,7 +22,7 @@ void get_input(RequestedAction* action, RequestedMovement* movement) {}
 
 void get_keys(){
 	//Position
-	int x = 0, y = 0, keys;
+	int x = 0, y = 192, keys;
 	while(1){
 		//Read held keys
 		scanKeys();
@@ -66,9 +67,12 @@ void get_touch_input() {
 			int x = touch.px;
 			int y = touch.py;
 
-			if((x > 78 && x < 178) && ((y > 75 && y < 75+21) || (y > 75+21 && y < 75+42)))
+			if((x > 78 && x < 178) && ((y > 75 && y < 75+21) || (y > 75+21 && y < 75+42))){
 				init_main_screen();
-
+				REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG3_ACTIVE;
+				//REG_DISPCNT_SUB = ~DISPLAY_BG2_ACTIVE;
+				show_timer();
+			}
 		else
 			continue;
 		}
