@@ -29,6 +29,8 @@ void send_status(Player* const plr)
             transfer.dat1 = plr->pos_y;
             transfer.dat2 = *(u8*)&plr->y_speed;
             transfer.dat3 = plr->health;
+
+            sendData((char*)&transfer, sizeof(transfer));
         }
     // check necessity for x dir speed
     if (plr->dir != old_plr_state.dir || plr->action != old_plr_state.action)
