@@ -12,6 +12,7 @@
 
 #ifndef __GAME_CONTROLLER_H
 #define __GAME_CONTROLLER_H
+#include <nds.h>
 
 // true if game done
 bool update_game();

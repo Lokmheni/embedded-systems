@@ -12,13 +12,15 @@
 
 #include "../constants.h"
 
-void move(Player* plr, Direction dir, bool jmp, int dist)
+void move(Player* plr, Direction dir, bool jmp, int dist){
 
-
-bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
-{
-    return false;
 }
 
 
-void do_damage(Player* const plr, int* dmg_x, int* dmg_y) {}
+bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage){
+	return false;
+}
+
+
+void do_damage(Player* const plr, int* dmg_x, int* dmg_y){
+}

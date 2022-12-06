@@ -15,5 +15,5 @@
 #include <nds.h>
 
 
-bool update_game() {}
-void reset_game() { return false; }
+bool update_game() {return false; }
+void reset_game() { }
