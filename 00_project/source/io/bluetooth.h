@@ -14,12 +14,12 @@
 #define __BLUETOOTH_H
 
 
-#include "game.h"
+#include "../game/game.h"
 
-send_status(PlayerState* const plr);
-send_damage(int dmg_x, int dmg_y);
+void send_status(PlayerState* const plr);
+void send_damage(int dmg_x, int dmg_y);
 
-receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y);
+void receive_status(PlayerState* plr, bool* damage, int* dmg_x, int* dmg_y);
 
 
 #endif // __BLUETOOTH_H
