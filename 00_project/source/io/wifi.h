@@ -20,7 +20,7 @@
  * 3)   The user is responsible for periodically polling incoming messages with
  *      @ref receive_messages(). Upon receiving an LFG msg, the receiver becomes
  *      the `master` and is in charge of syncing game (with commands such as
- *      RESET_GAME and IS_PLAY defined in @ref wifi_instr.h)
+ *      RESET_GAME and IS_PLAY defined in @ref wifi_instr.h )
  *
  * 4)   During game, for every frame send !LOCAL! player  with @ref
  *      send_status(Player* const plr) and the function will arbitrate whether
@@ -37,6 +37,8 @@
  *      signalling the lose and becomes the new master, tasked with setting up a
  *      new round etc.
  *
+ * 8)   To disconnect from wifi (i.e. single player) call @ref
+ *      wifi_disconnect_network()
  *
  */
 
