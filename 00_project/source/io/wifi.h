@@ -38,7 +38,7 @@ typedef struct __attribute__((__packed__)) WifiMsg
 } WifiMsg;
 
 
-// wifi usability shit
+// wifi usability stuff
 /**
  * @brief Transfer player updates to remote device.
  * @note  This function can be called even when no changes are made, as it
