@@ -118,8 +118,19 @@ void send_ctrl_instruction(u8 instruction, u8 score);
 void announce_lfg();
 
 
-// wifi setup and control shit
+// wifi setup and control stuff
+/**
+ * @brief Connect to network and setup AccessPoint or sth
+ *
+ * @return true if connection was successful
+ * @return false if no connection was established
+ */
 bool wifi_connect_network();
+
+/**
+ * @brief Disconnect from network
+ *
+ */
 void wifi_disconnect_network();
 
 #endif // __WIFI_H
