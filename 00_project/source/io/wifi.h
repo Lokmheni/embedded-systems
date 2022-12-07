@@ -100,7 +100,19 @@ void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg);
  */
 bool receive_messages(WifiMsg* rec);
 
+/**
+ * @brief Transmit a control instruction (defined in @ref wifi_instr.h) as well
+ * as current score of local
+ *
+ * @param instruction
+ * @param score
+ */
 void send_ctrl_instruction(u8 instruction, u8 score);
+
+/**
+ * @brief Announce to network that one is looking for group
+ *
+ */
 void announce_lfg();
 
 

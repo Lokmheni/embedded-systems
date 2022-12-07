@@ -71,7 +71,14 @@ bool receive_messages(WifiMsg* rec)
 }
 
 
-void send_ctrl_instruction(u8 instruction, u8 score) {}
+void send_ctrl_instruction(u8 instruction, u8 score)
+{
+    WifiMsg transfer;
+    transfer.msg  = WIFI_SYNC_INSTR_SCORE;
+    transfer.dat1 = instruction;
+    transfer.dat2 = score;
+    sendData((char*)&transfer, sizeof(transfer));
+}
 
 
 void announce_lfg()
