@@ -17,20 +17,28 @@
 #include "player.h"
 #include "input.h"
 #include "streetfighter.h"
-#include "chrono_display.h"
 #include <math.h>
 #include "numbers.h"
 #include "string.h"
+#include "chrono_display.h"
+
 
 
 #define	SPRITE_WIDTH	32
 #define	SPRITE_HEIGHT	32
 
+#define	RED   ARGB16(1,31,0,0)
+#define	GREEN ARGB16(1,0,31,0)
+#define	BLUE  ARGB16(1,0,0,31)
+#define	WHITE ARGB16(1,31,31,31)
+#define	BLACK ARGB16(1,0,0,0)
+
 void init_screens(){
 	show_logo();
-	init_sub_screen();
+	//init_sub_screen();
 	get_touch_input();
 }
+
 
 void init_sub_screen() {
 
@@ -52,6 +60,7 @@ void init_sub_screen() {
 	REG_BG2PD_SUB = 256;
 	get_touch_input();
 }
+
 
 void show_logo(){
 // 1) VRAM Configuration for MAIN engine
@@ -114,20 +123,63 @@ void ISR_TIMER0()
 		if(sec == 0)
 			min++;
 	}
-	updateChronoDisp_Sub(min, sec, msec);
+	updateChronoDisp(BG_MAP_RAM(1), min, sec, msec);
 }
+
 
 void show_timer(){
-	//BGCTRL_SUB[2] = BGCTRL_SUB[2] & (~ACTIVE);
-	initChronoDisp_Sub();
+	//irqInit();
+	//min = sec = msec = 0;
+	//TIMER_DATA(0) = TIMER_FREQ_1024(1000);
+	//TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
+	//irqSet(IRQ_TIMER0, &ISR_TIMER0);
+	//irqEnable(IRQ_TIMER0);
+	//Enable a suitable VRAM block and map it to the main engine
+	//printf("Lokman");
 
-	irqInit();
-	min = sec = msec = 0;
-	TIMER_DATA(0) = TIMER_FREQ_1024(1000);
-	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
-	irqSet(IRQ_TIMER0, &ISR_TIMER0);
-	irqEnable(IRQ_TIMER0);
+	VRAM_C_CR = VRAM_ENABLE
+				| VRAM_C_SUB_BG;
+	//Configure the engine in Mode 0 and use the BG3
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
+	//Use BG_MAP_BASE(0) and  a suitable BG_TILE_BASE
+	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+
+	//Copy the tiles and the palette to the corresonding location
+	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
+	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
+
+	//The digit 8 is printed in the upper left part of the screen
+	printDigit(BG_MAP_RAM_SUB(0), 8,0,0);
+
+	//The value 12:34.567 is going to be printed in the center of the screen
+	updateChronoDisp(BG_MAP_RAM_SUB(0),12,34,567);
+
+	//The background color is ste to BLACK and the digits color is set to RED
+	changeColorDisp(BLACK, RED);
+
+	/*VRAM_A_CR = VRAM_ENABLE
+				| VRAM_A_MAIN_BG;
+	//Configure the engine in Mode 0 and use the BG3
+	REG_DISPCNT = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
+	//Use BG_MAP_BASE(0) and  a suitable BG_TILE_BASE
+	BGCTRL[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(0);
+
+	//Copy the tiles and the palette to the corresonding location
+	swiCopy(numbersTiles, BG_TILE_RAM(0), numbersTilesLen);
+	swiCopy(numbersPal, BG_PALETTE, numbersPalLen);
+
+	//The digit 8 is printed in the upper left part of the screen
+	printDigit(BG_MAP_RAM(0), 8,0,0);
+
+	//The value 12:34.567 is going to be printed in the center of the screen
+	//updateChronoDisp(BG_MAP_RAM(0),12,34,567);
+
+	//The background color is ste to BLACK and the digits color is set to RED
+	//changeColorDisp(BLACK, RED);*/
 }
+
 
 
 

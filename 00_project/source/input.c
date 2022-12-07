@@ -29,11 +29,14 @@ void get_keys(){
 		keys = keysHeld();
 
 		//Modify position of the sprite accordingly
-		if((keys & KEY_RIGHT) && (x < (SCREEN_WIDTH - SPRITE_WIDTH))) x+=2;
-		if((keys & KEY_DOWN) && (y < (SCREEN_HEIGHT - SPRITE_HEIGHT))) y+=2;
-		if((keys & KEY_LEFT) && (x  > 0)) x-=2;
-		if((keys & KEY_UP) && (y  > 0)) y-=2;
-
+		if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP)){
+				if((keys & KEY_RIGHT) && (x < (SCREEN_WIDTH - SPRITE_WIDTH))) x+=2;
+				if((keys & KEY_DOWN) && (y < (SCREEN_HEIGHT - SPRITE_HEIGHT))) y+=2;
+				if((keys & KEY_LEFT) && (x  > 0)) x-=2;
+				if((keys & KEY_UP) && (y  > 0)) y-=2;
+			}
+		else
+			continue;
 		oamSet(&oamMain, 	// oam handler
 			0,				// Number of sprite
 			x, y,			// Coordinates
@@ -51,6 +54,7 @@ void get_keys(){
 		swiWaitForVBlank();
 		//Update the sprites
 		oamUpdate(&oamMain);
+
 	}
 }
 
@@ -68,8 +72,9 @@ void get_touch_input() {
 			int y = touch.py;
 
 			if((x > 78 && x < 178) && ((y > 75 && y < 75+21) || (y > 75+21 && y < 75+42))){
+				printf("Lokman");
 				init_main_screen();
-				REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG3_ACTIVE;
+				//REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG3_ACTIVE;
 				//REG_DISPCNT_SUB = ~DISPLAY_BG2_ACTIVE;
 				show_timer();
 			}
