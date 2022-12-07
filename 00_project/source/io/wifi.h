@@ -13,9 +13,9 @@
  *      wifi_connect_network() to connect to the wifi and set up a port.
  *
  * 2)   After the wifi has been enabled and one wants to play with other
- *      players, it is vital to announce this using @ref announce_lfg(). One can
- *      optionally send this message periodically, but it must be sent at least
- *      once upon connecting to the network.
+ *      players, it is vital to announce this using @ref wifi_announce_lfg().
+ *      One can optionally send this message periodically, but it must be sent
+ *      at least once upon connecting to the network.
  *
  * 3)   The user is responsible for periodically polling incoming messages with
  *      @ref receive_messages(). Upon receiving an LFG msg, the receiver becomes
@@ -115,7 +115,7 @@ void send_ctrl_instruction(u8 instruction, u8 score);
  * @brief Announce to network that one is looking for group
  *
  */
-void announce_lfg();
+void wifi_announce_lfg();
 
 
 // wifi setup and control stuff

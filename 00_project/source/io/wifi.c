@@ -81,7 +81,7 @@ void send_ctrl_instruction(u8 instruction, u8 score)
 }
 
 
-void announce_lfg()
+void wifi_announce_lfg()
 {
     WifiMsg transfer;
     transfer.msg = WIFI_REQ_LFG;
