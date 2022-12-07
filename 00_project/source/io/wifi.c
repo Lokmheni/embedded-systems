@@ -71,6 +71,17 @@ bool receive_messages(WifiMsg* rec)
 }
 
 
+void send_ctrl_instruction(u8 instruction, u8 score) {}
+
+
+void announce_lfg()
+{
+    WifiMsg transfer;
+    transfer.msg = WIFI_REQ_LFG;
+    sendData((char*)&transfer, sizeof(transfer));
+}
+
+
 bool wifi_connect_network()
 {
     // WiFi initialization
