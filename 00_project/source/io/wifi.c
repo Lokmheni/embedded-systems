@@ -96,7 +96,10 @@ bool wifi_connect_network()
         return false;
     // Socket initialization
     if (!openSocket())
-        return false;
+        {
+            disconnectFromWiFi();
+            return false;
+        }
     return true;
 }
 void wifi_disconnect_network()
