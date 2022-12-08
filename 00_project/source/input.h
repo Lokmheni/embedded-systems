@@ -47,7 +47,7 @@ typedef enum
 
 void getswagkeys();
 
-void getourswaginput(RequestedAction* action, RequestedMovement* movement);
+void get_input(RequestedAction* action, RequestedMovement* movement);
 
 
 void get_touchswagggainput();

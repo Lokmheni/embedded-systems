@@ -6,11 +6,12 @@
 #include <nds.h>
 #include <stdio.h>
 
+#include "game/game_controller.h"
 #include "graphics.h"
-
 
 int main(void)
 {
+    set_stage();
 
     consoleDemoInit();
     init_screens();

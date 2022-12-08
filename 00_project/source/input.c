@@ -15,12 +15,15 @@
 #include <nds.h>
 #include <stdio.h>
 
+#include "constants.h"
+#include "game/game.h"
+#include "game/game_controller.h"
 #include "graphics.h"
-
 
 static u16* gfx;
 
-void getourswaginput(RequestedAction* action, RequestedMovement* movement) {}
+
+void get_input(RequestedAction* action, RequestedMovement* movement) {}
 
 void getswagkeys()
 {
@@ -30,25 +33,24 @@ void getswagkeys()
         {
             // Read held keys
             scanKeys();
-            keys = keysHeld();
-
+            keys       = keysHeld();
+            Player plr = get_player_local();
             // Modify position of the sprite accordingly
             if ((keys & KEY_RIGHT) || (keys & KEY_DOWN) || (keys & KEY_LEFT) ||
                 (keys & KEY_UP))
                 {
-                    if ((keys & KEY_RIGHT) &&
-                        (x < (SCREEN_WIDTH - SPRITE_WIDTH)))
-                        x += 2;
-                    if ((keys & KEY_DOWN) &&
-                        (y < (SCREEN_HEIGHT - SPRITE_HEIGHT)))
-                        y += 2;
-                    if ((keys & KEY_LEFT) && (x > 0))
-                        x -= 2;
-                    if ((keys & KEY_UP) && (y > 0))
-                        y -= 2;
+                    if (keys & KEY_RIGHT)
+                        move(&plr, DIRECTION_RIGHT, keys & KEY_UP, SPEED);
+                    if (keys & KEY_DOWN)
+                        move(&plr, DIRECTION_LEFT, keys & KEY_UP, SPEED);
+                    // no jump
                 }
+
+
             else
                 continue;
+            x = plr.pos_x;
+            y = plr.pos_y;
             oamSet(&oamMain,                   // oam handler
                    0,                          // Number of sprite
                    x, y,                       // Coordinates
