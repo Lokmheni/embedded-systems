@@ -42,7 +42,6 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
         }
 }
 
-}
 
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
 {
