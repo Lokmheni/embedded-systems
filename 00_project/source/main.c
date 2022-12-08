@@ -5,11 +5,16 @@
 
 #include <nds.h>
 #include <stdio.h>
+#include "graphics.h"
+
 
 int main(void) {
 	
     consoleDemoInit();
-    printf("\nTemplate nds\n");
+    init_screens();
+    //show_timer();
+    //printf("\nTemplate nds\n");
+    //set screens
 
     while(1)
         swiWaitForVBlank();	

@@ -13,7 +13,9 @@
 #include "graphics.h"
 
 
-void init_screens() {}
+void init_screens() {
+
+}
 
 void sprite_pos_local(PlayerState* const player) {}
 
