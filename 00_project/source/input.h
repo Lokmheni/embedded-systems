@@ -9,15 +9,16 @@
  *
  */
 
-
 #ifndef __INPUT_H_
 #define __INPUT_H_
 
-#define SCREEN_WIDTH	256
-#define	SCREEN_HEIGHT	192
+#include "game/game_controller.h"
 
-#define	SPRITE_WIDTH	32
-#define	SPRITE_HEIGHT	32
+#define SCREEN_WIDTH  256
+#define SCREEN_HEIGHT 192
+
+#define SPRITE_WIDTH  32
+#define SPRITE_HEIGHT 32
 
 
 typedef enum
@@ -44,12 +45,12 @@ typedef enum
     TOUCH_INPUT_PLAY
 } TouchInput;
 
-void get_keys();
+void getswagkeys();
 
-void get_input(RequestedAction* action, RequestedMovement* movement);
+void getourswaginput(RequestedAction* action, RequestedMovement* movement);
 
 
-void get_touch_input();
+void get_touchswagggainput();
 
 
 #endif // __INPUT_H_

@@ -38,7 +38,7 @@ void init_screens()
 {
     show_logo();
     // init_sub_screen();
-    get_touch_input();
+    get_touchswagggainput();
 }
 
 
@@ -61,7 +61,7 @@ void init_sub_screen()
     REG_BG2PC_SUB = 0;
     REG_BG2PB_SUB = 0;
     REG_BG2PD_SUB = 256;
-    get_touch_input();
+    get_touchswagggainput();
 }
 
 
@@ -77,8 +77,8 @@ void show_logo()
     swiCopy(streetfighterBitmap, BG_GFX, streetfighterBitmapLen / 2);
     swiCopy(streetfighterPal, BG_PALETTE, streetfighterPalLen / 2);
 // Uncomment this for including the Affine Marix Transformation
-#define NEW_ROTOSCALE
-#ifndef NEW_ROTOSCALE
+#define NEW_LIBNDS_VERSION
+#ifndef NEW_LIBNDS_VERSION
     bgTransform[2]->xdx = 1 * 256;
     bgTransform[2]->ydx = 0 * 256;
     bgTransform[2]->xdy = 0 * 256;
@@ -94,6 +94,7 @@ void show_logo()
     bgTransform[2]->dy  = 0 * 256;
 #endif
 }
+
 
 void init_main_screen()
 {
@@ -127,7 +128,7 @@ void configureSprites()
     // Copy data for the graphic (palette and bitmap)
     swiCopy(playerPal, SPRITE_PALETTE, playerPalLen / 2);
     swiCopy(playerTiles, gfx, playerTilesLen / 2);
-    get_keys();
+    getswagkeys();
 }
 
 int min, sec, msec;
