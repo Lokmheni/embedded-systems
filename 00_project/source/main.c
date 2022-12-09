@@ -22,12 +22,12 @@ int main(void)
     printf("TEST_WIFI\n");
 
     // init wifi
-    while (!wifi_connect_network())
-        {
-            printf("FAILED TO START WIFI\n");
-            swiWaitForVBlank();
-        }
-    printf("WIFI connection established\n");
+    // while (!wifi_connect_network())
+    //     {
+    //         printf("FAILED TO START WIFI\n");
+    //         swiWaitForVBlank();
+    //     }
+    // printf("WIFI connection established\n");
     swiWaitForVBlank();
 
 
@@ -39,9 +39,10 @@ int main(void)
             scanKeys();
             if (keysDown())
                 {
+                    printf("keypressed,attempt to connect\n");
                     connection = wifi_connect_network();
                     if (!connection)
-                        printf("\nfailed to connect to wifi");
+                        printf("failed to connect to wifi\n");
                 }
             swiWaitForVBlank();
         }
@@ -53,24 +54,28 @@ int main(void)
 
     WifiMsg transfer;
     for (;;)
-        // sending
-        scanKeys();
-    if (keysDown() & KEY_A)
         {
-            wifi_announce_lfg();
-            printf("-> LFG\n");
-        }
-    if (keysDown() & KEY_B)
-        {
-            send_ctrl_instruction(RESET_GAME | START_GAME | REQ_ACK, 1);
-            printf("-> INSTR\n");
-        }
+            // sending
+            scanKeys();
+            u32 k = keysDown();
+            if (k & KEY_A)
+                {
+                    wifi_announce_lfg();
+                    printf("-> LFG\n");
+                }
+            if (k & KEY_B)
+                {
+                    send_ctrl_instruction(RESET_GAME | START_GAME | REQ_ACK, 1);
+                    printf("-> INSTR\n");
+                }
 
-    if (receive_messages(&transfer))
-        {
-            printf("<- ");
-            print_msg(transfer);
-        }
 
-    swiWaitForVBlank();
+            if (receive_messages(&transfer))
+                {
+                    printf("<- ");
+                    print_msg(transfer);
+                }
+
+            swiWaitForVBlank();
+        }
 }
