@@ -75,3 +75,9 @@ void do_damage(Player* const plr, int* dmg_x, int* dmg_y)
     *dmg_x = plr->pos_x + (plr->dir == DIRECTION_LEFT ? 0 : SPRITE_WIDTH);
     *dmg_y = plr->pos_y - SPRITE_HEIGHT / 2;
 }
+
+
+u8 translate_remote_x(u8 x_coord)
+{
+    return SCREEN_WIDTH - SPRITE_WIDTH - x_coord;
+}
