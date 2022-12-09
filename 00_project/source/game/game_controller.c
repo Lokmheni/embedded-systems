@@ -44,66 +44,67 @@ int update_game(int key_input, WifiMsg remote_info)
     // do remote stuff
     if (remote_info.msg == WIFI_PLAYER_X_DIR_ACTION)
         {
-            player_remote.pos_x  = translate_remote_x(remote_info.dat1);
             player_remote.dir    = remote_info.dat2;
             player_remote.action = remote_info.dat3;
+            inferred_move(&player_remote);
+            player_remote.pos_x = translate_remote_x(remote_info.dat1);
         }
     else if (remote_info.msg == WIFI_PLAYER_Y_YS_HP)
         {
+            inferred_move(&player_remote);
             player_remote.pos_y   = remote_info.dat1;
             player_remote.y_speed = remote_info.dat2;
             player_remote.health  = remote_info.dat3;
         }
+    else
+        {
+            inferred_move(&player_remote);
+        }
 
     // do local stuff
-    if ((key_input & KEY_LEFT) && !(key_input & KEY_RIGHT))
+    if (((key_input & KEY_MOVE_LEFT) ^ (key_input & KEY_MOVE_RIGHT)) &&
+        player_local.action != ACTION_TYPE_NORMAL_ATTACK &&
+        player_local.action != ACTION_TYPE_SPECIAL_ATTACK)
         {
-            player_local.dir = DIRECTION_LEFT;
-        }
-    if ((key_input & KEY_RIGHT) && !(key_input & KEY_LEFT))
-        {
-            player_local.dir = DIRECTION_RIGHT;
-        }
+            move(&player_local,
+                 (key_input & KEY_MOVE_LEFT) ? DIRECTION_LEFT : DIRECTION_RIGHT,
+                 key_input & KEY_JUMP,
+                 (key_input & KEY_BLOCK) ? SPEED / 2
+                                         : SPEED); // HALF SPEED FOR BLOCK
 
-
-    // adjust action for when moving:
-    if ((key_input & KEY_LEFT) ^ (key_input & KEY_RIGHT))
-        {
-            switch (player_local.action)
+            // determine action
+            if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
                 {
-                case ACTION_TYPE_IDLE:
-                    player_local.action = ACTION_TYPE_WALK;
-                    break;
-                case ACTION_TYPE_BLOCK_INPLACE:
-                    player_local.action = ACTION_TYPE_BLOCK_MOVE;
-                    break;
-                case ACTION_TYPE_JUMP_INPLACE:
                     player_local.action = ACTION_TYPE_JUMP_MOVE;
-                    break;
-                default:
-                    break;
+                }
+
+            else if (key_input & KEY_BLOCK)
+                {
+                    player_local.action = ACTION_TYPE_BLOCK_MOVE;
+                }
+            else
+                {
+                    player_local.action = ACTION_TYPE_WALK;
                 }
         }
     else // adjust action for when not moving:
         {
-            switch (player_local.action)
+            if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
                 {
-                case ACTION_TYPE_WALK:
-                    player_local.action = ACTION_TYPE_IDLE;
-                    break;
-                case ACTION_TYPE_BLOCK_MOVE:
-                    player_local.action = ACTION_TYPE_BLOCK_INPLACE;
-                    break;
-                case ACTION_TYPE_JUMP_MOVE:
                     player_local.action = ACTION_TYPE_JUMP_INPLACE;
-                    break;
-                default:
-                    break;
                 }
+
+            else if (key_input & KEY_BLOCK)
+                {
+                    player_local.action = ACTION_TYPE_BLOCK_INPLACE;
+                }
+            else
+                {
+                    player_local.action = ACTION_TYPE_IDLE;
+                }
+            move(&player_local, player_local.dir, key_input & KEY_JUMP, 0);
         }
 
-
-    // actually update positions
 
     return 0;
 }
