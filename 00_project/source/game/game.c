@@ -15,10 +15,11 @@
 void move(Player* plr, Direction dir, bool jmp, int dist)
 {
     // update direction
-    plr->dir = dir;
+    plr->dir   = dir;
     // update position x
+    u8 old_pos = plr->pos_x;
     plr->pos_x += dir == DIRECTION_RIGHT ? dist : -dist;
-    if (plr->pos_x < 0)
+    if (plr->pos_x > old_pos && dir == DIRECTION_LEFT) // check underflow
         {
             plr->pos_x = 0;
         }
@@ -27,11 +28,11 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
             plr->pos_x = SCREEN_WIDTH - SPRITE_WIDTH;
         }
     // update position y
-    if (plr->pos_y > SPRITE_FLOOR_HEIGHT) // check if already jumping
+    if (plr->pos_y < SPRITE_FLOOR_HEIGHT) // check if already jumping
         {
-            plr->pos_y += plr->y_speed;
+            plr->pos_y -= plr->y_speed;
             plr->y_speed -= GRAVITY;
-            if (plr->pos_y < SPRITE_FLOOR_HEIGHT)
+            if (plr->pos_y > SPRITE_FLOOR_HEIGHT)
                 {
                     plr->pos_y   = SPRITE_FLOOR_HEIGHT;
                     plr->y_speed = 0;
@@ -40,7 +41,7 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
     else if (jmp)
         {
             plr->y_speed = JUMP_SPEED - GRAVITY;
-            plr->pos_y   = SPRITE_FLOOR_HEIGHT + JUMP_SPEED;
+            plr->pos_y   = SPRITE_FLOOR_HEIGHT - JUMP_SPEED;
         }
 }
 
