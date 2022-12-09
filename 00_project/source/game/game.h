@@ -103,4 +103,14 @@ void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y);
  */
 u8 translate_remote_x(u8 x_coord);
 
+
+/**
+ * @brief Update player based on current action, direction, position etc.
+ * Executes 1 move.
+ *
+ * @param[in,out] plr In, player at time t, out player at time t+1
+ * @return int
+ */
+int inferred_move(Player* plr);
+
 #endif // __GAME_H
