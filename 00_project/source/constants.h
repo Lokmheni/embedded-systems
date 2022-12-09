@@ -42,4 +42,15 @@
 
 #define SPRITE_START_POS 10 // distance from left screen border
 
+
+//===================================================================
+// CONTROLS
+//===================================================================
+#define KEY_MOVE_LEFT      KEY_LEFT
+#define KEY_MOVE_RIGHT     KEY_RIGHT
+#define KEY_JUMP           KEY_A
+#define KEY_ATTACK         KEY_B
+#define KEY_BLOCK          KEY_X
+#define KEY_SPECIAL_ATTACK KEY_Y
+
 #endif // __CONSTANS_H
