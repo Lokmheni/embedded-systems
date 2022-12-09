@@ -92,4 +92,15 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
  */
 void do_damage(Player* const plr, int* dmg_x, int* dmg_y);
 
+
+/**
+ * @brief Translate remote x_coord to local coordinate system.
+ *
+ * @note Direction must also be inverted
+ *
+ * @param x_coord Remote x-coordinate
+ * @return u8 x-coordinate in local system
+ */
+u8 translate_remote_x(u8 x_coord);
+
 #endif // __GAME_H

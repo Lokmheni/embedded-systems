@@ -23,15 +23,16 @@
 #define SPRITE_WIDTH  32
 #define SPRITE_HEIGHT 32
 
-#define GAME_FLOOR_HEIGHT   32 // subject to change, just a placehold value
-#define SPRITE_FLOOR_HEIGHT (GAME_FLOOR_HEIGHT + SPRITE_HEIGHT)
+#define GAME_FLOOR_HEIGHT 32 // subject to change, just a placehold value
+#define SPRITE_FLOOR_HEIGHT                                                    \
+    (SCREEN_HEIGHT - (GAME_FLOOR_HEIGHT + SPRITE_HEIGHT))
 
 
 //===================================================================
 // GAME
 //===================================================================
 #define SPEED      5 // number of pixels to move per game iteration
-#define JUMP_SPEED 10
+#define JUMP_SPEED 18
 #define GRAVITY    2 // to see in relation to jump_speed
 
 #define DAMAGE_NORMAL  5
