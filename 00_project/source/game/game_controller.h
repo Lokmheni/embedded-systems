@@ -14,6 +14,7 @@
 #define __GAME_CONTROLLER_H
 #include <nds.h>
 
+#include "../io/wifi.h"
 #include "game.h"
 
 //===================================================================
@@ -58,7 +59,7 @@ void set_stage();
  *                   2 means player_remote has won round
  *                   3 means the connection died
  */
-int update_game();
+int update_game(int key_input, WifiMsg remote_info);
 
 /**
  * @brief Set/Reset the game stage, points health etc.

@@ -38,7 +38,7 @@ void   get_scores(int* local, int* remote)
 // ctrl
 
 
-int update_game() { return 0; }
+int update_game(int key_input, WifiMsg remote_info) { return 0; }
 
 
 void set_stage()
