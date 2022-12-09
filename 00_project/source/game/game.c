@@ -15,21 +15,24 @@
 void move(Player* plr, Direction dir, bool jmp, int dist)
 {
     // update direction
-    plr->dir = dir;
+    plr->dir   = dir;
     // update position x
-    plr->pos_x += dist;
-    if (plr->pos_x < 0)
-        plr->pos_x = 0;
+    u8 old_pos = plr->pos_x;
+    plr->pos_x += dir == DIRECTION_RIGHT ? dist : -dist;
+    if (plr->pos_x > old_pos && dir == DIRECTION_LEFT) // check underflow
+        {
+            plr->pos_x = 0;
+        }
     else if (plr->pos_x > SCREEN_WIDTH - SPRITE_WIDTH)
         {
             plr->pos_x = SCREEN_WIDTH - SPRITE_WIDTH;
         }
     // update position y
-    if (plr->pos_y > SPRITE_FLOOR_HEIGHT) // check if already jumping
+    if (plr->pos_y < SPRITE_FLOOR_HEIGHT) // check if already jumping
         {
-            plr->pos_y += plr->y_speed;
+            plr->pos_y -= plr->y_speed;
             plr->y_speed -= GRAVITY;
-            if (plr->pos_y < SPRITE_FLOOR_HEIGHT)
+            if (plr->pos_y > SPRITE_FLOOR_HEIGHT)
                 {
                     plr->pos_y   = SPRITE_FLOOR_HEIGHT;
                     plr->y_speed = 0;
@@ -38,7 +41,7 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
     else if (jmp)
         {
             plr->y_speed = JUMP_SPEED - GRAVITY;
-            plr->pos_y   = SPRITE_FLOOR_HEIGHT + JUMP_SPEED;
+            plr->pos_y   = SPRITE_FLOOR_HEIGHT - JUMP_SPEED;
         }
 }
 
@@ -71,4 +74,10 @@ void do_damage(Player* const plr, int* dmg_x, int* dmg_y)
 {
     *dmg_x = plr->pos_x + (plr->dir == DIRECTION_LEFT ? 0 : SPRITE_WIDTH);
     *dmg_y = plr->pos_y - SPRITE_HEIGHT / 2;
+}
+
+
+u8 translate_remote_x(u8 x_coord)
+{
+    return SCREEN_WIDTH - SPRITE_WIDTH - x_coord;
 }
