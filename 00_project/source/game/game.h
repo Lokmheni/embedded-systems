@@ -90,7 +90,7 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
  * @param[out] dmg_x x coordinate of damage
  * @param[out] dmg_y y coordinate of damage
  */
-void do_damage(Player* const plr, int* dmg_x, int* dmg_y);
+void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y);
 
 
 /**
