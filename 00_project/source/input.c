@@ -21,27 +21,29 @@
 #include "graphics.h"
 
 static u16* gfx;
-
+Player      plr;
+bool        firsttime = false;
 
 void get_input(RequestedAction* action, RequestedMovement* movement) {}
 
 void getswagkeys()
 {
+    if (firsttime)
+        plr = get_player_local();
     // Position
     int x = 0, y = 192, keys;
     while (1)
         {
             // Read held keys
             scanKeys();
-            keys       = keysHeld();
-            Player plr = get_player_local();
+            keys = keysHeld();
             // Modify position of the sprite accordingly
             if ((keys & KEY_RIGHT) || (keys & KEY_DOWN) || (keys & KEY_LEFT) ||
                 (keys & KEY_UP))
                 {
                     if (keys & KEY_RIGHT)
                         move(&plr, DIRECTION_RIGHT, keys & KEY_UP, SPEED);
-                    if (keys & KEY_DOWN)
+                    if (keys & KEY_LEFT)
                         move(&plr, DIRECTION_LEFT, keys & KEY_UP, SPEED);
                     // no jump
                 }
