@@ -85,12 +85,17 @@ u8 translate_remote_x(u8 x_coord)
 
 int inferred_move(Player* plr)
 {
-    move(plr, plr->dir,
-         plr->action == ACTION_TYPE_JUMP_INPLACE || // if jump then jump
-             plr->action == ACTION_TYPE_JUMP_MOVE,
-         plr->action == ACTION_TYPE_JUMP_MOVE ||    // if moving then move, else
-                 plr->action == ACTION_TYPE_WALK || // speed 0
-                 plr->action == ACTION_TYPE_BLOCK_MOVE
-             ? SPEED
-             : 0);
+    if (plr->action != ACTION_TYPE_NORMAL_ATTACK &&
+        plr->action != ACTION_TYPE_SPECIAL_ATTACK)
+        {
+            move(plr, plr->dir,
+                 plr->action == ACTION_TYPE_JUMP_INPLACE || // if jump then jump
+                     plr->action == ACTION_TYPE_JUMP_MOVE,
+                 plr->action == ACTION_TYPE_JUMP_MOVE || // if moving then move,
+                                                         // else
+                         plr->action == ACTION_TYPE_WALK || // speed 0
+                         plr->action == ACTION_TYPE_BLOCK_MOVE
+                     ? SPEED
+                     : 0);
+        }
 }

@@ -38,7 +38,7 @@ void   get_scores(int* local, int* remote)
 // ctrl
 
 
-int update_game(int key_input, WifiMsg remote_info)
+void update_game(int key_input, WifiMsg remote_info)
 {
 
     // do remote stuff
@@ -61,51 +61,63 @@ int update_game(int key_input, WifiMsg remote_info)
             inferred_move(&player_remote);
         }
 
-    // do local stuff
-    if (((key_input & KEY_MOVE_LEFT) ^ (key_input & KEY_MOVE_RIGHT)) &&
-        player_local.action != ACTION_TYPE_NORMAL_ATTACK &&
+    // check if attacking
+    if (player_local.action != ACTION_TYPE_NORMAL_ATTACK &&
         player_local.action != ACTION_TYPE_SPECIAL_ATTACK)
         {
-            move(&player_local,
-                 (key_input & KEY_MOVE_LEFT) ? DIRECTION_LEFT : DIRECTION_RIGHT,
-                 key_input & KEY_JUMP,
-                 (key_input & KEY_BLOCK) ? SPEED / 2
-                                         : SPEED); // HALF SPEED FOR BLOCK
+            // no movements when attacking, potentially do other stuff
 
-            // determine action
-            if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
-                {
-                    player_local.action = ACTION_TYPE_JUMP_MOVE;
-                }
-
-            else if (key_input & KEY_BLOCK)
-                {
-                    player_local.action = ACTION_TYPE_BLOCK_MOVE;
-                }
-            else
-                {
-                    player_local.action = ACTION_TYPE_WALK;
-                }
+            // move(&player_local,
+            //      (key_input & KEY_MOVE_LEFT) ? DIRECTION_LEFT :
+            //      DIRECTION_RIGHT, false, 0);
         }
-    else // adjust action for when not moving:
+    else
         {
-            if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
+            // do local stuff movements
+            if (((key_input & KEY_MOVE_LEFT) ^ (key_input & KEY_MOVE_RIGHT)))
                 {
-                    player_local.action = ACTION_TYPE_JUMP_INPLACE;
-                }
+                    move(&player_local,
+                         (key_input & KEY_MOVE_LEFT) ? DIRECTION_LEFT
+                                                     : DIRECTION_RIGHT,
+                         key_input & KEY_JUMP,
+                         (key_input & KEY_BLOCK)
+                             ? SPEED / 2
+                             : SPEED); // HALF SPEED FOR BLOCK
 
-            else if (key_input & KEY_BLOCK)
-                {
-                    player_local.action = ACTION_TYPE_BLOCK_INPLACE;
+                    // determine action
+                    if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
+                        {
+                            player_local.action = ACTION_TYPE_JUMP_MOVE;
+                        }
+
+                    else if (key_input & KEY_BLOCK)
+                        {
+                            player_local.action = ACTION_TYPE_BLOCK_MOVE;
+                        }
+                    else
+                        {
+                            player_local.action = ACTION_TYPE_WALK;
+                        }
                 }
-            else
+            else // adjust action for when not moving:
                 {
-                    player_local.action = ACTION_TYPE_IDLE;
+                    if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
+                        {
+                            player_local.action = ACTION_TYPE_JUMP_INPLACE;
+                        }
+
+                    else if (key_input & KEY_BLOCK)
+                        {
+                            player_local.action = ACTION_TYPE_BLOCK_INPLACE;
+                        }
+                    else
+                        {
+                            player_local.action = ACTION_TYPE_IDLE;
+                        }
+                    move(&player_local, player_local.dir, key_input & KEY_JUMP,
+                         0);
                 }
-            move(&player_local, player_local.dir, key_input & KEY_JUMP, 0);
         }
-
-
     return 0;
 }
 

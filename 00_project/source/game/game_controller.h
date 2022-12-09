@@ -50,16 +50,18 @@ void get_scores(int* local, int* remote);
  */
 void set_stage();
 
+
 /**
- * @brief Execute next step of the game (for now, we assume that it also takes
- * care of bluetooth transmission)
+ * @brief Calculate next step of the game based on player input and remote
+ * message.
  *
- * @return int where 0 means the game continues
- *                   1 means player_local has won round
- *                   2 means player_remote has won round
- *                   3 means the connection died
+ * @note This function only updates movements! It does not care about damage.
+ * Damage and health should be handled separately elsewhere
+ *
+ * @param key_input Pressed keys (local)
+ * @param remote_info Messages concerning what remote is doing
  */
-int update_game(int key_input, WifiMsg remote_info);
+void update_game(int key_input, WifiMsg remote_info);
 
 /**
  * @brief Set/Reset the game stage, points health etc.
