@@ -77,7 +77,7 @@ void move(Player* plr, Direction dir, bool jmp, int dist);
  * @param dmg_x x coordinate of damage
  * @param dmg_y y coordinate of damage
  * @param damage amount of damage dealt
- * @return true if player was hit (regadles of the amount of damage)
+ * @return true if player was hit (regardless of the amount of damage)
  * @return false if player was not hit
  */
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
