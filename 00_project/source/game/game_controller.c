@@ -38,7 +38,75 @@ void   get_scores(int* local, int* remote)
 // ctrl
 
 
-int update_game(int key_input, WifiMsg remote_info) { return 0; }
+int update_game(int key_input, WifiMsg remote_info)
+{
+
+    // do remote stuff
+    if (remote_info.msg == WIFI_PLAYER_X_DIR_ACTION)
+        {
+            player_remote.pos_x  = translate_remote_x(remote_info.dat1);
+            player_remote.dir    = remote_info.dat2;
+            player_remote.action = remote_info.dat3;
+        }
+    else if (remote_info.msg == WIFI_PLAYER_Y_YS_HP)
+        {
+            player_remote.pos_y   = remote_info.dat1;
+            player_remote.y_speed = remote_info.dat2;
+            player_remote.health  = remote_info.dat3;
+        }
+
+    // do local stuff
+    if ((key_input & KEY_LEFT) && !(key_input & KEY_RIGHT))
+        {
+            player_local.dir = DIRECTION_LEFT;
+        }
+    if ((key_input & KEY_RIGHT) && !(key_input & KEY_LEFT))
+        {
+            player_local.dir = DIRECTION_RIGHT;
+        }
+
+
+    // adjust action for when moving:
+    if ((key_input & KEY_LEFT) ^ (key_input & KEY_RIGHT))
+        {
+            switch (player_local.action)
+                {
+                case ACTION_TYPE_IDLE:
+                    player_local.action = ACTION_TYPE_WALK;
+                    break;
+                case ACTION_TYPE_BLOCK_INPLACE:
+                    player_local.action = ACTION_TYPE_BLOCK_MOVE;
+                    break;
+                case ACTION_TYPE_JUMP_INPLACE:
+                    player_local.action = ACTION_TYPE_JUMP_MOVE;
+                    break;
+                default:
+                    break;
+                }
+        }
+    else // adjust action for when not moving:
+        {
+            switch (player_local.action)
+                {
+                case ACTION_TYPE_WALK:
+                    player_local.action = ACTION_TYPE_IDLE;
+                    break;
+                case ACTION_TYPE_BLOCK_MOVE:
+                    player_local.action = ACTION_TYPE_BLOCK_INPLACE;
+                    break;
+                case ACTION_TYPE_JUMP_MOVE:
+                    player_local.action = ACTION_TYPE_JUMP_INPLACE;
+                    break;
+                default:
+                    break;
+                }
+        }
+
+
+    // actually update positions
+
+    return 0;
+}
 
 
 void set_stage()
