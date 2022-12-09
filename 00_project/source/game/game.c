@@ -17,9 +17,11 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
     // update direction
     plr->dir = dir;
     // update position x
-    plr->pos_x += dist;
+    plr->pos_x += dir == DIRECTION_RIGHT ? dist : -dist;
     if (plr->pos_x < 0)
-        plr->pos_x = 0;
+        {
+            plr->pos_x = 0;
+        }
     else if (plr->pos_x > SCREEN_WIDTH - SPRITE_WIDTH)
         {
             plr->pos_x = SCREEN_WIDTH - SPRITE_WIDTH;
