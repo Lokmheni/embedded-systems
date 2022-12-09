@@ -92,5 +92,5 @@ int inferred_move(Player* plr)
                  plr->action == ACTION_TYPE_WALK || // speed 0
                  plr->action == ACTION_TYPE_BLOCK_MOVE
              ? SPEED
-             : 0)
+             : 0);
 }
