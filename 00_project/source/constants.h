@@ -31,9 +31,10 @@
 //===================================================================
 // GAME
 //===================================================================
-#define SPEED      5 // number of pixels to move per game iteration
-#define JUMP_SPEED 18
-#define GRAVITY    2 // to see in relation to jump_speed
+#define SPEED          5 // number of pixels to move per game iteration
+#define SPEED_BLOCKING (SPEED / 2)
+#define JUMP_SPEED     18
+#define GRAVITY        2 // to see in relation to jump_speed
 
 #define DAMAGE_NORMAL  5
 #define DAMAGE_SPECIAL 10
