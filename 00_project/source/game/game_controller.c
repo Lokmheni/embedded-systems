@@ -38,7 +38,8 @@ void   get_scores(int* local, int* remote)
 // ctrl
 
 
-void update_game(int key_input, WifiMsg remote_info)
+void update_game(RequestedAction action, RequestedMovement movement,
+                 WifiMsg remote_info)
 {
 
     // do remote stuff
@@ -74,15 +75,13 @@ void update_game(int key_input, WifiMsg remote_info)
     else
         {
             // do local stuff movements
-            if (((key_input & KEY_MOVE_LEFT) ^ (key_input & KEY_MOVE_RIGHT)))
+            if (movement != REQ_MOVE_NONE)
                 {
                     move(&player_local,
-                         (key_input & KEY_MOVE_LEFT) ? DIRECTION_LEFT
-                                                     : DIRECTION_RIGHT,
-                         key_input & KEY_JUMP,
-                         (key_input & KEY_BLOCK)
-                             ? SPEED / 2
-                             : SPEED); // HALF SPEED FOR BLOCK
+                         movement == REQ_MOVE_LEFT ? DIRECTION_LEFT
+                                                   : DIRECTION_RIGHT,
+                         action == REQ_ACTION_JUMP,
+                         (action == REQ_ACTION_BLOCK) ? SPEED_BLOCKING : SPEED);
 
                     // determine action
                     if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
@@ -90,7 +89,7 @@ void update_game(int key_input, WifiMsg remote_info)
                             player_local.action = ACTION_TYPE_JUMP_MOVE;
                         }
 
-                    else if (key_input & KEY_BLOCK)
+                    else if (action == REQ_ACTION_BLOCK)
                         {
                             player_local.action = ACTION_TYPE_BLOCK_MOVE;
                         }
@@ -106,7 +105,7 @@ void update_game(int key_input, WifiMsg remote_info)
                             player_local.action = ACTION_TYPE_JUMP_INPLACE;
                         }
 
-                    else if (key_input & KEY_BLOCK)
+                    else if (action == REQ_ACTION_BLOCK)
                         {
                             player_local.action = ACTION_TYPE_BLOCK_INPLACE;
                         }
@@ -114,11 +113,10 @@ void update_game(int key_input, WifiMsg remote_info)
                         {
                             player_local.action = ACTION_TYPE_IDLE;
                         }
-                    move(&player_local, player_local.dir, key_input & KEY_JUMP,
-                         0);
+                    move(&player_local, player_local.dir,
+                         action == REQ_ACTION_JUMP, 0);
                 }
         }
-    return 0;
 }
 
 

@@ -14,6 +14,7 @@
 #define __GAME_CONTROLLER_H
 #include <nds.h>
 
+#include "../io/input.h"
 #include "../io/wifi.h"
 #include "game.h"
 
@@ -58,10 +59,12 @@ void set_stage();
  * @note This function only updates movements! It does not care about damage.
  * Damage and health should be handled separately elsewhere
  *
- * @param key_input Pressed keys (local)
+ * @param action Action that the player wishes to execute
+ * @param movement that the player wishes to do.
  * @param remote_info Messages concerning what remote is doing
  */
-void update_game(int key_input, WifiMsg remote_info);
+void update_game(RequestedAction action, RequestedMovement movement,
+                 WifiMsg remote_info);
 
 /**
  * @brief Set/Reset the game stage, points health etc.
