@@ -83,7 +83,7 @@ u8 translate_remote_x(u8 x_coord)
 }
 
 
-int inferred_move(Player* plr)
+void inferred_move(Player* plr)
 {
     if (plr->action != ACTION_TYPE_NORMAL_ATTACK &&
         plr->action != ACTION_TYPE_SPECIAL_ATTACK)

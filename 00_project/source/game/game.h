@@ -109,8 +109,7 @@ u8 translate_remote_x(u8 x_coord);
  * Executes 1 move.
  *
  * @param[in,out] plr In, player at time t, out player at time t+1
- * @return int
  */
-int inferred_move(Player* plr);
+void inferred_move(Player* plr);
 
 #endif // __GAME_H
