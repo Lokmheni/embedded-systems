@@ -66,6 +66,30 @@ void set_stage();
 void update_game(RequestedAction action, RequestedMovement movement,
                  WifiMsg remote_info);
 
+
+/**
+ * @brief Execute an attack. return attack characteristic as WifiMsg format.
+ * This action will block player movements for a small delay (uses timer2 and
+ * ISR).
+ * @note This functions automatically calls @ref local_attack_handler(u8* dmg_x,
+ * u8* dmg_y, u8* dmg) at the correct time (either instantly or after an
+ * interrupt delay).
+ *
+ * @param special If attack is supposed to be special attack
+ * @return true if the attack is valid and will be transmitted
+ * @return false if the attack is not legal at this time.
+ */
+bool local_attack(bool special);
+
+/**
+ * @brief Sends damage to wifi or handles local singleplayer stuff
+ *
+ * @param dmg_x coord of dmg
+ * @param dmg_y coord of dmg
+ * @param dmg amount of dmg
+ */
+void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg);
+
 /**
  * @brief Set/Reset the game stage, points health etc.
  * (also starts game already)
@@ -80,6 +104,17 @@ void reset_game();
  */
 void new_round();
 
+
+//===================================================================
+// Helper
+//===================================================================
+/**
+ * @brief Calculate hit position based on local player position
+ *
+ * @param[out] x position of where dmg would be done at this instant
+ * @param[out] y position of where dmg would be done at this instant
+ */
+void where_is_my_hit(u8* x, u8* y);
 
 // DEBUG
 #ifdef CONSOLE_DEBUG
