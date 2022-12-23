@@ -46,34 +46,12 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
 }
 
 
-bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
-{
-    // test x
-    if (plr->pos_x > dmg_x || (plr->pos_y - SPRITE_WIDTH) < dmg_x)
-        return false;
-    // test y
-    if (plr->pos_y < dmg_y || plr->pos_y + SPRITE_HEIGHT > dmg_y)
-        return false;
-
-    // reduce damage if blocked
-    if (plr->action == ACTION_TYPE_BLOCK_MOVE ||
-        plr->action == ACTION_TYPE_BLOCK_INPLACE)
-        {
-            plr->health -= damage / BLOCK_FACTOR;
-            // #TODO maybe add that only half of sprite is blocked by block
-            // damage (e.g. a shield)
-        }
-    else
-        plr->health -= damage;
-
-    return true;
+bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage){
+	return false;
 }
 
 
-void do_damage(Player* const plr, int* dmg_x, int* dmg_y)
-{
-    *dmg_x = plr->pos_x + (plr->dir == DIRECTION_LEFT ? 0 : SPRITE_WIDTH);
-    *dmg_y = plr->pos_y - SPRITE_HEIGHT / 2;
+void do_damage(Player* const plr, int* dmg_x, int* dmg_y){
 }
 
 

@@ -13,12 +13,11 @@
 #ifndef __GRAPHICS_H
 #define __GRAPHICS_H
 
-#include "../game/game.h"
 
+#include "game/game.h"
 
 void init_screens();
 
-void sprite_pos_local(PlayerState* const player);
 void init_main_screen();
 
 void init_sub_screen();

@@ -16,7 +16,6 @@
 //===================================================================
 // SCREEN
 //===================================================================
-// screen anad sprite width used in game.c to limit player positions
 #define SCREEN_WIDTH  256
 #define SCREEN_HEIGHT 192
 
@@ -27,9 +26,8 @@
 #define SPRITE_FLOOR_HEIGHT                                                    \
     (SCREEN_HEIGHT - (GAME_FLOOR_HEIGHT + SPRITE_HEIGHT))
 
-
 //===================================================================
-// GAME
+// SCREEN
 //===================================================================
 #define SPEED      5 // number of pixels to move per game iteration
 #define JUMP_SPEED 18
@@ -38,8 +36,5 @@
 #define DAMAGE_NORMAL  5
 #define DAMAGE_SPECIAL 10
 #define MAX_HEALTH     100
-#define BLOCK_FACTOR   2
 
-#define SPRITE_START_POS 10 // distance from left screen border
-
-#endif // __CONSTANS_H
+#endif  // __CONSTANS_H

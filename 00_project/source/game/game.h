@@ -13,7 +13,7 @@
 #include <nds.h>
 
 
-typedef enum PlayerState
+typedef enum
 {
     PLAYER_STATE_IDLE,
     PLAYER_STATE_ATTACK,
@@ -24,72 +24,40 @@ typedef enum PlayerState
     PLAYER_STATE_SPECIAL_ATTACK,
 } PlayerState;
 
-typedef enum Direction
+typedef enum
 {
     DIRECTION_LEFT,
     DIRECTION_RIGHT
 } Direction;
 
-typedef enum ActionType
+typedef enum
 {
     ACTION_TYPE_IDLE,
     ACTION_TYPE_WALK,
-    ACTION_TYPE_JUMP_INPLACE, // TODO IMPLEMENT INPLACE AND MOVE
-    ACTION_TYPE_JUMP_MOVE,
+    ACTION_TYPE_JUMP,
     ACTION_TYPE_NORMAL_ATTACK,
     ACTION_TYPE_SPECIAL_ATTACK,
-    ACTION_TYPE_BLOCK_INPLACE,
-    ACTION_TYPE_BLOCK_MOVE,
+    ACTION_TYPE_BLOCK,
 } ActionType;
 
 
-typedef struct Player
+typedef struct
 {
-    u8         pos_x;
-    u8         pos_y;
-    s8         y_speed;
-    u8         health;
+    int        pos_x;
+    int        pos_y;
+    int        y_speed;
+    int        health;
     ActionType action;
     Direction  dir;
 } Player;
 
 
-/**
- * @brief Update the x,y and speed coordinates of Player
- *
- * @param[in,out] plr Player to be updated
- * @param dir Direction in which player should move
- * @param jmp If player is initializing jump (only has effect if player is on
- *            the ground)
- * @param dist distance the player should move (speed of the player)
- */
 void move(Player* plr, Direction dir, bool jmp, int dist);
 
 
-/**
- * @brief Evaluate if player takes damage and subtract the damage from health
- * (based on damage position and player position, takes into account blocking)
- *
- * @note Health of player may drop below 0. This case is to be handled outside
- * this function
- *
- * @param[in,out] plr player subject to damage
- * @param dmg_x x coordinate of damage
- * @param dmg_y y coordinate of damage
- * @param damage amount of damage dealt
- * @return true if player was hit (regadles of the amount of damage)
- * @return false if player was not hit
- */
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
 
 
-/**
- * @brief Evaluate the position (coordinates) where a player would do damage
- *
- * @param[in,out] plr the relevant player
- * @param[out] dmg_x x coordinate of damage
- * @param[out] dmg_y y coordinate of damage
- */
 void do_damage(Player* const plr, int* dmg_x, int* dmg_y);
 
 
