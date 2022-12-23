@@ -21,8 +21,7 @@ Player old_plr_state;
 void send_status(Player* const plr)
 {
     // check jump and health
-    if ((plr->y_speed != 0 && old_plr_state.y_speed == 0) ||
-        (plr->y_speed == 0 && old_plr_state.y_speed != 0) ||
+    if ((plr->y_speed > old_plr_state.y_speed) ||
         plr->health != old_plr_state.health)
         {
             WifiMsg transfer;
