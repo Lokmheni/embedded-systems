@@ -23,6 +23,8 @@
 #include "string.h"
 #include "chrono_display.h"
 
+#include "../game/game_controller.h"
+
 #define	SPRITE_WIDTH	32
 #define	SPRITE_HEIGHT	32
 
@@ -109,7 +111,7 @@ void configureSprites() {
 	swiCopy(player2Pal, SPRITE_PALETTE, player2PalLen/2);
 	swiCopy(player2Tiles, gfx, player2TilesLen/2);
 
-	int keys;
+	
 	int x = 100, y = 182;
 	int x2 = 0, y2 = 0;
 
@@ -117,22 +119,18 @@ void configureSprites() {
 
 	TIMER0_CR = TIMER_DIV_1024 | TIMER_IRQ_REQ | TIMER_ENABLE;
 	TIMER0_DATA = TIMER_FREQ_1024(1000);
-	while(1){
+	// while(1){
 		//Read held keys
-	   	scanKeys();
-	   	keys = keysHeld();
-
+	  
+	  
 
 	   	//Modify position of the sprite accordingly
 	   	int keys = get_keys();
-	   	if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP)){
-	   		if((keys & KEY_RIGHT) && (x < (SCREEN_WIDTH - SPRITE_WIDTH))) x+=4;
-	   		if((keys & KEY_DOWN) && (y < (SCREEN_HEIGHT - SPRITE_HEIGHT))) y+=4;
-	   		if((keys & KEY_LEFT) && (x  > 0)) x-=4;
-	   		if((keys & KEY_UP) && (y  > 0)) y-=4;
-	   	}
 
-	   	oamSet(&oamMain, 	// oam handler
+        x = get_player_local().pos_x;
+        y = get_player_local().pos_y;
+
+        oamSet(&oamMain, 	// oam handler
 			0,				// Number of sprite
 			x, y,			// Coordinates
 			0,				// Priority
@@ -150,8 +148,10 @@ void configureSprites() {
 	   	oamUpdate(&oamMain);
 
 		gfx += 32 * 32;
+        x2 = get_player_remote().pos_x;
+        y2 = get_player_remote().pos_y;
 
-		oamSet(&oamMain, 	// oam handler
+        oamSet(&oamMain, 	// oam handler
 			127,			// Number of sprite
 			x2, y2,			// Coordinates
 			0,				// Priority
@@ -166,12 +166,12 @@ void configureSprites() {
 			false			// Mosaic
 	   	);
 
-	   	manage_timer();
-	   	show_timer();
-	   	swiWaitForVBlank();
+	   	// manage_timer();
+	   	// show_timer();
+	   	// swiWaitForVBlank();
 	   	//Update the sprites
 
-	}
+	// }
 
 	oamUpdate(&oamMain);
 }
