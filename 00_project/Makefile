@@ -37,7 +37,7 @@ CFLAGS	:=	-g -Wall -O3\
 		-ffast-math \
 		$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM9
+CFLAGS	+=	$(INCLUDE) -DARM9 -DCONSOLE_DEBUG
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)
