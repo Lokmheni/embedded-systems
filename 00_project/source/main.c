@@ -23,7 +23,7 @@ int main(void)
     Player t;
     t.pos_x = 100;
     t.pos_y = 50;
-     //get_player_local(t);
+    //get_player_local(t);
     sprite_pos_local(&t);
     //printf(&t.pos_x);
     while(1){
@@ -31,3 +31,4 @@ int main(void)
        	oamUpdate(&oamMain);
     }
 }
+

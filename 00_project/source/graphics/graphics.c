@@ -169,7 +169,6 @@ void sprite_pos_local(Player* const player) {
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	u16* gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
 	swiCopy(playerPal, SPRITE_PALETTE, playerPalLen/2);
 	swiCopy(playerTiles, gfx, playerTilesLen/2);
@@ -191,16 +190,16 @@ void sprite_pos_local(Player* const player) {
 }
 
 void sprite_pos_remote(Player* const player) {
-	u16* gfx;
+	u16* gfx1;
 	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 	//Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite
-	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
 	swiCopy(player2Pal, SPRITE_PALETTE, player2PalLen/2);
-	swiCopy(player2Tiles, gfx, player2TilesLen/2);
+	swiCopy(player2Tiles, gfx1, player2TilesLen/2);
 
 	oamSet(&oamMain, 	// oam handler
 		1,				// Number of sprite
@@ -209,7 +208,7 @@ void sprite_pos_remote(Player* const player) {
 		0,				// Palette to use
 		SpriteSize_32x32,			// Sprite size
 		SpriteColorFormat_256Color,	// Color format
-		gfx,			// Loaded graphic to display
+		gfx1,			// Loaded graphic to display
 		-1,				// Affine rotation to use (-1 none)
 		false,			// Double size if rotating
 		false,			// Hide this sprite
