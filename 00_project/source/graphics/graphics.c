@@ -14,6 +14,7 @@
 #include <nds.h>
 #include "paysage.h"
 #include "player.h"
+#include "play_mode.h"
 #include "player2.h"
 #include "../io/input.h"
 #include "streetfighter.h"
@@ -31,7 +32,7 @@
 #define	WHITE ARGB16(1,31,31,31)
 #define	BLACK ARGB16(1,0,0,0)
 
-int rand_ticks;
+// int rand_ticks;
 
 
 

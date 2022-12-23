@@ -5,7 +5,6 @@
 
 #include <nds.h>
 #include <stdio.h>
-#include "graphics/graphics.h"
 
 #include "game/game_controller.h"
 #include "graphics/graphics.h"
