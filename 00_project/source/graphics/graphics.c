@@ -69,15 +69,15 @@ void show_logo(){
 	swiCopy(streetfighterBitmap, BG_GFX, streetfighterBitmapLen/2);
 	swiCopy(streetfighterPal, BG_PALETTE, streetfighterPalLen/2);
 	//Affine Marix Transformation
-	bgTransform[2]->hdx = 1*256;
-	bgTransform[2]->vdx = 0*256;
-	bgTransform[2]->hdy = 0*256;
-	bgTransform[2]->vdy = 1*256;
+	bgTransform[2]->xdx = 1*256;
+	bgTransform[2]->ydx = 0*256;
+	bgTransform[2]->xdy = 0*256;
+	bgTransform[2]->ydy = 1*256;
 	bgTransform[2]->dx = 0*256;
 	bgTransform[2]->dy = 0*256;
 }
 
-void init_main_screen(){
+void init_main_screen(Player* t){
 	//Activate and configure VRAM bank to work in background mode
 	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
 	//BG0 configuration for the background
@@ -86,7 +86,8 @@ void init_main_screen(){
 	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
 	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
-
+	sprite_pos_local(t);
+	sprite_pos_remote(t);
 }
 
 int min = 0, sec = 0, msec = 0;
@@ -164,31 +165,140 @@ void show_settings(int games_played, int games_won) {}
 
 void sprite_pos_local(Player* const player) {
 	u16* gfx;
-	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
-	VRAM_B_CR = VRAM_ENABLE | VRAM_B_MAIN_SPRITE_0x06400000;
-
-	//Initialize sprite manager and the engine
+	u16* gfx1;
+	// Set up memory bank to work in sprite mode (offset since we are using VRAM
+	// A for backgrounds)
+	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+	// Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
-	//Allocate space for the graphic to show in the sprite
-	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	//Copy data for the graphic (palette and bitmap)
-	swiCopy(playerPal, SPRITE_PALETTE, playerPalLen/2);
-	swiCopy(playerTiles, gfx, playerTilesLen/2);
+	// Allocate space for the graphic to show in the sprite
+	gfx =
+		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	gfx1 =
+		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 
-	oamSet(&oamMain, 	// oam handler
-		0,				// Number of sprite
-		(player->pos_x), (player->pos_y),			// Coordinates
-		0,				// Priority
-		0,				// Palette to use
-		SpriteSize_32x32,			// Sprite size
-		SpriteColorFormat_256Color,	// Color format
-		gfx,			// Loaded graphic to display
-		-1,				// Affine rotation to use (-1 none)
-		false,			// Double size if rotating
-		false,			// Hide this sprite
-		false, false,	// Horizontal or vertical flip
-		false			// Mosaic
-	);
+	// Copy data for the graphic (palette and bitmap)
+	dmaCopy(playerPal, &SPRITE_PALETTE[player2PalLen/2 + 1], playerPalLen);
+	dmaCopy(playerTiles, gfx, playerTilesLen);
+	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
+	dmaCopy(player2Tiles, gfx1, player2TilesLen);
+
+   //printf("BEGIN\n");
+   while (1)
+   {
+	   //printf("set stage\n");
+	   set_stage();
+	   swiWaitForVBlank();
+	   //printf("configure sprites\n");
+	   //configureSprites();
+	   //printf("done with sprites\n");
+	   // while (!wifi_connect_network())
+	   //     {
+	   //         printf("failed to connect\n");
+	   //         int i;
+	   //         for (i = 0; i < 50; i++)
+	   //             {
+	   //                 swiWaitForVBlank();
+	   //             }
+	   //     }
+	   //printf("connected\n");
+	   wifi_announce_lfg();
+	   //printf("sent lfg\n");
+	   bool    game = false;
+	   WifiMsg msg;
+	   // wait for game
+	   // while (!game)
+	   //     {
+	   //         game = receive_messages(&msg);
+	   //     }
+	   //printf("receifved msg\n");
+	   if (msg.msg == WIFI_REQ_LFG)
+	   {
+		   send_ctrl_instruction(
+		   START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0);
+		 //  printf("sent start command\n");
+		}
+		reset_game();
+		u32 keys;
+		//printf("start game\n");
+
+		while (1) // game
+		{
+			RequestedAction   a;
+			RequestedMovement m;
+			a = REQ_ACTION_NONE;
+			scanKeys();
+			keys = keysHeld();
+			if (keys & KEY_A)
+			{
+				a = REQ_ACTION_JUMP;
+			//	printf("Key pressed A\n");
+			}
+			if (keys / KEY_Y)
+			{
+				a = REQ_ACTION_BLOCK;
+				//printf("Key pressed Y\n");
+			}
+			if (keys & KEY_X)
+			{
+				a = REQ_ACTION_ATTACK;
+			}
+			m = REQ_MOVE_NONE;
+			if (keys & KEY_LEFT)
+			{
+				m = REQ_MOVE_LEFT;
+				//printf("Key pressed left\n");
+			}
+			if (keys & KEY_RIGHT)
+			{
+				m = REQ_MOVE_RIGHT;
+				//printf("Key pressed right\n");
+			}
+
+			if (receive_messages(&msg))
+			{
+				//printf("received wifi msg\n");
+				update_game(a, m, msg);
+			}
+			else
+			{
+				msg.msg = WIFI_NULL_MSG;
+				update_game(a, m, msg);
+			}
+			Player l = get_player_local();
+			send_status(&l);
+			// print_players();
+			// configureSprites();
+			oamSet(&oamMain, // oam handler
+			   0,        // Number of sprite
+			   get_player_local().pos_x,
+			   get_player_local().pos_y, // Coordinates
+			   //    get_player_remote().pos_x,
+			   //    get_player_remote().pos_y,  // Coordinates
+			   0,                          // Priority
+			   0,                          // Palette to use
+			   SpriteSize_32x32,           // Sprite size
+			   SpriteColorFormat_256Color, // Color format
+			   gfx,          // Loaded graphic to display
+			   -1,           // Affine rotation to use (-1 none)
+			   false,        // Double size if rotating
+			   false,        // Hide this sprite
+			   false, false, // Horizontal or vertical flip
+			   false         // Mosaic
+			);
+			// Update the sprites
+
+
+			// int i;
+			// for (i = 0; i < 25; i++)
+			//     {
+			//         swiWaitForVBlank();
+			//     }
+			swiWaitForVBlank();
+			oamUpdate(&oamMain);
+		  }
+	}
 }
 
 void sprite_pos_remote(Player* const player) {
@@ -200,23 +310,28 @@ void sprite_pos_remote(Player* const player) {
 	//Allocate space for the graphic to show in the sprite
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
-	swiCopy(player2Pal, SPRITE_PALETTE, player2PalLen/2);
-	swiCopy(player2Tiles, gfx1, player2TilesLen/2);
+	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
+	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
-	oamSet(&oamMain, 	// oam handler
-		1,				// Number of sprite
-		(player->pos_x), (player->pos_y),			// Coordinates
-		0,				// Priority
-		0,				// Palette to use
-		SpriteSize_32x32,			// Sprite size
-		SpriteColorFormat_256Color,	// Color format
-		gfx1,			// Loaded graphic to display
-		-1,				// Affine rotation to use (-1 none)
-		false,			// Double size if rotating
-		false,			// Hide this sprite
-		false, false,	// Horizontal or vertical flip
-		false			// Mosaic
-	);
+	while(1){
+		oamSet(&oamMain, // oam handler
+				1,        // Number of sprite
+				translate_remote_x(get_player_remote().pos_x),
+				get_player_remote().pos_y,  // Coordinates
+				0,                          // Priority
+				3,                          // Palette to use
+				SpriteSize_32x32,           // Sprite size
+				SpriteColorFormat_256Color, // Color format
+				gfx1,         // Loaded graphic to display
+				-1,           // Affine rotation to use (-1 none)
+				false,        // Double size if rotating
+				false,        // Hide this sprite
+				false, false, // Horizontal or vertical flip
+				false         // Mosaic
+			);
+		swiWaitForVBlank();
+		oamUpdate(&oamMain);
+	}
 }
 
 
@@ -224,86 +339,165 @@ void sprite_pos_remote(Player* const player) {
 
 
 /*void configureSprites() {
-
 	u16* gfx;
-	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
-	VRAM_B_CR = VRAM_ENABLE | VRAM_B_MAIN_SPRITE_0x06400000;
+	u16* gfx1;
+	// Set up memory bank to work in sprite mode (offset since we are using VRAM
+	// A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 
-	//Initialize sprite manager and the engine
+	// Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
-	//Allocate space for the graphic to show in the sprite
-	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	u16* gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	//Copy data for the graphic (palette and bitmap)
-	swiCopy(playerPal, SPRITE_PALETTE, playerPalLen/2);
-	swiCopy(playerTiles, gfx, playerTilesLen/2);
-	swiCopy(player2Pal, SPRITE_PALETTE, player2PalLen/2);
-	swiCopy(player2Tiles, gfx, player2TilesLen/2);
+	// Allocate space for the graphic to show in the sprite
+	gfx =
+		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	gfx1 =
+		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 
-	
-	int x = 100, y = 182;
-	int x2 = 0, y2 = 0;
 
-	//oamInit(&oamMain, SpriteMapping_1D_32, false);
+	// Copy data for the graphic (palette and bitmap)
+	dmaCopy(playerPal, &SPRITE_PALETTE[player2PalLen/2 + 1], playerPalLen);
+	dmaCopy(playerTiles, gfx, playerTilesLen);
 
-	TIMER0_CR = TIMER_DIV_1024 | TIMER_IRQ_REQ | TIMER_ENABLE;
-	TIMER0_DATA = TIMER_FREQ_1024(1000);
-	// while(1){
-		//Read held keys
-	  
-	  
+	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
+	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
-	   	//Modify position of the sprite accordingly
-	   	int keys = get_keys();
 
-        x = get_player_local().pos_x;
-        y = get_player_local().pos_y;
+   //printf("BEGIN\n");
+   for (;;)
+   {
+	   //printf("set stage\n");
+	   set_stage();
+	   swiWaitForVBlank();
+	   //printf("configure sprites\n");
+	   //configureSprites();
+	   //printf("done with sprites\n");
+	   // while (!wifi_connect_network())
+	   //     {
+	   //         printf("failed to connect\n");
+	   //         int i;
+	   //         for (i = 0; i < 50; i++)
+	   //             {
+	   //                 swiWaitForVBlank();
+	   //             }
+	   //     }
+	   //printf("connected\n");
+	   wifi_announce_lfg();
+	   //printf("sent lfg\n");
+	   bool    game = false;
+	   WifiMsg msg;
+	   // wait for game
+	   // while (!game)
+	   //     {
+	   //         game = receive_messages(&msg);
+	   //     }
+	   //printf("receifved msg\n");
+	   if (msg.msg == WIFI_REQ_LFG)
+	   {
+		   send_ctrl_instruction(
+		   START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0);
+		 //  printf("sent start command\n");
+		}
+		reset_game();
+		u32 keys;
+		//printf("start game\n");
 
-        oamSet(&oamMain, 	// oam handler
-			0,				// Number of sprite
-			x, y,			// Coordinates
-			0,				// Priority
-			0,				// Palette to use
-			SpriteSize_32x32,			// Sprite size
-			SpriteColorFormat_256Color,	// Color format
-			gfx,			// Loaded graphic to display
-			-1,				// Affine rotation to use (-1 none)
-			false,			// Double size if rotating
-			false,			// Hide this sprite
-			false, false,	// Horizontal or vertical flip
-			false			// Mosaic
-		);
 
-	   	oamUpdate(&oamMain);
+		for (;;) // game
+		{
+			RequestedAction   a;
+			RequestedMovement m;
+			a = REQ_ACTION_NONE;
+			scanKeys();
+			keys = keysHeld();
+			if (keys & KEY_A)
+			{
+				a = REQ_ACTION_JUMP;
+			//	printf("Key pressed A\n");
+			}
+			if (keys / KEY_Y)
+			{
+				a = REQ_ACTION_BLOCK;
+				//printf("Key pressed Y\n");
+			}
+			if (keys & KEY_X)
+			{
+				a = REQ_ACTION_ATTACK;
+			}
+			m = REQ_MOVE_NONE;
+			if (keys & KEY_LEFT)
+			{
+				m = REQ_MOVE_LEFT;
+				//printf("Key pressed left\n");
+			}
+			if (keys & KEY_RIGHT)
+			{
+				m = REQ_MOVE_RIGHT;
+				//printf("Key pressed right\n");
+			}
 
-		gfx += 32 * 32;
-        x2 = get_player_remote().pos_x;
-        y2 = get_player_remote().pos_y;
 
-        oamSet(&oamMain, 	// oam handler
-			127,			// Number of sprite
-			x2, y2,			// Coordinates
-			0,				// Priority
-			0,				// Palette to use
-			SpriteSize_32x32,			// Sprite size
-			SpriteColorFormat_256Color,	// Color format
-			gfx1,			// Loaded graphic to display
-			-1,				// Affine rotation to use (-1 none)
-			false,			// Double size if rotating
-			false,			// Hide this sprite
-			false, false,	// Horizontal or vertical flip
-			false			// Mosaic
-	   	);
+			if (receive_messages(&msg))
+			{
+				//printf("received wifi msg\n");
+				update_game(a, m, msg);
+			}
+			else
+			{
+				msg.msg = WIFI_NULL_MSG;
+				update_game(a, m, msg);
+			}
+			Player l = get_player_local();
+			send_status(&l);
+			// print_players();
 
-	   	// manage_timer();
-	   	// show_timer();
-	   	// swiWaitForVBlank();
-	   	//Update the sprites
+			// configureSprites();
 
-	// }
 
-	oamUpdate(&oamMain);
+			oamSet(&oamMain, // oam handler
+			   0,        // Number of sprite
+			   get_player_local().pos_x,
+			   get_player_local().pos_y, // Coordinates
+			   //    get_player_remote().pos_x,
+			   //    get_player_remote().pos_y,  // Coordinates
+			   0,                          // Priority
+			   0,                          // Palette to use
+			   SpriteSize_32x32,           // Sprite size
+			   SpriteColorFormat_256Color, // Color format
+			   gfx,          // Loaded graphic to display
+			   -1,           // Affine rotation to use (-1 none)
+			   false,        // Double size if rotating
+			   false,        // Hide this sprite
+			   false, false, // Horizontal or vertical flip
+			   false         // Mosaic
+			);
+			// Update the sprites
+
+
+			oamSet(&oamMain, // oam handler
+			   1,        // Number of sprite
+			   translate_remote_x(get_player_remote().pos_x),
+			   get_player_remote().pos_y,  // Coordinates
+			   0,                          // Priority
+			   3,                          // Palette to use
+			   SpriteSize_32x32,           // Sprite size
+			   SpriteColorFormat_256Color, // Color format
+			   gfx1,         // Loaded graphic to display
+			   -1,           // Affine rotation to use (-1 none)
+			   false,        // Double size if rotating
+			   false,        // Hide this sprite
+			   false, false, // Horizontal or vertical flip
+			   false         // Mosaic
+			);
+
+			// int i;
+			// for (i = 0; i < 25; i++)
+			//     {
+			//         swiWaitForVBlank();
+			//     }
+			swiWaitForVBlank();
+			oamUpdate(&oamMain);
+		  }
+	}
 }*/
-
 
