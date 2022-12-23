@@ -66,7 +66,10 @@ void update_game(RequestedAction action, RequestedMovement movement,
     // do remote stuff
     if (remote_info.msg == WIFI_PLAYER_X_DIR_ACTION)
         {
-            player_remote.dir    = remote_info.dat2;
+            player_remote.dir =
+                remote_info.dat2 == DIRECTION_LEFT
+                    ? DIRECTION_RIGHT
+                    : DIRECTION_LEFT; // switch direction for remote
             player_remote.action = remote_info.dat3;
             inferred_move(&player_remote);
             player_remote.pos_x = translate_remote_x(remote_info.dat1);
