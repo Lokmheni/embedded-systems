@@ -12,7 +12,6 @@
 
 #include "graphics.h"
 #include <nds.h>
-#include "play_mode.h"
 #include "paysage.h"
 #include "player.h"
 #include "player2.h"
