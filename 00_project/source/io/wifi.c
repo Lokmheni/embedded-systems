@@ -21,7 +21,7 @@ Player old_plr_state;
 void send_status(Player* const plr)
 {
     // check jump and health
-    if ((plr->y_speed && old_plr_state.pos_y == SPRITE_FLOOR_HEIGHT) ||
+    if ((plr->y_speed && (old_plr_state.pos_y == SPRITE_FLOOR_HEIGHT)) ||
         plr->health != old_plr_state.health)
         {
             WifiMsg transfer;
