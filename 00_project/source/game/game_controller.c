@@ -84,8 +84,8 @@ void update_game(RequestedAction action, RequestedMovement movement,
         }
 
     // check if attacking
-    if (player_local.action != ACTION_TYPE_NORMAL_ATTACK &&
-        player_local.action != ACTION_TYPE_SPECIAL_ATTACK)
+    if (player_local.action == ACTION_TYPE_NORMAL_ATTACK &&
+        player_local.action == ACTION_TYPE_SPECIAL_ATTACK)
         {
             // no movements when attacking, potentially do other stuff
 
