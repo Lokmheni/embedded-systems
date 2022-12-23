@@ -13,7 +13,7 @@
 #ifndef __GRAPHICS_H
 #define __GRAPHICS_H
 
-
+#include "../game/game.h"
 
 
 void init_screens();
