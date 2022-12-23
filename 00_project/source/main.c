@@ -170,7 +170,7 @@ int main(void)
 
                     oamSet(&oamMain, // oam handler
                            1,        // Number of sprite
-                           translate_remote_x(get_player_remote().pos_x),
+                           get_player_remote().pos_x,
                            get_player_remote().pos_y,  // Coordinates
                            0,                          // Priority
                            1,                          // Palette to use
