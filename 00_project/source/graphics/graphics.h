@@ -18,7 +18,7 @@
 
 void init_screens();
 
-void sprite_pos_local(PlayerState* const player);
+void sprite_pos_local(Player* const player);
 void init_main_screen();
 
 void init_sub_screen();

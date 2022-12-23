@@ -16,11 +16,18 @@ int main(void)
     consoleDemoInit();
     init_screens();
     get_touch_input();
-    // configureSprites();
-    // printf("\nTemplate nds\n");
-    // set screens
+    //configureSprites();
+    //printf("\nTemplate nds\n");
+    //set screens
+
     Player t;
-    get_player_local(t);
-    while (1)
-        swiWaitForVBlank();
+    t.pos_x = 100;
+    t.pos_y = 50;
+     //get_player_local(t);
+    sprite_pos_local(&t);
+    //printf(&t.pos_x);
+    while(1){
+       	swiWaitForVBlank();
+       	oamUpdate(&oamMain);
+    }
 }

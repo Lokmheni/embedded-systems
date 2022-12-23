@@ -34,13 +34,10 @@
 
 // int rand_ticks;
 
-
-
 void init_screens(){
 	show_logo();
 	init_sub_screen();
 }
-
 
 void init_sub_screen() {
 	// Configure the SUB engine in Rotoscale Mode
@@ -58,7 +55,6 @@ void init_sub_screen() {
 	REG_BG2PB_SUB = 0;
 	REG_BG2PD_SUB = 256;
 }
-
 
 void show_logo(){
 	// 1) VRAM Configuration for MAIN engine
@@ -88,10 +84,145 @@ void init_main_screen(){
 	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
 	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
-	configureSprites();
+
 }
 
-void configureSprites() {
+int min = 0, sec = 0, msec = 0;
+
+
+void show_timer(){
+
+	VRAM_H_CR = VRAM_ENABLE
+					| VRAM_H_SUB_BG;
+
+	//Configure the engine in Mode 0 and use the BG3
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
+	//Use BG_MAP_BASE(0) and  a suitable BG_TILE_BASE
+	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+
+	//Copy the tiles and the palette to the corresonding location
+	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
+	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
+	manage_timer();
+}
+
+void ISR_TIMER0()
+{
+	msec = (msec + 1)%1000;
+	if(msec == 0)
+	{
+		sec = (sec+1) % 60;
+		if(sec == 0)
+			min++;
+	}
+	//printDigit(BG_MAP_RAM_SUB(0), min,sec,msec);
+	updateChronoDisp(BG_MAP_RAM_SUB(0),min,sec,msec);
+	//updateChronoDisp(BG_MAP_RAM(0), min, sec, msec);
+}
+
+void manage_timer(){
+	/*
+	 * Irq Handlers set up
+	 */
+	//irqInit();
+	irqSet(IRQ_TIMER0, &ISR_TIMER0);
+	irqEnable(IRQ_VBLANK);
+
+	//The digit 8 is printed in the upper left part of the screen
+	//printDigit(BG_MAP_RAM_SUB(0), min,sec,msec);
+
+	//The value 12:34.567 is going to be printed in the center of the screen
+	updateChronoDisp(BG_MAP_RAM_SUB(0),min,sec,msec);
+	//The background color is ste to BLACK and the digits color is set to RED
+	changeColorDisp(BLACK, RED);
+}
+
+
+void ISR_VBlank()
+{
+	//printDigit(BG_MAP_RAM_SUB(0), min,sec,msec);
+	updateChronoDisp(BG_MAP_RAM_SUB(0),min,sec,msec);
+}
+
+
+
+//void sprite_pos_local(PlayerState* const player) {}
+
+//void sprite_pos_remote(PlayerState* const player) {}
+
+void change_background() {}
+
+void set_background(int new_background) {}
+
+void set_time_remaining(int min, int sec, int msec) {}
+
+void show_settings(int games_played, int games_won) {}
+
+
+void sprite_pos_local(Player* const player) {
+	u16* gfx;
+	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
+	VRAM_B_CR = VRAM_ENABLE | VRAM_B_MAIN_SPRITE_0x06400000;
+
+	//Initialize sprite manager and the engine
+	oamInit(&oamMain, SpriteMapping_1D_32, false);
+	//Allocate space for the graphic to show in the sprite
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	u16* gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	//Copy data for the graphic (palette and bitmap)
+	swiCopy(playerPal, SPRITE_PALETTE, playerPalLen/2);
+	swiCopy(playerTiles, gfx, playerTilesLen/2);
+
+	oamSet(&oamMain, 	// oam handler
+		0,				// Number of sprite
+		(player->pos_x), (player->pos_y),			// Coordinates
+		0,				// Priority
+		0,				// Palette to use
+		SpriteSize_32x32,			// Sprite size
+		SpriteColorFormat_256Color,	// Color format
+		gfx,			// Loaded graphic to display
+		-1,				// Affine rotation to use (-1 none)
+		false,			// Double size if rotating
+		false,			// Hide this sprite
+		false, false,	// Horizontal or vertical flip
+		false			// Mosaic
+	);
+}
+
+void sprite_pos_remote(Player* const player) {
+	u16* gfx;
+	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
+	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+	//Initialize sprite manager and the engine
+	oamInit(&oamMain, SpriteMapping_1D_32, false);
+	//Allocate space for the graphic to show in the sprite
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	//Copy data for the graphic (palette and bitmap)
+	swiCopy(player2Pal, SPRITE_PALETTE, player2PalLen/2);
+	swiCopy(player2Tiles, gfx, player2TilesLen/2);
+
+	oamSet(&oamMain, 	// oam handler
+		1,				// Number of sprite
+		(player->pos_x), (player->pos_y),			// Coordinates
+		0,				// Priority
+		0,				// Palette to use
+		SpriteSize_32x32,			// Sprite size
+		SpriteColorFormat_256Color,	// Color format
+		gfx,			// Loaded graphic to display
+		-1,				// Affine rotation to use (-1 none)
+		false,			// Double size if rotating
+		false,			// Hide this sprite
+		false, false,	// Horizontal or vertical flip
+		false			// Mosaic
+	);
+}
+
+
+
+
+
+/*void configureSprites() {
 
 	u16* gfx;
 	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
@@ -102,7 +233,7 @@ void configureSprites() {
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-
+	u16* gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
 	swiCopy(playerPal, SPRITE_PALETTE, playerPalLen/2);
 	swiCopy(playerTiles, gfx, playerTilesLen/2);
@@ -147,18 +278,14 @@ void configureSprites() {
 			false			// Mosaic
 		);
 
-	   	oamUpdate(&oamMain);
-
-		gfx += 32 * 32;
-
-		oamSet(&oamMain, 	// oam handler
-			127,			// Number of sprite
+	   	oamSet(&oamMain, 	// oam handler
+			1,			// Number of sprite
 			x2, y2,			// Coordinates
 			0,				// Priority
 			0,				// Palette to use
 			SpriteSize_32x32,			// Sprite size
 			SpriteColorFormat_256Color,	// Color format
-			gfx,			// Loaded graphic to display
+			gfx1,			// Loaded graphic to display
 			-1,				// Affine rotation to use (-1 none)
 			false,			// Double size if rotating
 			false,			// Hide this sprite
@@ -174,82 +301,6 @@ void configureSprites() {
 	}
 
 	oamUpdate(&oamMain);
-}
-
-
-int min = 0, sec = 0, msec = 0;
-
-
-void ISR_TIMER0()
-{
-	msec = (msec + 1)%1000;
-	if(msec == 0)
-	{
-		sec = (sec+1) % 60;
-		if(sec == 0)
-			min++;
-	}
-	//printDigit(BG_MAP_RAM_SUB(0), min,sec,msec);
-	updateChronoDisp(BG_MAP_RAM_SUB(0),min,sec,msec);
-	//updateChronoDisp(BG_MAP_RAM(0), min, sec, msec);
-}
-
-
-void ISR_VBlank()
-{
-	//printDigit(BG_MAP_RAM_SUB(0), min,sec,msec);
-	updateChronoDisp(BG_MAP_RAM_SUB(0),min,sec,msec);
-}
-
-
-void show_timer(){
-
-	VRAM_H_CR = VRAM_ENABLE
-					| VRAM_H_SUB_BG;
-
-	//Configure the engine in Mode 0 and use the BG3
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
-	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-	//Use BG_MAP_BASE(0) and  a suitable BG_TILE_BASE
-	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
-
-	//Copy the tiles and the palette to the corresonding location
-	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
-	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
-}
-
-void manage_timer(){
-	/*
-	 * Irq Handlers set up
-	 */
-	//irqInit();
-	irqSet(IRQ_TIMER0, &ISR_TIMER0);
-	irqEnable(IRQ_VBLANK);
-
-	//The digit 8 is printed in the upper left part of the screen
-	//printDigit(BG_MAP_RAM_SUB(0), min,sec,msec);
-
-	//The value 12:34.567 is going to be printed in the center of the screen
-	updateChronoDisp(BG_MAP_RAM_SUB(0),min,sec,msec);
-	//The background color is ste to BLACK and the digits color is set to RED
-	changeColorDisp(BLACK, RED);
-}
-
-//void sprite_pos_local(PlayerState* const player) {}
-
-//void sprite_pos_remote(PlayerState* const player) {}
-
-void change_background() {}
-
-void set_background(int new_background) {}
-
-void set_time_remaining(int min, int sec, int msec) {}
-
-void show_settings(int games_played, int games_won) {}
-
-
-void sprite_pos_local(PlayerState* const player) {}
-
-void sprite_pos_remote(PlayerState* const player) {}
+}*/
 
 
