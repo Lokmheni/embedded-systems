@@ -87,7 +87,7 @@ void update_game(RequestedAction action, RequestedMovement movement,
         }
 
     // check if attacking
-    if (player_local.action == ACTION_TYPE_NORMAL_ATTACK &&
+    if (player_local.action == ACTION_TYPE_NORMAL_ATTACK ||
         player_local.action == ACTION_TYPE_SPECIAL_ATTACK)
         {
             // no movements when attacking, potentially do other stuff
@@ -193,8 +193,25 @@ bool local_attack(bool special)
 
 void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
-    // todo mediate between single player and multiplayer
+    // @todo mediate between single player and multiplayer
     send_damage(dmg_x, dmg_y, dmg);
+}
+
+bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg)
+{
+    return take_damage(&player_local, dmg_x, dmg_y, dmg);
+}
+
+
+bool remote_attack_handler(WifiMsg remote_info)
+{
+    // take damage (local)
+    if (remote_info.msg == WIFI_DAMAGE_X_Y_DMG)
+        {
+            return remote_attack(remote_info.dat1, remote_info.dat2,
+                                 remote_info.dat3);
+        }
+    return false;
 }
 
 void reset_game()
@@ -212,12 +229,7 @@ void new_round()
 }
 
 
-void where_is_my_hit(u8* x, u8* y)
-{
-    *x = player_local.pos_x +
-         (player_local.dir == DIRECTION_LEFT ? 0 : SPRITE_WIDTH);
-    *y = player_local.pos_y + SPRITE_HEIGHT / 2;
-}
+void where_is_my_hit(u8* x, u8* y) { do_damage(&player_local, x, y); }
 
 #ifdef CONSOLE_DEBUG
 void print_players()

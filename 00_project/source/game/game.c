@@ -60,8 +60,6 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
         plr->action == ACTION_TYPE_BLOCK_INPLACE)
         {
             plr->health -= damage / BLOCK_FACTOR;
-            // #TODO maybe add that only half of sprite is blocked by block
-            // damage (e.g. a shield)
         }
     else
         plr->health -= damage;
@@ -73,7 +71,7 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
 void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y)
 {
     *dmg_x = plr->pos_x + (plr->dir == DIRECTION_LEFT ? 0 : SPRITE_WIDTH);
-    *dmg_y = plr->pos_y - SPRITE_HEIGHT / 2;
+    *dmg_y = plr->pos_y + SPRITE_HEIGHT / 2;
 }
 
 

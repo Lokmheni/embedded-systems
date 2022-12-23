@@ -91,6 +91,27 @@ bool local_attack(bool special);
 void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg);
 
 /**
+ * @brief Do damage to local player (i.e. handle remote attacks)
+ *
+ * @param dmg_x coord of dmg
+ * @param dmg_y coord of dmg
+ * @param dmg amount of dmg
+ * @return true if player was hit (even if dmg is 0)
+ * @return false if player was not hit
+ */
+bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg);
+
+/**
+ * @brief This function takes care of remote attacks. If an attack was
+ * successful, damage is subtracted from local player.
+ *
+ * @param remote_attack in the WifiMsg format (attack msg type)
+ * @return true if attack hit the player
+ * @return false if the attack did not hit.
+ */
+bool remote_attack_handler(WifiMsg remote_info);
+
+/**
  * @brief Set/Reset the game stage, points health etc.
  * (also starts game already)
  *
