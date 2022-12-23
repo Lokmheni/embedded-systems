@@ -5,11 +5,18 @@
 
 #include <nds.h>
 #include <stdio.h>
+#include "graphics/graphics.h"
+
+
 
 int main(void) {
 	
     consoleDemoInit();
-    printf("\nTemplate nds\n");
+    init_screens();
+    get_touch_input();
+    //configureSprites();
+    //printf("\nTemplate nds\n");
+    //set screens
 
     while(1)
         swiWaitForVBlank();	
