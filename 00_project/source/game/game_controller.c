@@ -105,7 +105,7 @@ void update_game(RequestedAction action, RequestedMovement movement,
                          (action == REQ_ACTION_BLOCK) ? SPEED_BLOCKING : SPEED);
 
                     // determine action
-                    if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
+                    if (player_local.pos_y < SPRITE_FLOOR_HEIGHT)
                         {
                             player_local.action = ACTION_TYPE_JUMP_MOVE;
                         }
@@ -121,7 +121,7 @@ void update_game(RequestedAction action, RequestedMovement movement,
                 }
             else // adjust action for when not moving:
                 {
-                    if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
+                    if (player_local.pos_y < SPRITE_FLOOR_HEIGHT)
                         {
                             player_local.action = ACTION_TYPE_JUMP_INPLACE;
                         }
