@@ -13,15 +13,23 @@
 #ifndef __GRAPHICS_H
 #define __GRAPHICS_H
 
-
-#include "game.h"
+#include "../game/game.h"
 
 
 void init_screens();
 
 void sprite_pos_local(PlayerState* const player);
+void init_main_screen();
 
-void sprite_pos_remote(PlayerState* const player);
+void init_sub_screen();
+
+void configureSprites();
+
+void show_timer();
+
+//void sprite_pos_local(PlayerState* const player);
+
+//void sprite_pos_remote(PlayerState* const player);
 
 void change_background();
 
@@ -31,6 +39,8 @@ void set_time_remaining(int min, int sec, int msec);
 
 // show statistics
 void show_settings(int games_played, int games_won);
+
+void manage_timer();
 
 
 #endif // __GRAPHICS_H

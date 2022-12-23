@@ -6,11 +6,21 @@
 #include <nds.h>
 #include <stdio.h>
 
-int main(void) {
-	
-    consoleDemoInit();
-    printf("\nTemplate nds\n");
+#include "game/game_controller.h"
+#include "graphics/graphics.h"
 
-    while(1)
-        swiWaitForVBlank();	
+
+int main(void)
+{
+
+    consoleDemoInit();
+    init_screens();
+    get_touch_input();
+    // configureSprites();
+    // printf("\nTemplate nds\n");
+    // set screens
+    Player t;
+    get_player_local(t);
+    while (1)
+        swiWaitForVBlank();
 }
