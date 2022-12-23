@@ -21,7 +21,7 @@ Player old_plr_state;
 void send_status(Player* const plr)
 {
     // check jump and health
-    if ((plr->y_speed && old_plr_state.pos_y == SPRITE_FLOOR_HEIGHT) ||
+    if ((plr->y_speed && (old_plr_state.pos_y == SPRITE_FLOOR_HEIGHT)) ||
         plr->health != old_plr_state.health)
         {
             WifiMsg transfer;
@@ -31,6 +31,8 @@ void send_status(Player* const plr)
             transfer.dat3 = plr->health;
 
             sendData((char*)&transfer, sizeof(transfer));
+
+            printf("sent jump/health\n");
         }
     // check necessity for x dir speed
     if (plr->dir != old_plr_state.dir || plr->action != old_plr_state.action)
@@ -43,7 +45,9 @@ void send_status(Player* const plr)
             transfer.dat3 = plr->action;
 
             sendData((char*)&transfer, sizeof(transfer));
+            printf("sent x/action\n");
         }
+    old_plr_state = *plr;
 }
 void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg)
 {

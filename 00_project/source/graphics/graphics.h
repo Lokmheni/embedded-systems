@@ -42,5 +42,7 @@ void show_settings(int games_played, int games_won);
 
 void manage_timer();
 
+void show_sprites(Player* plr1, Player* plr2);
+
 
 #endif // __GRAPHICS_H
