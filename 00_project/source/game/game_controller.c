@@ -13,7 +13,10 @@
 #include "game_controller.h"
 
 #include <nds.h>
+#include <stdio.h>
 
+#include "../constants.h"
+#include "game.h"
 
 
 // player items
