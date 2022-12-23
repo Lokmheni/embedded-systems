@@ -130,6 +130,17 @@ int main(void)
                             printf("Key pressed right\n");
                         }
 
+                    if (keys & KEY_B) // attack normal
+                        {
+                            printf("attack\n");
+                            local_attack(false);
+                        }
+                    if (keys & KEY_X) // attack special
+                        {
+                            printf("special attack\n");
+                            local_attack(true);
+                        }
+
 
                     if (receive_messages(&msg))
                         {
@@ -141,6 +152,9 @@ int main(void)
                             msg.msg = WIFI_NULL_MSG;
                             update_game(a, m, msg);
                         }
+
+                    if (remote_attack_handler(msg))
+                        printf("Took damage!\n");
                     Player l = get_player_local();
                     send_status(&l);
                     // print_players();
