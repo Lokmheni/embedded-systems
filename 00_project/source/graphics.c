@@ -95,23 +95,24 @@ void configureSprites() {
 	u16* gfx;
 	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
 	VRAM_B_CR = VRAM_ENABLE | VRAM_B_MAIN_SPRITE_0x06400000;
-	//config_player2();
+	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+
 	//Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+
 	//Copy data for the graphic (palette and bitmap)
 	swiCopy(playerPal, SPRITE_PALETTE, playerPalLen/2);
 	swiCopy(playerTiles, gfx, playerTilesLen/2);
+	swiCopy(player2Pal, SPRITE_PALETTE, player2PalLen/2);
+	swiCopy(player2Tiles, gfx, player2TilesLen/2);
+
 	int keys;
 	int x = 100, y = 182;
 	int x2 = 0, y2 = 0;
-	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-	oamInit(&oamMain, SpriteMapping_1D_32, false);
-	//Allocate space for the graphic to show in the sprite
 
-	swiCopy(player2Pal, SPRITE_PALETTE, player2PalLen/2);
-	swiCopy(player2Tiles, gfx, player2TilesLen/2);
+	//oamInit(&oamMain, SpriteMapping_1D_32, false);
 
 	TIMER0_CR = TIMER_DIV_1024 | TIMER_IRQ_REQ | TIMER_ENABLE;
 	TIMER0_DATA = TIMER_FREQ_1024(1000);
@@ -145,13 +146,12 @@ void configureSprites() {
 			false			// Mosaic
 		);
 
-	   	//swiWaitForVBlank();
 	   	oamUpdate(&oamMain);
 
 		gfx += 32 * 32;
 
 		oamSet(&oamMain, 	// oam handler
-			127,				// Number of sprite
+			127,			// Number of sprite
 			x2, y2,			// Coordinates
 			0,				// Priority
 			0,				// Palette to use
@@ -164,14 +164,16 @@ void configureSprites() {
 			false, false,	// Horizontal or vertical flip
 			false			// Mosaic
 	   	);
-	 }
-	   	//manage_timer();
-	   	//show_timer();
+
+	   	manage_timer();
+	   	show_timer();
 	   	swiWaitForVBlank();
 	   	//Update the sprites
-	   	oamUpdate(&oamMain);
 
 	}
+
+	oamUpdate(&oamMain);
+}
 
 
 int min = 0, sec = 0, msec = 0;
