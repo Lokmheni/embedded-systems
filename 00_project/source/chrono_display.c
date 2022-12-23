@@ -81,6 +81,7 @@ void updateChronoDisp(u16* map,int min, int sec, int msec)
 
 
 
+
 void changeColorDisp(uint16 b, uint16 c)
 {
 	//The olors are stored in the components 0 and 255 of the palette

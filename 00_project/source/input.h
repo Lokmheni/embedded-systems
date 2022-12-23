@@ -9,9 +9,10 @@
  *
  */
 
-
 #ifndef __INPUT_H_
 #define __INPUT_H_
+
+#include <nds.h>
 
 #define SCREEN_WIDTH	256
 #define	SCREEN_HEIGHT	192
@@ -44,9 +45,14 @@ typedef enum
     TOUCH_INPUT_PLAY
 } TouchInput;
 
-void get_keys();
 
-void get_input(RequestedAction* action, RequestedMovement* movement);
+int get_input();
+
+int get_keys();
+
+void manage_key(int key);
+
+//void get_input(RequestedAction* action, RequestedMovement* movement);
 
 
 void get_touch_input();

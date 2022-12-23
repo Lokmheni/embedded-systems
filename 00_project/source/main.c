@@ -12,7 +12,8 @@ int main(void) {
 	
     consoleDemoInit();
     init_screens();
-    //show_timer();
+    get_touch_input();
+    //configureSprites();
     //printf("\nTemplate nds\n");
     //set screens
 

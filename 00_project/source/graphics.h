@@ -39,5 +39,7 @@ void set_time_remaining(int min, int sec, int msec);
 // show statistics
 void show_settings(int games_played, int games_won);
 
+void manage_timer();
+
 
 #endif // __GRAPHICS_H
