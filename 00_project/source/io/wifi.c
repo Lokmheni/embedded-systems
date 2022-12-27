@@ -59,7 +59,10 @@ void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg)
 bool receive_messages(WifiMsg* rec)
 {
     if (receiveData((char*)rec, sizeof(rec)) != sizeof(rec))
-        return false;
+        {
+            rec->msg = WIFI_NULL_MSG;
+            return false;
+        }
 
     if (rec->msg == WIFI_SYNC_INSTR_SCORE && (rec->dat1 & REQ_ACK))
         {
