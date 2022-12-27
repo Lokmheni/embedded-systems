@@ -7,6 +7,7 @@
 #include <nds.h>
 #include <stdio.h>
 
+#include "constants.h"
 #include "game/game_controller.h"
 #include "graphics/graphics.h"
 #include "numbers.h"
@@ -66,25 +67,25 @@ int main(void)
             printf("configure sprites\n");
             configureSprites();
             printf("done with sprites\n");
-            // while (!wifi_connect_network())
-            //     {
-            //         printf("failed to connect\n");
-            //         int i;
-            //         for (i = 0; i < 50; i++)
-            //             {
-            //                 swiWaitForVBlank();
-            //             }
-            //     }
+            while (!wifi_connect_network())
+                {
+                    printf("failed to connect\n");
+                    int i;
+                    for (i = 0; i < 50; i++)
+                        {
+                            swiWaitForVBlank();
+                        }
+                }
             printf("connected\n");
             wifi_announce_lfg();
             printf("sent lfg\n");
             bool    game = false;
             WifiMsg msg;
             // wait for game
-            // while (!game)
-            //     {
-            //         game = receive_messages(&msg);
-            //     }
+            while (!game)
+                {
+                    game = receive_messages(&msg);
+                }
             printf("receifved msg\n");
             if (msg.msg == WIFI_REQ_LFG)
                 {
@@ -107,12 +108,10 @@ int main(void)
                     if (keys & KEY_A)
                         {
                             a = REQ_ACTION_JUMP;
-                            printf("Key pressed A\n");
                         }
                     if (keys / KEY_Y)
                         {
                             a = REQ_ACTION_BLOCK;
-                            printf("Key pressed Y\n");
                         }
                     if (keys & KEY_X)
                         {
@@ -122,29 +121,24 @@ int main(void)
                     if (keys & KEY_LEFT)
                         {
                             m = REQ_MOVE_LEFT;
-                            printf("Key pressed left\n");
                         }
                     if (keys & KEY_RIGHT)
                         {
                             m = REQ_MOVE_RIGHT;
-                            printf("Key pressed right\n");
                         }
 
                     if (keys & KEY_B) // attack normal
                         {
-                            printf("attack\n");
                             local_attack(false);
                         }
                     if (keys & KEY_X) // attack special
                         {
-                            printf("special attack\n");
                             local_attack(true);
                         }
 
 
                     if (receive_messages(&msg))
                         {
-                            printf("received wifi msg\n");
                             update_game(a, m, msg);
                         }
                     else
@@ -153,6 +147,9 @@ int main(void)
                             update_game(a, m, msg);
                         }
 
+                    msg.msg  = WIFI_DAMAGE_X_Y_DMG;
+                    msg.dat1 = SCREEN_WIDTH / 2;
+                    msg.dat2 = SPRITE_FLOOR_HEIGHT + SPRITE_HEIGHT / 2;
                     if (remote_attack_handler(msg))
                         printf("Took damage!\n");
                     Player l = get_player_local();
@@ -185,7 +182,9 @@ int main(void)
                     oamSet(&oamMain, // oam handler
                            1,        // Number of sprite
                            get_player_remote().pos_x,
-                           get_player_remote().pos_y,  // Coordinates
+                           get_player_remote().pos_y, // Coordinates
+                                                      //    SCREEN_WIDTH / 2,
+                           //    SPRITE_FLOOR_HEIGHT + SPRITE_HEIGHT / 2,
                            0,                          // Priority
                            1,                          // Palette to use
                            SpriteSize_32x32,           // Sprite size
