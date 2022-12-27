@@ -31,8 +31,6 @@ void send_status(Player* const plr)
             transfer.dat3 = plr->health;
 
             sendData((char*)&transfer, sizeof(transfer));
-
-            printf("sent jump/health\n");
         }
     // check necessity for x dir speed
     if (plr->dir != old_plr_state.dir || plr->action != old_plr_state.action)
@@ -45,7 +43,6 @@ void send_status(Player* const plr)
             transfer.dat3 = plr->action;
 
             sendData((char*)&transfer, sizeof(transfer));
-            printf("sent x/action\n");
         }
     old_plr_state = *plr;
 }
