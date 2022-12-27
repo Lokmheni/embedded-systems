@@ -137,19 +137,10 @@ int main(void)
                         }
 
 
-                    if (receive_messages(&msg))
-                        {
-                            update_game(a, m, msg);
-                        }
-                    else
-                        {
-                            msg.msg = WIFI_NULL_MSG;
-                            update_game(a, m, msg);
-                        }
+                    receive_messages(&msg);
+                    update_game(a, m, msg);
 
-                    msg.msg  = WIFI_DAMAGE_X_Y_DMG;
-                    msg.dat1 = SCREEN_WIDTH / 2;
-                    msg.dat2 = SPRITE_FLOOR_HEIGHT + SPRITE_HEIGHT / 2;
+
                     if (remote_attack_handler(msg))
                         printf("Took damage!\n");
                     Player l = get_player_local();
