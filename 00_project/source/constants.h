@@ -43,8 +43,8 @@
 
 #define SPRITE_START_POS 10 // distance from left screen border
 
-#define ATTACK_DELAY_FREQ         25 // normal attack, movement impediment: 1/30=33ms
-#define SPECIAL_ATK_CHARGEUP_FREQ 3
+#define ATTACK_DELAY_FREQ         10 // normal attack, movement impediment: 1/10=10ms
+#define SPECIAL_ATK_CHARGEUP_FREQ 3 // special attack, mov impediment: 1/3=333ms
 
 
 //===================================================================
