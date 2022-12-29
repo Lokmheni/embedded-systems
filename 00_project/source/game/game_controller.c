@@ -73,7 +73,7 @@ void update_game(RequestedAction action, RequestedMovement movement,
                     : DIRECTION_LEFT; // switch direction for remote
             player_remote.action = remote_info.dat3;
             inferred_move(&player_remote);
-            player_remote.pos_x = translate_remote_x(remote_info.dat1);
+            player_remote.pos_x = translate_remote_x_sprite(remote_info.dat1);
         }
     else if (remote_info.msg == WIFI_PLAYER_Y_YS_HP)
         {
@@ -205,7 +205,8 @@ void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 
 bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
-    return take_damage(&player_local, translate_remote_x(dmg_x), dmg_y, dmg);
+    return take_damage(&player_local, translate_remote_x_point(dmg_x), dmg_y,
+                       dmg);
 }
 
 
