@@ -196,7 +196,11 @@ void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
     // @todo mediate between single player and multiplayer
     send_damage(dmg_x, dmg_y, dmg);
-    printf("Execute attack (%d damage)\n", dmg);
+    printf("Execute attack at %d,%d (%d damage)\n", dmg_x, dmg_y, dmg);
+    printf("plr pos loc:%d,%d\n", player_local.pos_x, player_local.pos_y);
+    printf("plr pos rem:%d,%d\n", player_remote.pos_x, player_remote.pos_y);
+    if (take_damage(&player_remote, dmg_x, dmg_y, dmg))
+        printf("hit success\n");
 }
 
 bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg)
