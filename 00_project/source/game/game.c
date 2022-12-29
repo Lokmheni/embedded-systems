@@ -75,10 +75,11 @@ void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y)
 }
 
 
-u8 translate_remote_x(u8 x_coord)
+u8 translate_remote_x_sprite(u8 x_coord)
 {
     return SCREEN_WIDTH - SPRITE_WIDTH - x_coord;
 }
+u8 translate_remote_x_point(u8 x_coord) { return SCREEN_WIDTH - x_coord; }
 
 
 void inferred_move(Player* plr)
