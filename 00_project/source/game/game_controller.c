@@ -205,7 +205,7 @@ void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 
 bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
-    return take_damage(&player_local, dmg_x, dmg_y, dmg);
+    return take_damage(&player_local, translate_remote_x(dmg_x), dmg_y, dmg);
 }
 
 
