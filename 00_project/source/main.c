@@ -142,7 +142,8 @@ int main(void)
 
 
                     if (remote_attack_handler(msg))
-                        printf("Took damage!\n");
+                        printf("Took damage!\nHealth at %d\n",
+                               get_player_local().health);
                     Player l = get_player_local();
                     send_status(&l);
                     // print_players();
