@@ -22,6 +22,7 @@ int main(void)
     Player* t;
     init_screens();
 
+
     //sprite_pos_local(t);
     //configureSprites();
     get_touch_input();
@@ -33,4 +34,7 @@ int main(void)
     // do sprites in main
 
 }
+
+
+
 
