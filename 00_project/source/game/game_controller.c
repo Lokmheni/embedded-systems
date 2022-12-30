@@ -2,7 +2,7 @@
  * @file game_controller.c
  * @author Simon Thür
  * @brief
- * @version 1.0
+ * @version 1.1
  * @date 2022-12-04
  *
  * @copyright Copyright (c) 2022
@@ -22,9 +22,9 @@
 // player items
 Player player_local, player_remote;
 // core items
-int  score_remote, score_local;
+u8   score_remote, score_local;
 bool is_remote;
-bool is_play;
+bool is_play; /*<! @deprecated handled outside of this scope*/
 
 
 // IRQ
@@ -50,10 +50,19 @@ void isr_attack()
 // getters
 Player get_player_local() { return player_local; }
 Player get_player_remote() { return player_remote; }
-void   get_scores(int* local, int* remote)
+void   get_scores(u8* local, u8* remote)
 {
     *local  = score_local;
     *remote = score_remote;
+}
+
+
+void set_score_remote(u8 remote) { score_remote = remote; }
+void inc_score_lcoal()
+{
+    score_local = score_local + 1 > score_local
+                    ? score_local + 1
+                    : score_local; // conditional increment
 }
 
 // ctrl
@@ -215,12 +224,12 @@ bool remote_attack_handler(WifiMsg remote_info)
     return false;
 }
 
-void reset_game()
+void reset_game(bool remote)
 {
     set_stage();
     score_local  = 0;
     score_remote = 0;
-    is_remote    = false; // TODO CHANGE based on bt status
+    is_remote    = remote;
     is_play      = true;
 }
 void new_round()

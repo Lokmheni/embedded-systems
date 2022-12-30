@@ -2,7 +2,7 @@
  * @file game_controller.h
  * @author Simon Thür and Lokman Mheni
  * @brief
- * @version 1.0
+ * @version 1.1
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -39,7 +39,20 @@ Player get_player_remote();
  * @param[out] score_local
  * @param[out] score_remote
  */
-void get_scores(int* local, int* remote);
+void get_scores(u8* local, u8* remote);
+
+/**
+ * @brief Set the remote scores object
+ *
+ * @param remote score of remote
+ */
+void set_score_remote(u8 remote);
+
+/**
+ * @brief Increment local score by 1
+ *
+ */
+void inc_score_lcoal();
 
 
 //===================================================================
@@ -111,12 +124,13 @@ bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg);
  */
 bool remote_attack_handler(WifiMsg remote_info);
 
+
 /**
  * @brief Set/Reset the game stage, points health etc.
- * (also starts game already)
  *
+ * @param remote whether game is remote.
  */
-void reset_game();
+void reset_game(bool remote);
 
 /**
  * @brief Start new round, only resets health and positions. Ideally one should
