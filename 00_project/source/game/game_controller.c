@@ -39,8 +39,6 @@ void isr_attack()
         {
             u8 x, y;
             where_is_my_hit(&x, &y);
-            // transmitting data... is this smart? Assistant says its probably
-            // fine, @TODO test and see if it works...
             local_attack_handler(x, y, DAMAGE_SPECIAL);
         }
     // unblock player:
@@ -202,7 +200,7 @@ bool local_attack(bool special)
 
 void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
-    // @todo mediate between single player and multiplayer
+    /// @todo mediate between single player and multiplayer
     send_damage(dmg_x, dmg_y, dmg);
 }
 
