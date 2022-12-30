@@ -2,7 +2,7 @@
  * @file wifi.c
  * @author Simon Thür and Lokman Mheni
  * @brief Control WIFI through packets of 4 bytes
- * @version 0.1
+ * @version 1.0
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
