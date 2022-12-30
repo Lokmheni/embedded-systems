@@ -17,6 +17,7 @@
 #include <nds.h>
 
 #include "../io/wifi.h"
+#include "../settings.h"
 
 
 typedef enum ConnectionHierarchy
@@ -41,7 +42,7 @@ typedef enum GameState
 
 
 //===================================================================
-// Getters
+// Getters (Ok for external use)
 //===================================================================
 /// @brief Get the game state object
 /// @return GameState
@@ -53,7 +54,30 @@ ConnectionHierarchy get_connection_state();
 
 
 //===================================================================
-// Generalized control
+// FSM logic (Ok for external use)
+//===================================================================
+/**
+ * @brief Master function for game FSM (call once per frame!)
+ *
+ * This function takes care of all back-end related tasks concerning wifi, game
+ * mechanics, game synchromization and game progression.
+ *
+ * @note To change between single-player and multiplayer, directly call @ref
+ * go_for_multiplayer() or @ref go_for_singleplayer().
+ *
+ * @param a Action the player wishes to execute
+ * @param m movement the player wishes to execute
+ * @param msg wifi message received from remote (unfiltered!)
+ * @param timeout if this round is out of time
+ *
+ * @return true if round/game has just finished!
+ */
+bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
+                   bool timeout);
+
+
+//===================================================================
+// Generalized control (Ok for external use)
 //===================================================================
 /**
  * @brief Change mode of operation to multiplayer
@@ -71,7 +95,7 @@ void go_for_singleplayer();
 
 
 //===================================================================
-// Sync control
+// Sync control (Intended for internal use only, external use discouraged)
 //===================================================================
 /**
  * @brief If this device is master/or single-player, initialize game

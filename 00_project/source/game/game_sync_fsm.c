@@ -12,8 +12,8 @@
 
 #include "game_sync_fsm.h"
 
+#include "../constants.h"
 #include "game_controller.h"
-
 
 //===================================================================
 // Variables
@@ -29,6 +29,44 @@ GameState game_state          = GAME_IN_END;
 //===================================================================
 GameState           get_game_state() { return game_state; }
 ConnectionHierarchy get_connection_state() { return con_state; }
+
+
+//===================================================================
+// FSM logic
+//===================================================================
+bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
+                   bool timeout)
+{
+    // default assignment
+    bool round_done = false;
+
+    /// @todo if not connected, emulate WifiMsg
+
+    /// @todo start game (i.e. go for game init)
+
+    // obvious stuff thats always needed
+    execute_commands(msg);
+
+    // actual game
+    if (game_state == GAME_IN_PROGRESS)
+        {
+            update_game(a, m, msg);
+            // check player death (lazy evaluation) || timeout loss
+            if ((remote_attack_handler(msg) &&
+                 get_player_local().health > MAX_HEALTH) ||
+                (timeout && get_player_local().health < get_player_remote()))
+                {
+                    round_done = true;
+                    game_state = GAME_IN_ROUND_END;
+                    con_state  = con_state == CONNECTION_TYPE_NULL
+                                   ? CONNECTION_TYPE_NULL
+                                   : CONNECTION_TYPE_MASTER;
+                }
+        }
+
+
+    return round_done;
+}
 
 
 //===================================================================
