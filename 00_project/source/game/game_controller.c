@@ -63,6 +63,10 @@ void inc_score_lcoal()
                     : score_local; // conditional increment
 }
 
+
+void send_local_player() { send_status(&player_local); }
+
+
 // ctrl
 
 void update_game_complete(RequestedAction action, RequestedMovement movement,

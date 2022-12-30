@@ -55,6 +55,11 @@ void set_score_remote(u8 remote);
 void inc_score_lcoal();
 
 
+/**
+ * @brief Send the local player over wifi.
+ *
+ */
+void send_local_player();
 //===================================================================
 // Control
 //===================================================================

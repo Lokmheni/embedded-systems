@@ -67,6 +67,8 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
         }
 
 
+    if (con_state != CONNECTION_TYPE_NULL)
+        send_local_player();
     return round_done;
 }
 
