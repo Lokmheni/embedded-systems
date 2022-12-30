@@ -37,6 +37,9 @@ ConnectionHierarchy get_connection_state() { return con_state; }
 bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                    bool timeout)
 {
+    ///@note reverse order implementation is used as priority encoding
+
+
     // default assignment
     bool round_done = false;
 
@@ -59,16 +62,32 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                  get_player_local().health < get_player_remote().health))
                 {
                     round_done = true;
-                    game_state = GAME_IN_ROUND_END;
-                    con_state  = con_state == CONNECTION_TYPE_NULL
-                                   ? CONNECTION_TYPE_NULL
-                                   : CONNECTION_TYPE_MASTER;
+                    go_for_end_round();
                 }
         }
 
 
+    // initialize game
+    if (game_state == GAME_IN_SETUP)
+        go_for_game_init();
+    // make new round
+    if (game_state == GAME_IN_ROUND_SETUP)
+        go_for_new_round();
+
     if (con_state != CONNECTION_TYPE_NULL)
         send_local_player();
+
+
+    // userdriven (io) state-transitions
+
+    // exit endstate
+    if (game_state == GAME_IN_END && a != REQ_ACTION_NONE)
+        go_for_game_init();
+
+    if (game_state == GAME_IN_ROUND_END && a != REQ_ACTION_NONE &&
+        con_state != CONNECTION_TYPE_SLAVE)
+        game_state = GAME_IN_ROUND_SETUP;
+
     return round_done;
 }
 
@@ -91,16 +110,20 @@ void go_for_multiplayer()
 
 void go_for_singleplayer()
 {
-    u8 scr, dontcare;
-    get_scores(&scr, &dontcare);
-    // inform remote of quit
-    send_ctrl_instruction(
-        game_state == GAME_IN_PROGRESS ? END_GAME | WINNER_REMOTE : END_GAME,
-        scr);
-    // turn off wifi
-    wifi_disconnect_network();
-    // change state
-    con_state = CONNECTION_TYPE_NULL;
+    if (con_state != CONNECTION_TYPE_NULL)
+        {
+            u8 scr, dontcare;
+            get_scores(&scr, &dontcare);
+            // inform remote of quit
+            send_ctrl_instruction(game_state == GAME_IN_PROGRESS
+                                      ? END_GAME | WINNER_REMOTE
+                                      : END_GAME,
+                                  scr);
+            // turn off wifi
+            wifi_disconnect_network();
+            // change state
+            con_state = CONNECTION_TYPE_NULL;
+        }
 }
 
 void go_for_game_init()
@@ -121,11 +144,14 @@ void go_for_game_init()
 
 void go_for_end_round()
 {
-    u8 scr, dontcare;
-    get_scores(&scr, &dontcare);
-    send_ctrl_instruction(END_ROUND | WINNER_REMOTE, scr);
+    if (con_state != CONNECTION_TYPE_NULL)
+        {
+            u8 scr, dontcare;
+            get_scores(&scr, &dontcare);
+            send_ctrl_instruction(END_ROUND | WINNER_REMOTE, scr);
+            con_state = CONNECTION_TYPE_MASTER;
+        }
     game_state = GAME_IN_ROUND_END;
-    con_state  = CONNECTION_TYPE_MASTER;
 }
 
 void go_for_new_round()
