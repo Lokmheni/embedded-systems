@@ -63,20 +63,84 @@ void go_for_singleplayer()
 
 void go_for_game_init()
 {
-    send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0);
-    reset_game();
+    if (con_state != CONNECTION_TYPE_NULL)
+        {
+            send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0);
+            reset_game(true);
+            con_state = CONNECTION_TYPE_CONTESTED;
+        }
+    else
+        {
+            reset_game(false);
+        }
+
     game_state = GAME_IN_PROGRESS;
-    con_state  = CONNECTION_TYPE_CONTESTED;
 }
 
+void go_for_end_round()
+{
+    u8 scr, dontcare;
+    get_scores(&scr, &dontcare);
+    send_ctrl_instruction(END_ROUND | WINNER_REMOTE, scr);
+    game_state = GAME_IN_ROUND_END;
+    con_state  = CONNECTION_TYPE_MASTER;
+}
 
 void go_for_new_round()
 {
     new_round();
     u8 scr, dontcare;
-    get_scores(scr, dontcare);
+    get_scores(&scr, &dontcare);
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr);
+    game_state = GAME_IN_PROGRESS;
 }
 
 
-void execute_commands(WifiMsg req) {}
+void execute_commands(WifiMsg req)
+{
+    // does it make sense to do stuff?
+    if (con_state == CONNECTION_TYPE_NULL)
+        return;
+    // Am I searching for game?
+    if (con_state == CONNECTION_TYPE_LFG)
+        {
+            if (req.msg == WIFI_REQ_LFG)
+                {
+                    con_state  = CONNECTION_TYPE_MASTER;
+                    game_state = GAME_IN_SETUP;
+                }
+            else if (req.msg == WIFI_SYNC_INSTR_SCORE)
+                {
+                    con_state  = CONNECTION_TYPE_SLAVE;
+                    game_state = GAME_IN_SETUP;
+                }
+        }
+
+    // connection state possibly changed before ^
+    if (con_state == CONNECTION_TYPE_SLAVE && req.msg == WIFI_SYNC_INSTR_SCORE)
+        {
+            // lowlevel
+            if (req.dat1 & RESET_GAME)
+                reset_game(true);
+            if (req.dat1 & SET_STAGE)
+                set_stage();
+            if (req.dat1 & WINNER_REMOTE)
+                inc_score_lcoal();
+
+            // statelevel
+            // playpause
+            if (req.dat1 & IS_PLAY)
+                game_state = GAME_IN_PROGRESS;
+            else if (game_state == GAME_IN_PROGRESS)
+                game_state = GAME_IN_PAUSE;
+            // eor
+            if (req.dat1 & END_ROUND) // override is_play
+                game_state = GAME_IN_ROUND_END;
+            // quit
+            if (req.dat1 & END_GAME)
+                {
+                    wifi_disconnect_network();
+                    con_state = CONNECTION_TYPE_NULL;
+                }
+        }
+}

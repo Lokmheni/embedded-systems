@@ -79,7 +79,9 @@ void go_for_singleplayer();
 void go_for_game_init();
 
 /**
- * @brief
+ * @brief Call to pause game and end round.
+ *
+ * This function is to be used iif when local has LOST!.
  *
  */
 void go_for_end_round();
@@ -94,6 +96,10 @@ void go_for_new_round();
 
 /**
  * @brief Listen to and execute commands (slave mode)
+ *
+ * This function does NOT initiate any master commands (i.e. if an LFG is
+ * received, it will change the local state, but will not initiate any
+ * communication)
  *
  * @param req potential command
  */
