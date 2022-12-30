@@ -65,9 +65,18 @@ void inc_score_lcoal()
 
 // ctrl
 
+void update_game_complete(RequestedAction action, RequestedMovement movement,
+                          WifiMsg remote_info)
+{
+    if (action == REQ_ACTION_ATTACK)
+        local_attack(false);
+    else if (action == REQ_ACTION_SPECIAL_ATTACK)
+        local_attack(true);
+    update_game_mov(action, movement, remote_info);
+}
 
-void update_game(RequestedAction action, RequestedMovement movement,
-                 WifiMsg remote_info)
+void update_game_mov(RequestedAction action, RequestedMovement movement,
+                     WifiMsg remote_info)
 {
 
     // do remote stuff

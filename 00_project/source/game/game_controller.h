@@ -64,20 +64,29 @@ void inc_score_lcoal();
  */
 void set_stage();
 
-
 /**
- * @brief Calculate next step of the game based on player input and remote
- * message.
- *
- * @note This function only updates movements! It does not care about damage.
- * Damage and health should be handled separately elsewhere
+ * @brief Execute complete frame step of local and remote players.
  *
  * @param action Action that the player wishes to execute
  * @param movement that the player wishes to do.
  * @param remote_info Messages concerning what remote is doing
  */
-void update_game(RequestedAction action, RequestedMovement movement,
-                 WifiMsg remote_info);
+void update_game_complete(RequestedAction action, RequestedMovement movement,
+                          WifiMsg remote_info);
+
+/**
+ * @brief Calculate next step of the game based on player input and remote
+ * message.
+ *
+ * @note This function only updates movements! It does not care about
+ * damage. Damage and health should be handled separately elsewhere
+ *
+ * @param action Action that the player wishes to execute
+ * @param movement that the player wishes to do.
+ * @param remote_info Messages concerning what remote is doing
+ */
+void update_game_mov(RequestedAction action, RequestedMovement movement,
+                     WifiMsg remote_info);
 
 
 /**

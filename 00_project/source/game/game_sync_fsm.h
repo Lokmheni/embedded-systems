@@ -16,6 +16,7 @@
 
 #include <nds.h>
 
+#include "../io/input.h"
 #include "../io/wifi.h"
 #include "../settings.h"
 

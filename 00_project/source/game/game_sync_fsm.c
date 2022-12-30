@@ -50,11 +50,13 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // actual game
     if (game_state == GAME_IN_PROGRESS)
         {
-            update_game(a, m, msg);
+
+            update_game_complete(a, m, msg);
             // check player death (lazy evaluation) || timeout loss
             if ((remote_attack_handler(msg) &&
                  get_player_local().health > MAX_HEALTH) ||
-                (timeout && get_player_local().health < get_player_remote()))
+                (timeout &&
+                 get_player_local().health < get_player_remote().health))
                 {
                     round_done = true;
                     game_state = GAME_IN_ROUND_END;
