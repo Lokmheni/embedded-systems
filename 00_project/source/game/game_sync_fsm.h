@@ -18,6 +18,7 @@
 
 #include "../io/wifi.h"
 
+
 typedef enum ConnectionHierarchy
 {
     CONNECTION_TYPE_NULL,      /*!< Not connected to wifi */
@@ -30,12 +31,18 @@ typedef enum ConnectionHierarchy
 
 typedef enum GameState
 {
-    GAME_IN_PROGRESS, /*!< Game in progress */
-    GAME_IN_SETUP,    /*!< Game in pre game sync */
-    GAME_IN_END,      /*!< Game in post game data transfer */
+    GAME_IN_PROGRESS,    /*!< Game in progress */
+    GAME_IN_PAUSE,       /*!< Game paused/not started yet */
+    GAME_IN_SETUP,       /*!< Game in pre game sync */
+    GAME_IN_ROUND_SETUP, /*!< Game in pre ROUND sync */
+    GAME_IN_ROUND_END,   /*!< Game in post ROUND data transfer */
+    GAME_IN_END,         /*!< Game in post game data transfer */
 } GameState;
 
 
+//===================================================================
+// Getters
+//===================================================================
 /// @brief Get the game state object
 /// @return GameState
 GameState get_game_state();
@@ -45,6 +52,9 @@ GameState get_game_state();
 ConnectionHierarchy get_connection_state();
 
 
+//===================================================================
+// Generalized control
+//===================================================================
 /**
  * @brief Change mode of operation to multiplayer
  *
@@ -59,23 +69,28 @@ void go_for_multiplayer();
  */
 void go_for_singleplayer();
 
+
+//===================================================================
+// Sync control
+//===================================================================
 /**
- * @brief If this device is master/or singleplayer, initialize game
- *
- * @return true on success
- * @return false on failure
+ * @brief If this device is master/or single-player, initialize game
  */
-bool go_for_game_init();
+void go_for_game_init();
 
 /**
- * @brief When local has lost (becomes master) init new round
+ * @brief
  *
- * This implies, local has LOST previous round!
- *
- * @return true if new round initiated
- * @return false on error
  */
-bool go_for_new_round();
+void go_for_end_round();
+
+/**
+ * @brief When local has lost (becomes master) init new round.
+ *
+ * @ref go_for_end_round() should be called when losing round, then this
+ * function should be called to being new round!
+ */
+void go_for_new_round();
 
 /**
  * @brief Listen to and execute commands (slave mode)

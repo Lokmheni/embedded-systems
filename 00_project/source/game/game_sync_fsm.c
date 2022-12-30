@@ -9,20 +9,31 @@
  *
  */
 
+
 #include "game_sync_fsm.h"
 
 #include "game_controller.h"
 
+
+//===================================================================
+// Variables
+//===================================================================
 /// @brief Connection state
 ConnectionHierarchy con_state = CONNECTION_TYPE_NULL;
 /// @brief game state
 GameState game_state          = GAME_IN_END;
 
-// getters
+
+//===================================================================
+// Getters
+//===================================================================
 GameState           get_game_state() { return game_state; }
 ConnectionHierarchy get_connection_state() { return con_state; }
 
 
+//===================================================================
+// Generalized control
+//===================================================================
 void go_for_multiplayer()
 {
     if (con_state == CONNECTION_TYPE_NULL)
@@ -50,10 +61,22 @@ void go_for_singleplayer()
     con_state = CONNECTION_TYPE_NULL;
 }
 
-bool go_for_game_init() {}
+void go_for_game_init()
+{
+    send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0);
+    reset_game();
+    game_state = GAME_IN_PROGRESS;
+    con_state  = CONNECTION_TYPE_CONTESTED;
+}
 
 
-bool go_for_new_round() {}
+void go_for_new_round()
+{
+    new_round();
+    u8 scr, dontcare;
+    get_scores(scr, dontcare);
+    send_ctrl_instruction(SET_STAGE | IS_PLAY, scr);
+}
 
 
 void execute_commands(WifiMsg req) {}
