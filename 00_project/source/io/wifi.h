@@ -2,7 +2,7 @@
  * @file wifi.h
  * @author Simon Thür and Lokman Mheni
  * @brief WIFI interface
- * @version 0.1
+ * @version 1.0
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -59,6 +59,7 @@ typedef enum MsgType
     WIFI_PLAYER_Y_YS_HP,
     WIFI_DAMAGE_X_Y_DMG,
     WIFI_ACK_LM,
+    WIFI_NULL_MSG,
 } MsgType;
 
 

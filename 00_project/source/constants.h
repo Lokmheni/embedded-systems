@@ -31,9 +31,10 @@
 //===================================================================
 // GAME
 //===================================================================
-#define SPEED      5 // number of pixels to move per game iteration
-#define JUMP_SPEED 18
-#define GRAVITY    2 // to see in relation to jump_speed
+#define SPEED          5 // number of pixels to move per game iteration
+#define SPEED_BLOCKING (SPEED / 2)
+#define JUMP_SPEED     18
+#define GRAVITY        2 // to see in relation to jump_speed
 
 #define DAMAGE_NORMAL  5
 #define DAMAGE_SPECIAL 10
@@ -41,5 +42,19 @@
 #define BLOCK_FACTOR   2
 
 #define SPRITE_START_POS 10 // distance from left screen border
+
+#define ATTACK_DELAY_FREQ         10 // normal attack, movement impediment: 1/10=10ms
+#define SPECIAL_ATK_CHARGEUP_FREQ 3 // special attack, mov impediment: 1/3=333ms
+
+
+//===================================================================
+// CONTROLS
+//===================================================================
+#define KEY_MOVE_LEFT      KEY_LEFT
+#define KEY_MOVE_RIGHT     KEY_RIGHT
+#define KEY_JUMP           KEY_A
+#define KEY_ATTACK         KEY_B
+#define KEY_BLOCK          KEY_X
+#define KEY_SPECIAL_ATTACK KEY_Y
 
 #endif // __CONSTANS_H

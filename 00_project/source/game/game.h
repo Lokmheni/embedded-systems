@@ -2,7 +2,7 @@
  * @file game.h
  * @author Simon Thür & Lokman Mheni
  * @brief Definition of necessary functions for game mechanics
- * @version 0.1
+ * @version 1.0
  * @date 2022-11-28
  *
  * @copyright Copyright (c) 2022
@@ -77,7 +77,7 @@ void move(Player* plr, Direction dir, bool jmp, int dist);
  * @param dmg_x x coordinate of damage
  * @param dmg_y y coordinate of damage
  * @param damage amount of damage dealt
- * @return true if player was hit (regadles of the amount of damage)
+ * @return true if player was hit (regardless of the amount of damage)
  * @return false if player was not hit
  */
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
@@ -90,17 +90,34 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
  * @param[out] dmg_x x coordinate of damage
  * @param[out] dmg_y y coordinate of damage
  */
-void do_damage(Player* const plr, int* dmg_x, int* dmg_y);
+void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y);
 
 
 /**
- * @brief Translate remote x_coord to local coordinate system.
+ * @brief Translate remote x_coord (sprite) to local coordinate system. (will
+ * take care of sprite width offset)
  *
  * @note Direction must also be inverted
  *
  * @param x_coord Remote x-coordinate
  * @return u8 x-coordinate in local system
  */
-u8 translate_remote_x(u8 x_coord);
+u8 translate_remote_x_sprite(u8 x_coord);
+
+/**
+ * @brief Translate remote x_coord (singular point) to local coordinate system.
+ *
+ * @param x_coord Remote x-coordinate
+ * @return u8 x-coordinate in local system
+ */
+u8 translate_remote_x_point(u8 x_coord);
+
+/**
+ * @brief Update player based on current action, direction, position etc.
+ * Executes 1 move.
+ *
+ * @param[in,out] plr In, player at time t, out player at time t+1
+ */
+void inferred_move(Player* plr);
 
 #endif // __GAME_H

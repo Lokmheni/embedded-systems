@@ -2,7 +2,7 @@
  * @file game_controller.h
  * @author Simon Thür and Lokman Mheni
  * @brief
- * @version 0.1
+ * @version 1.0
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -14,6 +14,8 @@
 #define __GAME_CONTROLLER_H
 #include <nds.h>
 
+#include "../io/input.h"
+#include "../io/wifi.h"
 #include "game.h"
 
 //===================================================================
@@ -49,16 +51,65 @@ void get_scores(int* local, int* remote);
  */
 void set_stage();
 
+
 /**
- * @brief Execute next step of the game (for now, we assume that it also takes
- * care of bluetooth transmission)
+ * @brief Calculate next step of the game based on player input and remote
+ * message.
  *
- * @return int where 0 means the game continues
- *                   1 means player_local has won round
- *                   2 means player_remote has won round
- *                   3 means the connection died
+ * @note This function only updates movements! It does not care about damage.
+ * Damage and health should be handled separately elsewhere
+ *
+ * @param action Action that the player wishes to execute
+ * @param movement that the player wishes to do.
+ * @param remote_info Messages concerning what remote is doing
  */
-int update_game();
+void update_game(RequestedAction action, RequestedMovement movement,
+                 WifiMsg remote_info);
+
+
+/**
+ * @brief Execute an attack. return attack characteristic as WifiMsg format.
+ * This action will block player movements for a small delay (uses timer2 and
+ * ISR).
+ * @note This functions automatically calls @ref local_attack_handler(u8* dmg_x,
+ * u8* dmg_y, u8* dmg) at the correct time (either instantly or after an
+ * interrupt delay).
+ *
+ * @param special If attack is supposed to be special attack
+ * @return true if the attack is valid and will be transmitted
+ * @return false if the attack is not legal at this time.
+ */
+bool local_attack(bool special);
+
+/**
+ * @brief Sends damage to wifi or handles local singleplayer stuff
+ *
+ * @param dmg_x coord of dmg
+ * @param dmg_y coord of dmg
+ * @param dmg amount of dmg
+ */
+void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg);
+
+/**
+ * @brief Do damage to local player (i.e. handle remote attacks)
+ *
+ * @param dmg_x coord of dmg
+ * @param dmg_y coord of dmg
+ * @param dmg amount of dmg
+ * @return true if player was hit (even if dmg is 0)
+ * @return false if player was not hit
+ */
+bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg);
+
+/**
+ * @brief This function takes care of remote attacks. If an attack was
+ * successful, damage is subtracted from local player.
+ *
+ * @param remote_attack in the WifiMsg format (attack msg type)
+ * @return true if attack hit the player
+ * @return false if the attack did not hit.
+ */
+bool remote_attack_handler(WifiMsg remote_info);
 
 /**
  * @brief Set/Reset the game stage, points health etc.
@@ -74,6 +125,17 @@ void reset_game();
  */
 void new_round();
 
+
+//===================================================================
+// Helper
+//===================================================================
+/**
+ * @brief Calculate hit position based on local player position
+ *
+ * @param[out] x position of where dmg would be done at this instant
+ * @param[out] y position of where dmg would be done at this instant
+ */
+void where_is_my_hit(u8* x, u8* y);
 
 // DEBUG
 #ifdef CONSOLE_DEBUG
