@@ -59,6 +59,7 @@ void init_sub_screen() {
 	REG_BG2PD_SUB = 256;
 }
 
+
 void show_logo(){
 	// 1) VRAM Configuration for MAIN engine
 	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
@@ -121,8 +122,9 @@ void ISR_TIMER0()
 		if(sec == 0)
 			min++;
 	}
-	updateChronoDisp_Sub(min, sec, msec);
+	//updateChronoDisp_Sub(min, sec, msec);
 }
+
 
 void manage_timer(){
 	irqInit();
