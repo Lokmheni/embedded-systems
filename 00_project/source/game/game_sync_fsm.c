@@ -153,6 +153,7 @@ void go_for_end_round()
 
 void go_for_new_round()
 {
+    /// @todo change BG and send ctrl changeBG instr
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
