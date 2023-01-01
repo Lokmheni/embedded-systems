@@ -15,6 +15,7 @@
 
 #include "../game/game.h"
 
+void show_logo();
 
 void init_screens();
 

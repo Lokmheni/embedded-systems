@@ -34,6 +34,7 @@
 #define	WHITE ARGB16(1,31,31,31)
 #define	BLACK ARGB16(1,0,0,0)
 
+
 // int rand_ticks;
 
 void init_screens(){
@@ -308,7 +309,7 @@ void sprite_pos_local(Player* const player) {
 	}
 }
 
-void sprite_pos_remote(Player* const player) {
+void sprite_pos_remote(Player* const player){
 	u16* gfx1;
 	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;

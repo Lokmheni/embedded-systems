@@ -42,7 +42,7 @@ void initChronoDisp_Sub();
  * has not been performed.
  */
 void updateChronoDisp_Main(int min, int sec, int msec);
-void updateChronoDisp_Sub(u16* map, int min, int sec, int msec);
+void updateChronoDisp_Sub(int min, int sec, int msec);
 
 /*
  * Functions to change the color of the upper display (Main) or the bottom
@@ -54,4 +54,4 @@ void updateChronoDisp_Sub(u16* map, int min, int sec, int msec);
  * initialized
  */
 void changeColorDisp_Main(uint16 c);
-void changeColorDisp_Sub(uint16 b, uint16 c);
+void changeColorDisp_Sub(uint16 c);
