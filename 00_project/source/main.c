@@ -9,6 +9,7 @@
 
 #include "constants.h"
 #include "game/game_controller.h"
+#include "game/game_sync_fsm.h"
 #include "graphics/graphics.h"
 #include "numbers.h"
 #include "paysage.h"
@@ -17,6 +18,8 @@
 #include "player2.h"
 #include "streetfighter.h"
 #include "string.h"
+
+
 int main(void)
 {
 
@@ -93,7 +96,7 @@ int main(void)
                         START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0);
                     printf("sent start command\n");
                 }
-            reset_game();
+            reset_game(true);
             u32 keys;
             printf("start game\n");
 
@@ -127,23 +130,12 @@ int main(void)
                             m = REQ_MOVE_RIGHT;
                         }
 
-                    if (keys & KEY_B) // attack normal
-                        {
-                            local_attack(false);
-                        }
-                    if (keys & KEY_X) // attack special
-                        {
-                            local_attack(true);
-                        }
-
 
                     receive_messages(&msg);
-                    update_game(a, m, msg);
 
 
-                    if (remote_attack_handler(msg))
-                        printf("Took damage!\nHealth at %d\n",
-                               get_player_local().health);
+                    exec_sync_fsm(a, m, msg, false);
+
                     Player l = get_player_local();
                     send_status(&l);
                     // print_players();
