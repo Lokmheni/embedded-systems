@@ -45,8 +45,6 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
 
     /// @todo if not connected, emulate WifiMsg
 
-    /// @todo start game (i.e. go for game init)
-
     // obvious stuff thats always needed
     execute_commands(msg);
 
@@ -80,10 +78,9 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
 
     // userdriven (io) state-transitions
 
-    // exit endstate
+    // exit endstates
     if (game_state == GAME_IN_END && a != REQ_ACTION_NONE)
-        go_for_game_init();
-
+        game_state = GAME_IN_SETUP;
     if (game_state == GAME_IN_ROUND_END && a != REQ_ACTION_NONE &&
         con_state != CONNECTION_TYPE_SLAVE)
         game_state = GAME_IN_ROUND_SETUP;
