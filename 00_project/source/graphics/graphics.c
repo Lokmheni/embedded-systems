@@ -80,8 +80,10 @@ void show_logo(){
 }
 
 void init_main_screen(Player* t){
+	REG_DISPCNT = MODE_5_2D | DISPLAY_BG0_ACTIVE;
 	//Activate and configure VRAM bank to work in background mode
 	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
+	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 	//BG0 configuration for the background
 	BGCTRL[0] = BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1) | BG_32x32;
 	//Copy data to display background (tiles, palette and map)
@@ -90,6 +92,7 @@ void init_main_screen(Player* t){
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
 	//sprite_pos_local(t);
 	//sprite_pos_remote(t);
+	//configureSprites();
 }
 
 int min = 0, sec = 0, msec = 0;
@@ -440,7 +443,7 @@ void sprite_pos_remote(Player* const player){
 			send_status(&l);
 			// print_players();
 
-			// configureSprites();
+			//configureSprites();
 
 
 			oamSet(&oamMain, // oam handler

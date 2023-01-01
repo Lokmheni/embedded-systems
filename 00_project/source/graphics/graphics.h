@@ -24,7 +24,7 @@ void init_main_screen();
 
 void init_sub_screen();
 
-void configureSprites();
+//void configureSprites();
 
 void show_timer();
 

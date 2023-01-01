@@ -85,11 +85,8 @@ void get_touch_input() {
 				show_timer();
 				init_main_screen();
 				set_up = false;
-				//show_timer();
-				//return true;
 			}
 		}
-	//return false;
 	}
 }
 
