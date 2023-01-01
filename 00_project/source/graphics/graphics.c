@@ -90,8 +90,9 @@ void init_main_screen(Player* t){
 	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
 	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
-	sprite_pos_local(t);
+
 	sprite_pos_remote(t);
+	//sprite_pos_local(t);
 	//configureSprites();
 }
 
@@ -170,14 +171,13 @@ void sprite_pos_local(Player* const player) {
 	// Allocate space for the graphic to show in the sprite
 	gfx =
 		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	gfx1 =
-		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	//gfx1 =
+	//	oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 
 	// Copy data for the graphic (palette and bitmap)
-	dmaCopy(playerPal, &SPRITE_PALETTE[player2PalLen/2 + 1], playerPalLen);
+	dmaCopy(playerPal, &SPRITE_PALETTE[1025] , playerPalLen);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
-	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
-	dmaCopy(player2Tiles, gfx1, player2TilesLen);
+
 
    //printf("BEGIN\n");
    while (1)
@@ -269,26 +269,24 @@ void sprite_pos_remote(Player* const player){
 	//Allocate space for the graphic to show in the sprite
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
-	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
+	dmaCopy(player2Pal, SPRITE_PALETTE , player2PalLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
-	while(1){
-		oamSet(&oamMain, // oam handler
-				1,        // Number of sprite
-				translate_remote_x(get_player_remote().pos_x),
-				get_player_remote().pos_y,  // Coordinates
-				0,                          // Priority
-				3,                          // Palette to use
-				SpriteSize_32x32,           // Sprite size
-				SpriteColorFormat_256Color, // Color format
-				gfx1,         // Loaded graphic to display
-				-1,           // Affine rotation to use (-1 none)
-				false,        // Double size if rotating
-				false,        // Hide this sprite
-				false, false, // Horizontal or vertical flip
-				false         // Mosaic
-			);
-		swiWaitForVBlank();
-		oamUpdate(&oamMain);
-	}
+	oamSet(&oamMain, // oam handler
+			1,        // Number of sprite
+			translate_remote_x(get_player_remote().pos_x),
+			get_player_remote().pos_y,  // Coordinates
+			0,                          // Priority
+			3,                          // Palette to use
+			SpriteSize_32x32,           // Sprite size
+			SpriteColorFormat_256Color, // Color format
+			gfx1,         // Loaded graphic to display
+			-1,           // Affine rotation to use (-1 none)
+			false,        // Double size if rotating
+			false,        // Hide this sprite
+			false, false, // Horizontal or vertical flip
+			false         // Mosaic
+		);
+	oamUpdate(&oamMain);
+
 }
