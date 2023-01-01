@@ -90,14 +90,15 @@ void init_main_screen(Player* t){
 	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
 	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
-	//sprite_pos_local(t);
-	//sprite_pos_remote(t);
+	sprite_pos_local(t);
+	sprite_pos_remote(t);
 	//configureSprites();
 }
 
 int min = 0, sec = 0, msec = 0;
 
 void ISR_TIMER0(){
+
 	msec = (msec + 1)%1000;
 	if(msec == 0)
 	{
@@ -108,6 +109,8 @@ void ISR_TIMER0(){
 	if(sec >= 10)
 		//The background color is ste to BLACK and the digits color is set to RED
 		changeColorDisp(BLACK, RED);
+	else
+		changeColorDisp(WHITE, BLACK);
 	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 }
 
@@ -134,7 +137,7 @@ void show_timer(){
 	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
 	irqSet(IRQ_TIMER0, &ISR_TIMER0);
 	irqEnable(IRQ_TIMER0);
-	changeColorDisp(WHITE, BLACK);
+
     //The value 12:34.567 is going to be printed in the center of the screen
     //updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 
@@ -179,42 +182,18 @@ void sprite_pos_local(Player* const player) {
    //printf("BEGIN\n");
    while (1)
    {
-	   //printf("set stage\n");
 	   set_stage();
 	   swiWaitForVBlank();
-	   //printf("configure sprites\n");
-	   //configureSprites();
-	   //printf("done with sprites\n");
-	   // while (!wifi_connect_network())
-	   //     {
-	   //         printf("failed to connect\n");
-	   //         int i;
-	   //         for (i = 0; i < 50; i++)
-	   //             {
-	   //                 swiWaitForVBlank();
-	   //             }
-	   //     }
-	   //printf("connected\n");
 	   wifi_announce_lfg();
-	   //printf("sent lfg\n");
 	   bool    game = false;
 	   WifiMsg msg;
-	   // wait for game
-	   // while (!game)
-	   //     {
-	   //         game = receive_messages(&msg);
-	   //     }
-	   //printf("receifved msg\n");
 	   if (msg.msg == WIFI_REQ_LFG)
 	   {
 		   send_ctrl_instruction(
 		   START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0);
-		 //  printf("sent start command\n");
 		}
 		reset_game();
 		u32 keys;
-		//printf("start game\n");
-
 		while (1) // game
 		{
 			RequestedAction   a;
@@ -260,14 +239,10 @@ void sprite_pos_local(Player* const player) {
 			}
 			Player l = get_player_local();
 			send_status(&l);
-			// print_players();
-			// configureSprites();
 			oamSet(&oamMain, // oam handler
 			   0,        // Number of sprite
 			   get_player_local().pos_x,
 			   get_player_local().pos_y, // Coordinates
-			   //    get_player_remote().pos_x,
-			   //    get_player_remote().pos_y,  // Coordinates
 			   0,                          // Priority
 			   0,                          // Palette to use
 			   SpriteSize_32x32,           // Sprite size
@@ -280,13 +255,6 @@ void sprite_pos_local(Player* const player) {
 			   false         // Mosaic
 			);
 			// Update the sprites
-
-
-			// int i;
-			// for (i = 0; i < 25; i++)
-			//     {
-			//         swiWaitForVBlank();
-			//     }
 			swiWaitForVBlank();
 			oamUpdate(&oamMain);
 		  }
@@ -325,171 +293,3 @@ void sprite_pos_remote(Player* const player){
 		oamUpdate(&oamMain);
 	}
 }
-
-
-
-
-
-/*void configureSprites() {
-	u16* gfx;
-	u16* gfx1;
-	// Set up memory bank to work in sprite mode (offset since we are using VRAM
-	// A for backgrounds)
-	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-
-	// Initialize sprite manager and the engine
-	oamInit(&oamMain, SpriteMapping_1D_32, false);
-	// Allocate space for the graphic to show in the sprite
-	gfx =
-		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	gfx1 =
-		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-
-
-	// Copy data for the graphic (palette and bitmap)
-	dmaCopy(playerPal, &SPRITE_PALETTE[player2PalLen/2 + 1], playerPalLen);
-	dmaCopy(playerTiles, gfx, playerTilesLen);
-
-	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
-	dmaCopy(player2Tiles, gfx1, player2TilesLen);
-
-
-   //printf("BEGIN\n");
-   for (;;)
-   {
-	   //printf("set stage\n");
-	   set_stage();
-	   swiWaitForVBlank();
-	   //printf("configure sprites\n");
-	   //configureSprites();
-	   //printf("done with sprites\n");
-	   // while (!wifi_connect_network())
-	   //     {
-	   //         printf("failed to connect\n");
-	   //         int i;
-	   //         for (i = 0; i < 50; i++)
-	   //             {
-	   //                 swiWaitForVBlank();
-	   //             }
-	   //     }
-	   //printf("connected\n");
-	   wifi_announce_lfg();
-	   //printf("sent lfg\n");
-	   bool    game = false;
-	   WifiMsg msg;
-	   // wait for game
-	   // while (!game)
-	   //     {
-	   //         game = receive_messages(&msg);
-	   //     }
-	   //printf("receifved msg\n");
-	   if (msg.msg == WIFI_REQ_LFG)
-	   {
-		   send_ctrl_instruction(
-		   START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0);
-		 //  printf("sent start command\n");
-		}
-		reset_game();
-		u32 keys;
-		//printf("start game\n");
-
-
-		for (;;) // game
-		{
-			RequestedAction   a;
-			RequestedMovement m;
-			a = REQ_ACTION_NONE;
-			scanKeys();
-			keys = keysHeld();
-			if (keys & KEY_A)
-			{
-				a = REQ_ACTION_JUMP;
-			//	printf("Key pressed A\n");
-			}
-			if (keys / KEY_Y)
-			{
-				a = REQ_ACTION_BLOCK;
-				//printf("Key pressed Y\n");
-			}
-			if (keys & KEY_X)
-			{
-				a = REQ_ACTION_ATTACK;
-			}
-			m = REQ_MOVE_NONE;
-			if (keys & KEY_LEFT)
-			{
-				m = REQ_MOVE_LEFT;
-				//printf("Key pressed left\n");
-			}
-			if (keys & KEY_RIGHT)
-			{
-				m = REQ_MOVE_RIGHT;
-				//printf("Key pressed right\n");
-			}
-
-
-			if (receive_messages(&msg))
-			{
-				//printf("received wifi msg\n");
-				update_game(a, m, msg);
-			}
-			else
-			{
-				msg.msg = WIFI_NULL_MSG;
-				update_game(a, m, msg);
-			}
-			Player l = get_player_local();
-			send_status(&l);
-			// print_players();
-
-			//configureSprites();
-
-
-			oamSet(&oamMain, // oam handler
-			   0,        // Number of sprite
-			   get_player_local().pos_x,
-			   get_player_local().pos_y, // Coordinates
-			   //    get_player_remote().pos_x,
-			   //    get_player_remote().pos_y,  // Coordinates
-			   0,                          // Priority
-			   0,                          // Palette to use
-			   SpriteSize_32x32,           // Sprite size
-			   SpriteColorFormat_256Color, // Color format
-			   gfx,          // Loaded graphic to display
-			   -1,           // Affine rotation to use (-1 none)
-			   false,        // Double size if rotating
-			   false,        // Hide this sprite
-			   false, false, // Horizontal or vertical flip
-			   false         // Mosaic
-			);
-			// Update the sprites
-
-
-			oamSet(&oamMain, // oam handler
-			   1,        // Number of sprite
-			   translate_remote_x(get_player_remote().pos_x),
-			   get_player_remote().pos_y,  // Coordinates
-			   0,                          // Priority
-			   3,                          // Palette to use
-			   SpriteSize_32x32,           // Sprite size
-			   SpriteColorFormat_256Color, // Color format
-			   gfx1,         // Loaded graphic to display
-			   -1,           // Affine rotation to use (-1 none)
-			   false,        // Double size if rotating
-			   false,        // Hide this sprite
-			   false, false, // Horizontal or vertical flip
-			   false         // Mosaic
-			);
-
-			// int i;
-			// for (i = 0; i < 25; i++)
-			//     {
-			//         swiWaitForVBlank();
-			//     }
-			swiWaitForVBlank();
-			oamUpdate(&oamMain);
-		  }
-	}
-}*/
-

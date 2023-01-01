@@ -21,50 +21,6 @@
 int min, sec, msec;
 int x1, y, x2;
 
-void configureSprites(){
-	u16* gfx;
-	u16* gfx1;
-
-	gfx =	oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	gfx1 =	oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-
-	dmaCopy(playerPal, &SPRITE_PALETTE[player2PalLen/2 + 1], playerPalLen);
-	dmaCopy(playerTiles, gfx, playerTilesLen);
-	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
-	dmaCopy(player2Tiles, gfx1, player2TilesLen);
-
-	oamSet(&oamMain, 	// oam handler
-					0,				// Number of sprite
-					x1, y,			// Coordinates
-					0,				// Priority
-					0,				// Palette to use
-					SpriteSize_32x32,			// Sprite size
-					SpriteColorFormat_16Color,	// Color format
-					gfx,			// Loaded graphic to display
-					-1,				// Affine rotation to use (-1 none)
-					false,			// Double size if rotating
-					false,			// Hide this sprite
-					false, false,	// Horizontal or vertical flip
-					false			// Mosaic
-					);
-
-	oamSet(&oamMain, 	// oam handler
-					1,				// Number of sprite
-					x2, y,			// Coordinates
-					0,				// Priority
-					1,				// Palette to use
-					SpriteSize_32x32,			// Sprite size
-					SpriteColorFormat_16Color,	// Color format
-					gfx1,			// Loaded graphic to display
-					-1,				// Affine rotation to use (-1 none)
-					false,			// Double size if rotating
-					false,			// Hide this sprite
-					false, false,	// Horizontal or vertical flip
-					false			// Mosaic
-					);
-}
-
-
 int main(void)
 {
     consoleDemoInit();
@@ -72,8 +28,15 @@ int main(void)
     oamInit(&oamMain, SpriteMapping_1D_32, false);
 
     Player* t;
-    //init_screens();
-    //get_touch_input();
+    Player* s;
+
+    (t->pos_x) = 0;
+    (t->pos_y) = 90;
+
+    (s->pos_x) = 250;
+    (s->pos_y) = 90;
+    init_screens();
+    get_touch_input();
    // sprite_pos_local(t);
     //show_timer();
 
@@ -81,10 +44,6 @@ int main(void)
     x2 = 256;
 
     y = 90;
-
-    init_main_screen(t);
-    //configureSprites();
-    sprite_pos_local(t);
 
     while(1) {
     	swiWaitForVBlank();
