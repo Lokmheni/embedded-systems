@@ -44,6 +44,7 @@ void send_status(Player* const plr)
 
             sendData((char*)&transfer, sizeof(transfer));
         }
+    old_plr_state = *plr;
 }
 void send_damage(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
