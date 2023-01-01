@@ -175,7 +175,7 @@ void sprite_pos_local(Player* const player) {
 	//	oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 
 	// Copy data for the graphic (palette and bitmap)
-	dmaCopy(playerPal, &SPRITE_PALETTE[1025] , playerPalLen);
+	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
 
@@ -269,13 +269,14 @@ void sprite_pos_remote(Player* const player){
 	//Allocate space for the graphic to show in the sprite
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
-	dmaCopy(player2Pal, SPRITE_PALETTE , player2PalLen);
+	dmaCopy(player2Pal, &SPRITE_PALETTE[600] , player2PalLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
 	oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
-			translate_remote_x(get_player_remote().pos_x),
-			get_player_remote().pos_y,  // Coordinates
+			/*translate_remote_x(get_player_remote().pos_x),
+			get_player_remote().pos_y,  // Coordinates*/
+			90, 90,
 			0,                          // Priority
 			3,                          // Palette to use
 			SpriteSize_32x32,           // Sprite size
