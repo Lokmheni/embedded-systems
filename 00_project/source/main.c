@@ -29,6 +29,9 @@ void ISR_TIMER0()
 		if(sec == 0)
 			min++;
 	}
+	if(sec >= 30)
+		//The background color is ste to BLACK and the digits color is set to RED
+		changeColorDisp(BLACK, RED);
 	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 }
 
@@ -64,8 +67,6 @@ int main(void)
     //The value 12:34.567 is going to be printed in the center of the screen
     //updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 
-    //The background color is ste to BLACK and the digits color is set to RED
-    changeColorDisp(BLACK, RED);
 
     while(1) {
     	swiWaitForVBlank();
