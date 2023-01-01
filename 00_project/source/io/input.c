@@ -82,7 +82,7 @@ void get_touch_input() {
 			int y = touch.py;
 			if((x > 78 && x < 178) && ((y > 75 && y < 75+21) || (y > 75+21 && y < 75+42))){
 				//printf("Lokman");
-
+				show_timer();
 				init_main_screen();
 				set_up = false;
 				//show_timer();
