@@ -89,8 +89,8 @@ void init_main_screen(Player* t){
 	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
 	show_timer();
-	sprite_pos_local(t);
-	sprite_pos_remote(t);
+	//sprite_pos_local(t);
+	//sprite_pos_remote(t);
 }
 
 int min = 0, sec = 0, msec = 0;
@@ -110,10 +110,10 @@ void show_timer(){
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
 	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
-	manage_timer();
+	//manage_timer();
 }
 
-void ISR_TIMER0()
+/*void ISR_TIMER0()
 {
 	msec = (msec + 1)%1000;
 	if(msec == 0)
@@ -123,10 +123,10 @@ void ISR_TIMER0()
 			min++;
 	}
 	//updateChronoDisp_Sub(min, sec, msec);
-}
+}*/
 
 
-void manage_timer(){
+/*void manage_timer(){
 	irqInit();
 	min = sec = msec = 0;
 	TIMER_DATA(0) = TIMER_FREQ_1024(1000);
@@ -155,7 +155,7 @@ void manage_timer(){
 
 	//The background color is ste to BLACK and the digits color is set to RED
 	changeColorDisp(BLACK, RED);
-}
+}*/
 
 
 

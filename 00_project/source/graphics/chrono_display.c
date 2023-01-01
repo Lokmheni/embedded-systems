@@ -1,18 +1,5 @@
 #include "chrono_display.h"
 
-void printDigit(u16* map, int number, int x, int y)
-{
-	int i,j;
-
-	if(number >= 0 && number < 10)
-		for(i = 0; i<8;i++)
-			for(j = 0; j<4; j++)
-				if(number >= 0)
-					map[(i + y)*32+j+x] = (u16)(i*4+j)+32*number;
-				else
-					map[(i + y)*32+j+x] = 32;
-}
-
 void updateChronoDisp(u16* map,int min, int sec, int msec)
 {
 	int x = 0, y = 0;
@@ -78,13 +65,26 @@ void updateChronoDisp(u16* map,int min, int sec, int msec)
 	printDigit(map, number, x,y);
 }
 
+void printDigit(u16* map, int number, int x, int y)
+{
+	int i,j;
+
+	if(number >= 0 && number < 10)
+		for(i = 0; i<8;i++)
+			for(j = 0; j<4; j++)
+				if(number >= 0)
+					map[(i + y)*32+j+x] = (u16)(i*4+j)+32*number;
+				else
+					map[(i + y)*32+j+x] = 32;
+}
+
 
 
 
 void changeColorDisp(uint16 b, uint16 c)
 {
 	//The olors are stored in the components 0 and 255 of the palette
-	BG_PALETTE[0] = c;
-	BG_PALETTE[255] = b;
+	BG_PALETTE_SUB[0] = c;
+	BG_PALETTE_SUB[255] = b;
 }
 
