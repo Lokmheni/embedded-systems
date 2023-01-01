@@ -185,7 +185,6 @@ void sprite_pos_local(Player* const player) {
 	   set_stage();
 	   swiWaitForVBlank();
 	   wifi_announce_lfg();
-	   bool    game = false;
 	   WifiMsg msg;
 	   if (msg.msg == WIFI_REQ_LFG)
 	   {
