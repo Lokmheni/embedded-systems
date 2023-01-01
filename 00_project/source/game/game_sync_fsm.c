@@ -37,7 +37,7 @@ ConnectionHierarchy get_connection_state() { return con_state; }
 bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                    bool timeout)
 {
-    ///@note reverse order implementation is used as priority encoding
+    /// @attention reverse order implementation is used as priority encoding
 
 
     // default assignment
@@ -53,7 +53,6 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // actual game
     if (game_state == GAME_IN_PROGRESS)
         {
-
             update_game_complete(a, m, msg);
             // check player death (lazy evaluation) || timeout loss
             if ((remote_attack_handler(msg) &&
@@ -64,6 +63,7 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                     round_done = true;
                     go_for_end_round();
                 }
+            ///@todo end when singleplayer win?
         }
 
 
