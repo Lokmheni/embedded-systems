@@ -1,6 +1,12 @@
-/*
- * Template Nintendo DS
- * May 2011
+/**
+ * @file main.c
+ * @author Simon Thür
+ * @brief test for wifi fsm sync
+ * @version 0.1
+ * @date 2023-01-01
+ *
+ * @copyright Copyright (c) 2023
+ *
  */
 
 #include <math.h>
@@ -70,39 +76,23 @@ int main(void)
             printf("configure sprites\n");
             configureSprites();
             printf("done with sprites\n");
-            while (!wifi_connect_network())
-                {
-                    printf("failed to connect\n");
-                    int i;
-                    for (i = 0; i < 50; i++)
-                        {
-                            swiWaitForVBlank();
-                        }
-                }
+
+
             printf("connected\n");
             wifi_announce_lfg();
             printf("sent lfg\n");
             bool    game = false;
             WifiMsg msg;
-            // wait for game
-            while (!game)
-                {
-                    game = receive_messages(&msg);
-                }
-            printf("receifved msg\n");
-            if (msg.msg == WIFI_REQ_LFG)
-                {
-                    send_ctrl_instruction(
-                        START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0);
-                    printf("sent start command\n");
-                }
-            reset_game(true);
+
+            // settings emulation multiplayer
+            go_for_multiplayer();
             u32 keys;
             printf("start game\n");
 
 
             for (;;) // game
                 {
+                    // emulate io
                     RequestedAction   a;
                     RequestedMovement m;
                     a = REQ_ACTION_NONE;
@@ -181,11 +171,7 @@ int main(void)
                            false         // Mosaic
                     );
 
-                    // int i;
-                    // for (i = 0; i < 25; i++)
-                    //     {
-                    //         swiWaitForVBlank();
-                    //     }
+
                     swiWaitForVBlank();
                     oamUpdate(&oamMain);
                 }
