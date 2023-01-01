@@ -100,6 +100,8 @@ void go_for_singleplayer();
 //===================================================================
 /**
  * @brief If this device is master/or single-player, initialize game
+ *
+ * Sets state to GAME_IN_PROGRESS
  */
 void go_for_game_init();
 
@@ -107,6 +109,8 @@ void go_for_game_init();
  * @brief Call to pause game and end round.
  *
  * This function is to be used iif when local has LOST!.
+ *
+ * Sets state to GAME_IN_ROUND_END
  *
  */
 void go_for_end_round();
@@ -116,6 +120,8 @@ void go_for_end_round();
  *
  * @ref go_for_end_round() should be called when losing round, then this
  * function should be called to being new round!
+ *
+ * Sets state to GAME_IN_PROGRESS
  */
 void go_for_new_round();
 
