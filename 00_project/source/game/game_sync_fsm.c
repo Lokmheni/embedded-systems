@@ -109,13 +109,14 @@ void go_for_singleplayer()
 {
     if (con_state != CONNECTION_TYPE_NULL)
         {
+            /// @todo update BG
             u8 scr, dontcare;
             get_scores(&scr, &dontcare);
             // inform remote of quit
             send_ctrl_instruction(game_state == GAME_IN_PROGRESS
                                       ? END_GAME | WINNER_REMOTE
                                       : END_GAME,
-                                  scr);
+                                  scr, 0);
             // turn off wifi
             wifi_disconnect_network();
             // change state
@@ -127,7 +128,8 @@ void go_for_game_init()
 {
     if (con_state != CONNECTION_TYPE_NULL)
         {
-            send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0);
+            /// @todo update BG
+            send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0, 0);
             reset_game(true);
             con_state = CONNECTION_TYPE_CONTESTED;
         }
@@ -145,7 +147,7 @@ void go_for_end_round()
         {
             u8 scr, dontcare;
             get_scores(&scr, &dontcare);
-            send_ctrl_instruction(END_ROUND | WINNER_REMOTE, scr);
+            send_ctrl_instruction(END_ROUND | WINNER_REMOTE, scr, 0);
             con_state = CONNECTION_TYPE_MASTER;
         }
     game_state = GAME_IN_ROUND_END;
@@ -157,7 +159,7 @@ void go_for_new_round()
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
-    send_ctrl_instruction(SET_STAGE | IS_PLAY, scr);
+    send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
 }
 
@@ -175,7 +177,7 @@ void execute_commands(WifiMsg req)
                     con_state  = CONNECTION_TYPE_MASTER;
                     game_state = GAME_IN_SETUP;
                 }
-            else if (req.msg == WIFI_SYNC_INSTR_SCORE)
+            else if (req.msg == WIFI_SYNC_INSTR_SCORE_BG)
                 {
                     con_state  = CONNECTION_TYPE_SLAVE;
                     game_state = GAME_IN_SETUP;
@@ -183,7 +185,8 @@ void execute_commands(WifiMsg req)
         }
 
     // connection state possibly changed before ^
-    if (con_state == CONNECTION_TYPE_SLAVE && req.msg == WIFI_SYNC_INSTR_SCORE)
+    if (con_state == CONNECTION_TYPE_SLAVE &&
+        req.msg == WIFI_SYNC_INSTR_SCORE_BG)
         {
             // lowlevel
             if (req.dat1 & RESET_GAME)
