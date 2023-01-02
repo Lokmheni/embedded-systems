@@ -68,112 +68,217 @@ int main(void)
 
 
     printf("BEGIN\n");
-    for (;;)
+
+    printf("set stage\n");
+    set_stage();
+    swiWaitForVBlank();
+    printf("configure sprites\n");
+    configureSprites();
+    printf("done with sprites\n");
+    bool    game = false;
+    WifiMsg msg;
+    u32     keys;
+
+#ifndef TESTBENCH
+    // settings emulation multiplayer
+    go_for_multiplayer();
+    printf("start game\n");
+
+
+    for (;;) // game
         {
-            printf("set stage\n");
-            set_stage();
-            swiWaitForVBlank();
-            printf("configure sprites\n");
-            configureSprites();
-            printf("done with sprites\n");
-
-
-            printf("connected\n");
-            wifi_announce_lfg();
-            printf("sent lfg\n");
-            bool    game = false;
-            WifiMsg msg;
-
-            // settings emulation multiplayer
-            go_for_multiplayer();
-            u32 keys;
-            printf("start game\n");
-
-
-            for (;;) // game
+            // emulate io
+            RequestedAction   a;
+            RequestedMovement m;
+            a = REQ_ACTION_NONE;
+            scanKeys();
+            keys = keysHeld();
+            if (keys & KEY_A)
                 {
-                    // emulate io
-                    RequestedAction   a;
-                    RequestedMovement m;
-                    a = REQ_ACTION_NONE;
-                    scanKeys();
-                    keys = keysHeld();
-                    if (keys & KEY_A)
+                    a = REQ_ACTION_JUMP;
+                }
+            if (keys & KEY_Y)
+                {
+                    a = REQ_ACTION_BLOCK;
+                }
+            if (keys & KEY_X)
+                {
+                    a = REQ_ACTION_ATTACK;
+                }
+            m = REQ_MOVE_NONE;
+            if (keys & KEY_LEFT)
+                {
+                    m = REQ_MOVE_LEFT;
+                }
+            if (keys & KEY_RIGHT)
+                {
+                    m = REQ_MOVE_RIGHT;
+                }
+
+
+            receive_messages(&msg);
+
+
+            exec_sync_fsm(a, m, msg, false);
+
+            Player l = get_player_local();
+            send_status(&l);
+            // print_players();
+
+            // configureSprites();
+
+
+            oamSet(&oamMain, // oam handler
+                   0,        // Number of sprite
+                   get_player_local().pos_x,
+                   get_player_local().pos_y, // Coordinates
+                   //    get_player_remote().pos_x,
+                   //    get_player_remote().pos_y,  // Coordinates
+                   0,                          // Priority
+                   0,                          // Palette to use
+                   SpriteSize_32x32,           // Sprite size
+                   SpriteColorFormat_256Color, // Color format
+                   gfx,                        // Loaded graphic to display
+                   -1,           // Affine rotation to use (-1 none)
+                   false,        // Double size if rotating
+                   false,        // Hide this sprite
+                   false, false, // Horizontal or vertical flip
+                   false         // Mosaic
+            );
+            // Update the sprites
+
+
+            oamSet(&oamMain, // oam handler
+                   1,        // Number of sprite
+                   get_player_remote().pos_x,
+                   get_player_remote().pos_y, // Coordinates
+                                              //    SCREEN_WIDTH / 2,
+                   //    SPRITE_FLOOR_HEIGHT + SPRITE_HEIGHT / 2,
+                   0,                          // Priority
+                   1,                          // Palette to use
+                   SpriteSize_32x32,           // Sprite size
+                   SpriteColorFormat_256Color, // Color format
+                   gfx1,                       // Loaded graphic to display
+                   -1,           // Affine rotation to use (-1 none)
+                   false,        // Double size if rotating
+                   false,        // Hide this sprite
+                   false, false, // Horizontal or vertical flip
+                   false         // Mosaic
+            );
+
+
+            swiWaitForVBlank();
+            oamUpdate(&oamMain);
+        }
+
+
+#else
+    while (!wifi_connect_network())
+        ;
+
+    if (receive_messages(&msg))
+        {
+            printf("<-");
+            switch (msg.msg)
+                {
+                case WIFI_SYNC_INSTR_SCORE:
+                    printf("WIFI_SYNC_INSTR_SCORE: %x\n", msg.dat1);
+                    break;
+                case WIFI_REQ_LFG:
+                    printf("WIFI_REQ_LFG\n");
+                    break;
+                case WIFI_PLAYER_X_DIR_ACTION:
+                    printf("WIFI_PLAYER_X_DIR_ACTION: %d,", msg.dat1);
+                    printf(msg.dat2 == DIRECTION_LEFT ? "left, " : "right, ");
+                    switch (msg.dat3)
                         {
-                            a = REQ_ACTION_JUMP;
+                        case ACTION_TYPE_IDLE:
+                            printf("ACTION_TYPE_IDLE\n");
+                            break;
+                        case ACTION_TYPE_WALK:
+                            printf("ACTION_TYPE_WALK\n");
+                            break;
+                        case ACTION_TYPE_JUMP_INPLACE:
+                            printf("ACTION_TYPE_JUMP_INPLACE\n");
+                            break;
+                        case ACTION_TYPE_JUMP_MOVE:
+                            printf("ACTION_TYPE_JUMP_MOVE\n");
+                            break;
+                        case ACTION_TYPE_NORMAL_ATTACK:
+                            printf("ACTION_TYPE_NORMAL_ATTACK\n");
+                            break;
+                        case ACTION_TYPE_SPECIAL_ATTACK:
+                            printf("ACTION_TYPE_SPECIAL_ATTACK\n");
+                            break;
+                        case ACTION_TYPE_BLOCK_INPLACE:
+                            printf("ACTION_TYPE_BLOCK_INPLACE\n");
+                            break;
+                        case ACTION_TYPE_BLOCK_MOVE:
+                            printf("ACTION_TYPE_BLOCK_MOVE\n");
+                            break;
+                        default:
+                            break;
                         }
-                    if (keys / KEY_Y)
-                        {
-                            a = REQ_ACTION_BLOCK;
-                        }
-                    if (keys & KEY_X)
-                        {
-                            a = REQ_ACTION_ATTACK;
-                        }
-                    m = REQ_MOVE_NONE;
-                    if (keys & KEY_LEFT)
-                        {
-                            m = REQ_MOVE_LEFT;
-                        }
-                    if (keys & KEY_RIGHT)
-                        {
-                            m = REQ_MOVE_RIGHT;
-                        }
-
-
-                    receive_messages(&msg);
-
-
-                    exec_sync_fsm(a, m, msg, false);
-
-                    Player l = get_player_local();
-                    send_status(&l);
-                    // print_players();
-
-                    // configureSprites();
-
-
-                    oamSet(&oamMain, // oam handler
-                           0,        // Number of sprite
-                           get_player_local().pos_x,
-                           get_player_local().pos_y, // Coordinates
-                           //    get_player_remote().pos_x,
-                           //    get_player_remote().pos_y,  // Coordinates
-                           0,                          // Priority
-                           0,                          // Palette to use
-                           SpriteSize_32x32,           // Sprite size
-                           SpriteColorFormat_256Color, // Color format
-                           gfx,          // Loaded graphic to display
-                           -1,           // Affine rotation to use (-1 none)
-                           false,        // Double size if rotating
-                           false,        // Hide this sprite
-                           false, false, // Horizontal or vertical flip
-                           false         // Mosaic
-                    );
-                    // Update the sprites
-
-
-                    oamSet(&oamMain, // oam handler
-                           1,        // Number of sprite
-                           get_player_remote().pos_x,
-                           get_player_remote().pos_y, // Coordinates
-                                                      //    SCREEN_WIDTH / 2,
-                           //    SPRITE_FLOOR_HEIGHT + SPRITE_HEIGHT / 2,
-                           0,                          // Priority
-                           1,                          // Palette to use
-                           SpriteSize_32x32,           // Sprite size
-                           SpriteColorFormat_256Color, // Color format
-                           gfx1,         // Loaded graphic to display
-                           -1,           // Affine rotation to use (-1 none)
-                           false,        // Double size if rotating
-                           false,        // Hide this sprite
-                           false, false, // Horizontal or vertical flip
-                           false         // Mosaic
-                    );
-
-
-                    swiWaitForVBlank();
-                    oamUpdate(&oamMain);
+                    break;
+                case WIFI_PLAYER_Y_YS_HP:
+                    printf("WIFI_PLAYER_Y_YS_HP: %d,%d,%d\n", msg.dat1,
+                           msg.dat2, msg.dat3);
+                    break;
+                case WIFI_DAMAGE_X_Y_DMG:
+                    printf("WIFI_DAMAGE_X_Y_DMG: %d,%d,%d\n", msg.dat1,
+                           msg.dat2, msg.dat3);
+                    break;
+                case WIFI_ACK_LM:
+                    printf("WIFI_ACK_LM\n");
+                    break;
+                case WIFI_NULL_MSG:
+                    printf("WIFI_NULL_MSG\n");
+                    break;
+                default:
+                    break;
                 }
         }
+
+    scanKeys();
+    keys = keysDown();
+    // score arbitrary nonzero
+    if (keys & KEY_UP)
+        {
+            wifi_announce_lfg();
+        }
+    if (keys & KEY_DOWN)
+        {
+            send_ctrl_instruction(START_GAME, 0x03);
+        }
+    if (keys & KEY_LEFT)
+        {
+            send_ctrl_instruction(IS_PLAY, 0x03);
+        }
+    if (keys & KEY_RIGHT)
+        {
+            send_ctrl_instruction(SET_STAGE, 0x03);
+        }
+    if (keys & KEY_A)
+        {
+            send_ctrl_instruction(RESET_GAME, 0x03);
+        }
+    if (keys & KEY_B)
+        {
+            send_ctrl_instruction(END_ROUND, 0x03);
+        }
+    if (keys & KEY_X)
+        {
+            send_ctrl_instruction(WINNER_REMOTE, 0x03);
+        }
+    if (keys & KEY_Y)
+        {
+            send_ctrl_instruction(END_GAME, 0x03);
+        }
+    if (keys & KEY_R)
+        {
+            send_ctrl_instruction(REQ_ACK, 0x03);
+        }
+
+
+#endif
 }
