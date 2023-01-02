@@ -92,7 +92,7 @@ void init_main_screen(Player* t){
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
 
 	sprite_pos_remote(t);
-	//sprite_pos_local(t);
+	sprite_pos_local(t);
 	//configureSprites();
 }
 
@@ -160,8 +160,7 @@ void show_settings(int games_played, int games_won) {}
 
 
 void sprite_pos_local(Player* const player) {
-	u16* gfx;
-	u16* gfx1;
+	u16* gfx, gfx1;
 	// Set up memory bank to work in sprite mode (offset since we are using VRAM
 	// A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
@@ -169,17 +168,17 @@ void sprite_pos_local(Player* const player) {
 	// Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	// Allocate space for the graphic to show in the sprite
-	gfx =
-		oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	//gfx1 =
-	//	oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
+	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
 
 	// Copy data for the graphic (palette and bitmap)
 	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
+	dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen/2] , player2PalLen);
+	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
-   //printf("BEGIN\n");
+	//printf("BEGIN\n");
    while (1)
    {
 	   set_stage();
@@ -240,8 +239,9 @@ void sprite_pos_local(Player* const player) {
 			send_status(&l);
 			oamSet(&oamMain, // oam handler
 			   0,        // Number of sprite
-			   get_player_local().pos_x,
-			   get_player_local().pos_y, // Coordinates
+			   /*get_player_local().pos_x,
+			   get_player_local().pos_y,*/ // Coordinates
+			   0,90,
 			   0,                          // Priority
 			   0,                          // Palette to use
 			   SpriteSize_32x32,           // Sprite size
@@ -252,6 +252,23 @@ void sprite_pos_local(Player* const player) {
 			   false,        // Hide this sprite
 			   false, false, // Horizontal or vertical flip
 			   false         // Mosaic
+			);
+
+			oamSet(&oamMain, // oam handler
+				1,        // Number of sprite
+				/*translate_remote_x(get_player_remote().pos_x),
+				get_player_remote().pos_y,  // Coordinates*/
+				90, 90,
+				0,                          // Priority
+				1,                          // Palette to use
+				SpriteSize_32x32,           // Sprite size
+				SpriteColorFormat_256Color, // Color format
+				gfx1,         // Loaded graphic to display
+				-1,           // Affine rotation to use (-1 none)
+				false,        // Double size if rotating
+				false,        // Hide this sprite
+				false, false, // Horizontal or vertical flip
+				false         // Mosaic
 			);
 			// Update the sprites
 			swiWaitForVBlank();
@@ -269,7 +286,7 @@ void sprite_pos_remote(Player* const player){
 	//Allocate space for the graphic to show in the sprite
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
-	dmaCopy(player2Pal, &SPRITE_PALETTE[600] , player2PalLen);
+	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
 	oamSet(&oamMain, // oam handler
@@ -278,7 +295,7 @@ void sprite_pos_remote(Player* const player){
 			get_player_remote().pos_y,  // Coordinates*/
 			90, 90,
 			0,                          // Priority
-			3,                          // Palette to use
+			1,                          // Palette to use
 			SpriteSize_32x32,           // Sprite size
 			SpriteColorFormat_256Color, // Color format
 			gfx1,         // Loaded graphic to display
