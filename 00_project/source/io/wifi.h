@@ -2,7 +2,7 @@
  * @file wifi.h
  * @author Simon Thür and Lokman Mheni
  * @brief WIFI interface
- * @version 1.0
+ * @version 1.1
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -53,7 +53,7 @@
 
 typedef enum MsgType
 {
-    WIFI_SYNC_INSTR_SCORE,
+    WIFI_SYNC_INSTR_SCORE_BG,
     WIFI_REQ_LFG,
     WIFI_PLAYER_X_DIR_ACTION,
     WIFI_PLAYER_Y_YS_HP,
@@ -109,8 +109,9 @@ bool receive_messages(WifiMsg* rec);
  *
  * @param instruction
  * @param score
+ * @param bg background to set
  */
-void send_ctrl_instruction(u8 instruction, u8 score);
+void send_ctrl_instruction(u8 instruction, u8 score, u8 bg);
 
 /**
  * @brief Announce to network that one is looking for group
