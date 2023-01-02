@@ -175,119 +175,122 @@ int main(void)
 #else
     while (!wifi_connect_network())
         ;
-
-    if (receive_messages(&msg))
+    for (;;)
         {
-            printf("<-");
-            switch (msg.msg)
+
+            swiWaitForVBlank();
+            if (receive_messages(&msg))
                 {
-                case WIFI_SYNC_INSTR_SCORE:
-                    printf("WIFI_SYNC_INSTR_SCORE: %x\n", msg.dat1);
-                    break;
-                case WIFI_REQ_LFG:
-                    printf("WIFI_REQ_LFG\n");
-                    break;
-                case WIFI_PLAYER_X_DIR_ACTION:
-                    printf("WIFI_PLAYER_X_DIR_ACTION: %d,", msg.dat1);
-                    printf(msg.dat2 == DIRECTION_LEFT ? "left, " : "right, ");
-                    switch (msg.dat3)
+                    printf("<-");
+                    switch (msg.msg)
                         {
-                        case ACTION_TYPE_IDLE:
-                            printf("ACTION_TYPE_IDLE\n");
+                        case WIFI_SYNC_INSTR_SCORE:
+                            printf("WIFI_SYNC_INSTR_SCORE: %x\n", msg.dat1);
                             break;
-                        case ACTION_TYPE_WALK:
-                            printf("ACTION_TYPE_WALK\n");
+                        case WIFI_REQ_LFG:
+                            printf("WIFI_REQ_LFG\n");
                             break;
-                        case ACTION_TYPE_JUMP_INPLACE:
-                            printf("ACTION_TYPE_JUMP_INPLACE\n");
+                        case WIFI_PLAYER_X_DIR_ACTION:
+                            printf("WIFI_PLAYER_X_DIR_ACTION: %d,", msg.dat1);
+                            printf(msg.dat2 == DIRECTION_LEFT ? "left, "
+                                                              : "right, ");
+                            switch (msg.dat3)
+                                {
+                                case ACTION_TYPE_IDLE:
+                                    printf("ACTION_TYPE_IDLE\n");
+                                    break;
+                                case ACTION_TYPE_WALK:
+                                    printf("ACTION_TYPE_WALK\n");
+                                    break;
+                                case ACTION_TYPE_JUMP_INPLACE:
+                                    printf("ACTION_TYPE_JUMP_INPLACE\n");
+                                    break;
+                                case ACTION_TYPE_JUMP_MOVE:
+                                    printf("ACTION_TYPE_JUMP_MOVE\n");
+                                    break;
+                                case ACTION_TYPE_NORMAL_ATTACK:
+                                    printf("ACTION_TYPE_NORMAL_ATTACK\n");
+                                    break;
+                                case ACTION_TYPE_SPECIAL_ATTACK:
+                                    printf("ACTION_TYPE_SPECIAL_ATTACK\n");
+                                    break;
+                                case ACTION_TYPE_BLOCK_INPLACE:
+                                    printf("ACTION_TYPE_BLOCK_INPLACE\n");
+                                    break;
+                                case ACTION_TYPE_BLOCK_MOVE:
+                                    printf("ACTION_TYPE_BLOCK_MOVE\n");
+                                    break;
+                                default:
+                                    break;
+                                }
                             break;
-                        case ACTION_TYPE_JUMP_MOVE:
-                            printf("ACTION_TYPE_JUMP_MOVE\n");
+                        case WIFI_PLAYER_Y_YS_HP:
+                            printf("WIFI_PLAYER_Y_YS_HP: %d,%d,%d\n", msg.dat1,
+                                   msg.dat2, msg.dat3);
                             break;
-                        case ACTION_TYPE_NORMAL_ATTACK:
-                            printf("ACTION_TYPE_NORMAL_ATTACK\n");
+                        case WIFI_DAMAGE_X_Y_DMG:
+                            printf("WIFI_DAMAGE_X_Y_DMG: %d,%d,%d\n", msg.dat1,
+                                   msg.dat2, msg.dat3);
                             break;
-                        case ACTION_TYPE_SPECIAL_ATTACK:
-                            printf("ACTION_TYPE_SPECIAL_ATTACK\n");
+                        case WIFI_ACK_LM:
+                            printf("WIFI_ACK_LM\n");
                             break;
-                        case ACTION_TYPE_BLOCK_INPLACE:
-                            printf("ACTION_TYPE_BLOCK_INPLACE\n");
-                            break;
-                        case ACTION_TYPE_BLOCK_MOVE:
-                            printf("ACTION_TYPE_BLOCK_MOVE\n");
+                        case WIFI_NULL_MSG:
+                            printf("WIFI_NULL_MSG\n");
                             break;
                         default:
                             break;
                         }
-                    break;
-                case WIFI_PLAYER_Y_YS_HP:
-                    printf("WIFI_PLAYER_Y_YS_HP: %d,%d,%d\n", msg.dat1,
-                           msg.dat2, msg.dat3);
-                    break;
-                case WIFI_DAMAGE_X_Y_DMG:
-                    printf("WIFI_DAMAGE_X_Y_DMG: %d,%d,%d\n", msg.dat1,
-                           msg.dat2, msg.dat3);
-                    break;
-                case WIFI_ACK_LM:
-                    printf("WIFI_ACK_LM\n");
-                    break;
-                case WIFI_NULL_MSG:
-                    printf("WIFI_NULL_MSG\n");
-                    break;
-                default:
-                    break;
+                }
+
+            scanKeys();
+            keys = keysDown();
+            // score arbitrary nonzero
+            if (keys & KEY_UP)
+                {
+                    wifi_announce_lfg();
+                    printf("->lgf\n");
+                }
+            if (keys & KEY_DOWN)
+                {
+                    send_ctrl_instruction(START_GAME, 0x03);
+                    printf("-> START_GAME\n");
+                }
+            if (keys & KEY_LEFT)
+                {
+                    send_ctrl_instruction(IS_PLAY, 0x03);
+                    printf("-> IS_PLAY\n");
+                }
+            if (keys & KEY_RIGHT)
+                {
+                    send_ctrl_instruction(SET_STAGE, 0x03);
+                    printf("-> SET_STAGE\n");
+                }
+            if (keys & KEY_A)
+                {
+                    send_ctrl_instruction(RESET_GAME, 0x03);
+                    printf("-> RESET_GAME\n");
+                }
+            if (keys & KEY_B)
+                {
+                    send_ctrl_instruction(END_ROUND, 0x03);
+                    printf("-> END_ROUND\n");
+                }
+            if (keys & KEY_X)
+                {
+                    send_ctrl_instruction(WINNER_REMOTE, 0x03);
+                    printf("-> WINNER_REMOTE\n");
+                }
+            if (keys & KEY_Y)
+                {
+                    send_ctrl_instruction(END_GAME, 0x03);
+                    printf("-> END_GAME\n");
+                }
+            if (keys & KEY_R)
+                {
+                    send_ctrl_instruction(REQ_ACK, 0x03);
+                    printf("-> REQ_ACK\n");
                 }
         }
-
-    scanKeys();
-    keys = keysDown();
-    // score arbitrary nonzero
-    if (keys & KEY_UP)
-        {
-            wifi_announce_lfg();
-            printf("->lgf\n");
-        }
-    if (keys & KEY_DOWN)
-        {
-            send_ctrl_instruction(START_GAME, 0x03);
-            printf("-> START_GAME\n");
-        }
-    if (keys & KEY_LEFT)
-        {
-            send_ctrl_instruction(IS_PLAY, 0x03);
-            printf("-> IS_PLAY\n");
-        }
-    if (keys & KEY_RIGHT)
-        {
-            send_ctrl_instruction(SET_STAGE, 0x03);
-            printf("-> SET_STAGE\n");
-        }
-    if (keys & KEY_A)
-        {
-            send_ctrl_instruction(RESET_GAME, 0x03);
-            printf("-> RESET_GAME\n");
-        }
-    if (keys & KEY_B)
-        {
-            send_ctrl_instruction(END_ROUND, 0x03);
-            printf("-> END_ROUND\n");
-        }
-    if (keys & KEY_X)
-        {
-            send_ctrl_instruction(WINNER_REMOTE, 0x03);
-            printf("-> WINNER_REMOTE\n");
-        }
-    if (keys & KEY_Y)
-        {
-            send_ctrl_instruction(END_GAME, 0x03);
-            printf("-> END_GAME\n");
-        }
-    if (keys & KEY_R)
-        {
-            send_ctrl_instruction(REQ_ACK, 0x03);
-            printf("-> REQ_ACK\n");
-        }
-
-
 #endif
 }
