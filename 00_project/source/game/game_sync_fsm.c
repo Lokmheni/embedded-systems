@@ -106,6 +106,7 @@ void go_for_multiplayer()
                 {
                     wifi_announce_lfg();
                     con_state = CONNECTION_TYPE_LFG;
+                    printf("constate CONNECTION_TYPE_LFG\n");
                 }
         }
 }
@@ -127,6 +128,7 @@ void go_for_singleplayer()
             wifi_disconnect_network();
             // change state
             con_state = CONNECTION_TYPE_NULL;
+            printf("constate CONNECTION_TYPE_NULL\n");
         }
 }
 
@@ -139,6 +141,7 @@ void go_for_game_init()
             send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0, 0);
             reset_game(true);
             con_state = CONNECTION_TYPE_CONTESTED;
+            printf("constate CONNECTION_TYPE_CONTESTED\n");
         }
     else
         {
@@ -159,6 +162,7 @@ void go_for_end_round()
             get_scores(&scr, &dontcare);
             send_ctrl_instruction(END_ROUND | WINNER_REMOTE, scr, 0);
             con_state = CONNECTION_TYPE_MASTER;
+            printf("constate CONNECTION_TYPE_MASTER\n");
         }
     game_state = GAME_IN_ROUND_END;
     printf("GAME_IN_ROUND_END\n");

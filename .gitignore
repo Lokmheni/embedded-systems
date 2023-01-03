@@ -68,3 +68,7 @@ practicalwork6/.vscode/c_cpp_properties.json
 *.json
 
 00_project/build/
+
+00_project/html/
+
+00_project/latex/
