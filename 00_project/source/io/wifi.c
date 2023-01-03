@@ -2,7 +2,7 @@
  * @file wifi.c
  * @author Simon Thür and Lokman Mheni
  * @brief Control WIFI through packets of 4 bytes
- * @version 1.0
+ * @version 1.1
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -65,22 +65,23 @@ bool receive_messages(WifiMsg* rec)
             return false;
         }
 
-    if (rec->msg == WIFI_SYNC_INSTR_SCORE && (rec->dat1 & REQ_ACK))
+    if (rec->msg == WIFI_SYNC_INSTR_SCORE_BG && (rec->dat1 & REQ_ACK))
         {
             rec->msg = WIFI_ACK_LM;
             sendData((char*)rec, sizeof(rec));
-            rec->msg = WIFI_SYNC_INSTR_SCORE;
+            rec->msg = WIFI_SYNC_INSTR_SCORE_BG;
         }
     return true;
 }
 
 
-void send_ctrl_instruction(u8 instruction, u8 score)
+void send_ctrl_instruction(u8 instruction, u8 score, u8 bg)
 {
     WifiMsg transfer;
-    transfer.msg  = WIFI_SYNC_INSTR_SCORE;
+    transfer.msg  = WIFI_SYNC_INSTR_SCORE_BG;
     transfer.dat1 = instruction;
     transfer.dat2 = score;
+    transfer.dat3 = bg;
     sendData((char*)&transfer, sizeof(transfer));
 }
 
