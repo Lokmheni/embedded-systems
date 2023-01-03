@@ -185,8 +185,7 @@ void execute_commands(WifiMsg req)
         }
 
     // connection state possibly changed before ^
-    if (con_state == CONNECTION_TYPE_SLAVE &&
-        req.msg == WIFI_SYNC_INSTR_SCORE_BG)
+    if (req.msg == WIFI_SYNC_INSTR_SCORE_BG)
         {
             // lowlevel
             if (req.dat1 & RESET_GAME)
