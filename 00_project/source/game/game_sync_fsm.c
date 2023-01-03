@@ -80,10 +80,16 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
 
     // exit endstates
     if (game_state == GAME_IN_END && a != REQ_ACTION_NONE)
-        game_state = GAME_IN_SETUP;
+        {
+            game_state = GAME_IN_SETUP;
+            printf("GAME_IN_SETUP\n");
+        }
     if (game_state == GAME_IN_ROUND_END && a != REQ_ACTION_NONE &&
         con_state != CONNECTION_TYPE_SLAVE)
-        game_state = GAME_IN_ROUND_SETUP;
+        {
+            game_state = GAME_IN_ROUND_SETUP;
+            printf("GAME_IN_ROUND_SETUP\n");
+        }
 
     return round_done;
 }
@@ -126,6 +132,7 @@ void go_for_singleplayer()
 
 void go_for_game_init()
 {
+    printf("game_init\n");
     if (con_state != CONNECTION_TYPE_NULL)
         {
             /// @todo update BG
@@ -139,10 +146,13 @@ void go_for_game_init()
         }
 
     game_state = GAME_IN_PROGRESS;
+    printf("GAME_IN_PROGRESS\n");
 }
 
 void go_for_end_round()
 {
+    printf("end_round\n");
+
     if (con_state != CONNECTION_TYPE_NULL)
         {
             u8 scr, dontcare;
@@ -151,16 +161,20 @@ void go_for_end_round()
             con_state = CONNECTION_TYPE_MASTER;
         }
     game_state = GAME_IN_ROUND_END;
+    printf("GAME_IN_ROUND_END\n");
 }
 
 void go_for_new_round()
 {
+    printf("new_round\n");
+
     /// @todo change BG and send ctrl changeBG instr
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
+    printf("GAME_IN_PROGRESS\n");
 }
 
 
@@ -168,19 +182,26 @@ void execute_commands(WifiMsg req)
 {
     // does it make sense to do stuff?
     if (con_state == CONNECTION_TYPE_NULL)
-        return;
+        {
+            printf("connection_null!!!\n");
+            return;
+        }
     // Am I searching for game?
     if (con_state == CONNECTION_TYPE_LFG)
         {
             if (req.msg == WIFI_REQ_LFG)
                 {
-                    con_state  = CONNECTION_TYPE_MASTER;
+                    con_state = CONNECTION_TYPE_MASTER;
+                    printf("constate:CONNECTION_TYPE_MASTER\n");
                     game_state = GAME_IN_SETUP;
+                    printf("GAME_IN_SETUP\n");
                 }
             else if (req.msg == WIFI_SYNC_INSTR_SCORE_BG)
                 {
-                    con_state  = CONNECTION_TYPE_SLAVE;
+                    con_state = CONNECTION_TYPE_SLAVE;
+                    printf("constate:CONNECTION_TYPE_SLAVE\n");
                     game_state = GAME_IN_SETUP;
+                    printf("GAME_IN_SETUP\n");
                 }
         }
 
@@ -199,12 +220,21 @@ void execute_commands(WifiMsg req)
             // statelevel
             // playpause
             if (req.dat1 & IS_PLAY)
-                game_state = GAME_IN_PROGRESS;
+                {
+                    game_state = GAME_IN_PROGRESS;
+                    printf("GAME_IN_PROGRESS\n");
+                }
             else if (game_state == GAME_IN_PROGRESS)
-                game_state = GAME_IN_PAUSE;
+                {
+                    game_state = GAME_IN_PAUSE;
+                    printf("GAME_IN_PAUSE\n");
+                }
             // eor
             if (req.dat1 & END_ROUND) // override is_play
-                game_state = GAME_IN_ROUND_END;
+                {
+                    game_state = GAME_IN_ROUND_END;
+                    printf("GAME_IN_ROUND_END\n");
+                }
             // quit
             if (req.dat1 & END_GAME)
                 {
