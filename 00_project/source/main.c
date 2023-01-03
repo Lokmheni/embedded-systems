@@ -26,6 +26,7 @@
 #include "string.h"
 
 
+#define TESTBENCH
 int main(void)
 {
 
@@ -184,8 +185,8 @@ int main(void)
                     printf("<-");
                     switch (msg.msg)
                         {
-                        case WIFI_SYNC_INSTR_SCORE:
-                            printf("WIFI_SYNC_INSTR_SCORE: %x\n", msg.dat1);
+                        case WIFI_SYNC_INSTR_SCORE_BG:
+                            printf("WIFI_SYNC_INSTR_SCORE_BG: %x\n", msg.dat1);
                             break;
                         case WIFI_REQ_LFG:
                             printf("WIFI_REQ_LFG\n");
@@ -253,42 +254,42 @@ int main(void)
                 }
             if (keys & KEY_DOWN)
                 {
-                    send_ctrl_instruction(START_GAME, 0x03);
+                    send_ctrl_instruction(START_GAME, 0x03, 0);
                     printf("-> START_GAME\n");
                 }
             if (keys & KEY_LEFT)
                 {
-                    send_ctrl_instruction(IS_PLAY, 0x03);
+                    send_ctrl_instruction(IS_PLAY, 0x03, 0);
                     printf("-> IS_PLAY\n");
                 }
             if (keys & KEY_RIGHT)
                 {
-                    send_ctrl_instruction(SET_STAGE, 0x03);
+                    send_ctrl_instruction(SET_STAGE, 0x03, 0);
                     printf("-> SET_STAGE\n");
                 }
             if (keys & KEY_A)
                 {
-                    send_ctrl_instruction(RESET_GAME, 0x03);
+                    send_ctrl_instruction(RESET_GAME, 0x03, 0);
                     printf("-> RESET_GAME\n");
                 }
             if (keys & KEY_B)
                 {
-                    send_ctrl_instruction(END_ROUND, 0x03);
+                    send_ctrl_instruction(END_ROUND, 0x03, 0);
                     printf("-> END_ROUND\n");
                 }
             if (keys & KEY_X)
                 {
-                    send_ctrl_instruction(WINNER_REMOTE, 0x03);
+                    send_ctrl_instruction(WINNER_REMOTE, 0x03, 0);
                     printf("-> WINNER_REMOTE\n");
                 }
             if (keys & KEY_Y)
                 {
-                    send_ctrl_instruction(END_GAME, 0x03);
+                    send_ctrl_instruction(END_GAME, 0x03, 0);
                     printf("-> END_GAME\n");
                 }
             if (keys & KEY_R)
                 {
-                    send_ctrl_instruction(REQ_ACK, 0x03);
+                    send_ctrl_instruction(REQ_ACK, 0x03, 0);
                     printf("-> REQ_ACK\n");
                 }
         }
