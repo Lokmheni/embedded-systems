@@ -71,12 +71,21 @@ void show_logo(){
 	swiCopy(streetfighterBitmap, BG_GFX, streetfighterBitmapLen/2);
 	swiCopy(streetfighterPal, BG_PALETTE, streetfighterPalLen/2);
 	//Affine Marix Transformation
-	bgTransform[2]->xdx = 1*256;
-	bgTransform[2]->ydx = 0*256;
-	bgTransform[2]->xdy = 0*256;
-	bgTransform[2]->ydy = 1*256;
-	bgTransform[2]->dx = 0*256;
-	bgTransform[2]->dy = 0*256;
+	#ifndef	NEW_LIBNDS_VERSION
+		bgTransform[2]->xdx = 1*256;
+		bgTransform[2]->ydx = 0*256;
+		bgTransform[2]->xdy = 0*256;
+		bgTransform[2]->ydy = 1*256;
+		bgTransform[2]->dx = 0*256;
+		bgTransform[2]->dy = 0*256;
+	#else
+		bgTransform[2]->hdx = 1*256;
+		bgTransform[2]->vdx = 0*256;
+		bgTransform[2]->hdy = 0*256;
+		bgTransform[2]->vdy = 1*256;
+		bgTransform[2]->dx = 0*256;
+		bgTransform[2]->dy = 0*256;
+	#endif
 }
 
 void init_main_screen(Player* t){
