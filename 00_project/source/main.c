@@ -26,7 +26,6 @@
 #include "string.h"
 
 
-#define TESTBENCH
 int main(void)
 {
 
