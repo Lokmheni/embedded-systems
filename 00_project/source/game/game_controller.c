@@ -142,17 +142,22 @@ void update_game_mov(RequestedAction action, RequestedMovement movement,
         }
     else if (!bot_attack) // Bot logic
         {
-            // movement:
-            move(&player_remote,
-                 player_local.pos_x < player_remote.pos_x ? DIRECTION_LEFT
-                                                          : DIRECTION_RIGHT,
-                 player_local.pos_y < player_remote.pos_y, SPEED);
+            // dmg
             u8 dx, dy;
             do_damage(&player_remote, &dx, &dy);
             // BOT ONLY DOING SPECIAL ATTACKS, ALLOWS FOR EVADING
             if (take_damage(&player_local, dx, dy, 0))
                 {
                     remote_bot_attack();
+                }
+            else
+                {
+                    // movement:
+                    move(&player_remote,
+                         player_local.pos_x < player_remote.pos_x
+                             ? DIRECTION_LEFT
+                             : DIRECTION_RIGHT,
+                         player_local.pos_y < player_remote.pos_y, SPEED);
                 }
         }
 
