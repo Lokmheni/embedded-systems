@@ -139,13 +139,13 @@ void go_for_game_init()
         {
             /// @todo update BG
             send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0, 0);
-            reset_game(true);
+            reset_game(con_state != CONNECTION_TYPE_NULL);
             con_state = CONNECTION_TYPE_CONTESTED;
             printf("constate CONNECTION_TYPE_CONTESTED\n");
         }
     else
         {
-            reset_game(false);
+            reset_game(con_state != CONNECTION_TYPE_NULL);
         }
 
     game_state = GAME_IN_PROGRESS;
