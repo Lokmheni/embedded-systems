@@ -33,6 +33,7 @@
 //===================================================================
 #define SPEED          5 // number of pixels to move per game iteration
 #define SPEED_BLOCKING (SPEED / 2)
+#define BOT_SPEED      3
 #define JUMP_SPEED     18
 #define GRAVITY        2 // to see in relation to jump_speed
 

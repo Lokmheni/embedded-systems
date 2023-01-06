@@ -156,7 +156,7 @@ void update_game_mov(RequestedAction action, RequestedMovement movement,
                          player_local.pos_x < player_remote.pos_x
                              ? DIRECTION_LEFT
                              : DIRECTION_RIGHT,
-                         player_local.pos_y < player_remote.pos_y, SPEED);
+                         player_local.pos_y < player_remote.pos_y, BOT_SPEED);
                 }
         }
 
