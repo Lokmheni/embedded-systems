@@ -81,7 +81,8 @@ int main(void)
 
 #ifndef TESTBENCH
     // settings emulation multiplayer
-    go_for_multiplayer();
+    // go_for_multiplayer();
+    go_for_singleplayer();
     printf("start game\n");
 
 
@@ -116,7 +117,8 @@ int main(void)
                 }
 
 
-            receive_messages(&msg);
+            // receive_messages(&msg);
+            msg.msg = WIFI_NULL_MSG;
 
 
             exec_sync_fsm(a, m, msg, false);

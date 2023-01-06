@@ -187,7 +187,7 @@ void execute_commands(WifiMsg req)
     // does it make sense to do stuff?
     if (con_state == CONNECTION_TYPE_NULL)
         {
-            printf("connection_null!!!\n");
+            // printf("connection_null!!!\n");
             return;
         }
     // Am I searching for game?
