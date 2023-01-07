@@ -23,11 +23,14 @@
 Player player_local, player_remote;
 // core items
 u8   score_remote, score_local;
-bool is_remote;
-bool is_play; /*<! @deprecated handled outside of this scope*/
+bool is_remote;  /*<! true if remote is wifi person */
+bool is_play;    /*<! @deprecated handled outside of this scope*/
+bool bot_attack; /*<! true if bot attack cooldown active */
 
 
 // IRQ
+
+/// @brief Local execute delayed attack isr
 void isr_attack()
 {
     // DISABLE IRQ:
@@ -43,6 +46,38 @@ void isr_attack()
         }
     // unblock player:
     player_local.action = ACTION_TYPE_IDLE;
+}
+
+/// @brief Attack from local bot on local player isr
+void isr_bot_attack()
+{
+    // DISABLE IRQ AND TIMER
+    irqDisable(IRQ_TIMER3);
+    TIMER3_CR &= ~TIMER_ENABLE;
+    // UNBLOCK BOT
+    bot_attack = false;
+    // do damage to local
+    u8 dx, dy;
+    do_damage(&player_remote, &dx, &dy);
+    take_damage(&player_local, dx, dy, DAMAGE_SPECIAL);
+}
+
+
+/**
+ * @brief Local bot execute attack (init timer and isr)
+ *
+ */
+void remote_bot_attack()
+{
+    // IRQ
+    irqSet(IRQ_TIMER3, isr_bot_attack);
+    irqEnable(IRQ_TIMER3);
+    // timer
+    TIMER3_DATA = TIMER_FREQ_256(SPECIAL_ATK_CHARGEUP_FREQ); // gcc warn ok
+    TIMER3_CR   = TIMER_ENABLE | TIMER_DIV_256 | TIMER_IRQ_REQ;
+
+    // block bot
+    bot_attack = true;
 }
 
 // getters
@@ -82,7 +117,6 @@ void update_game_complete(RequestedAction action, RequestedMovement movement,
 void update_game_mov(RequestedAction action, RequestedMovement movement,
                      WifiMsg remote_info)
 {
-
     // do remote stuff
     if (remote_info.msg == WIFI_PLAYER_X_DIR_ACTION)
         {
@@ -101,9 +135,29 @@ void update_game_mov(RequestedAction action, RequestedMovement movement,
             player_remote.y_speed = remote_info.dat2;
             player_remote.health  = remote_info.dat3;
         }
-    else
+    else if (is_remote)
         {
             inferred_move(&player_remote);
+        }
+    else if (!bot_attack) // Bot logic
+        {
+            // dmg
+            u8 dx, dy;
+            do_damage(&player_remote, &dx, &dy);
+            // BOT ONLY DOING SPECIAL ATTACKS, ALLOWS FOR EVADING
+            if (take_damage(&player_local, dx, dy, 0))
+                {
+                    remote_bot_attack();
+                }
+            else
+                {
+                    // movement:
+                    move(&player_remote,
+                         player_local.pos_x < player_remote.pos_x
+                             ? DIRECTION_LEFT
+                             : DIRECTION_RIGHT,
+                         player_local.pos_y < player_remote.pos_y, BOT_SPEED);
+                }
         }
 
     // check if attacking
@@ -181,6 +235,9 @@ void set_stage()
     // specifics remote
     player_remote.dir     = DIRECTION_LEFT;
     player_remote.pos_x   = SCREEN_WIDTH - SPRITE_START_POS - SPRITE_WIDTH;
+
+    // singlplayer reset
+    bot_attack = false;
 }
 
 

@@ -43,7 +43,6 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // default assignment
     bool round_done = false;
 
-    /// @todo if not connected, emulate WifiMsg
 
     // obvious stuff thats always needed
     execute_commands(msg);
@@ -53,7 +52,8 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
         {
             update_game_complete(a, m, msg);
             // check player death (lazy evaluation) || timeout loss
-            if ((remote_attack_handler(msg) &&
+            if (((con_state == CONNECTION_TYPE_NULL ||
+                  remote_attack_handler(msg)) &&
                  get_player_local().health > MAX_HEALTH) ||
                 (timeout &&
                  get_player_local().health < get_player_remote().health))
@@ -130,12 +130,12 @@ void go_for_game_init()
         {
             /// @todo update BG
             send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0, 0);
-            reset_game(true);
+            reset_game(con_state != CONNECTION_TYPE_NULL);
             con_state = CONNECTION_TYPE_CONTESTED;
         }
     else
         {
-            reset_game(false);
+            reset_game(con_state != CONNECTION_TYPE_NULL);
         }
 
     game_state = GAME_IN_PROGRESS;
