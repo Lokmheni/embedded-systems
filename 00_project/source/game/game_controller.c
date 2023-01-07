@@ -2,7 +2,7 @@
  * @file game_controller.c
  * @author Simon Thür
  * @brief
- * @version 1.0
+ * @version 1.1
  * @date 2022-12-04
  *
  * @copyright Copyright (c) 2022
@@ -22,9 +22,9 @@
 // player items
 Player player_local, player_remote;
 // core items
-int  score_remote, score_local;
+u8   score_remote, score_local;
 bool is_remote;
-bool is_play;
+bool is_play; /*<! @deprecated handled outside of this scope*/
 
 
 // IRQ
@@ -39,8 +39,6 @@ void isr_attack()
         {
             u8 x, y;
             where_is_my_hit(&x, &y);
-            // transmitting data... is this smart? Assistant says its probably
-            // fine, @TODO test and see if it works...
             local_attack_handler(x, y, DAMAGE_SPECIAL);
         }
     // unblock player:
@@ -50,17 +48,39 @@ void isr_attack()
 // getters
 Player get_player_local() { return player_local; }
 Player get_player_remote() { return player_remote; }
-void   get_scores(int* local, int* remote)
+void   get_scores(u8* local, u8* remote)
 {
     *local  = score_local;
     *remote = score_remote;
 }
 
+
+void set_score_remote(u8 remote) { score_remote = remote; }
+void inc_score_lcoal()
+{
+    score_local = score_local + 1 > score_local
+                    ? score_local + 1
+                    : score_local; // conditional increment
+}
+
+
+void send_local_player() { send_status(&player_local); }
+
+
 // ctrl
 
+void update_game_complete(RequestedAction action, RequestedMovement movement,
+                          WifiMsg remote_info)
+{
+    if (action == REQ_ACTION_ATTACK)
+        local_attack(false);
+    else if (action == REQ_ACTION_SPECIAL_ATTACK)
+        local_attack(true);
+    update_game_mov(action, movement, remote_info);
+}
 
-void update_game(RequestedAction action, RequestedMovement movement,
-                 WifiMsg remote_info)
+void update_game_mov(RequestedAction action, RequestedMovement movement,
+                     WifiMsg remote_info)
 {
 
     // do remote stuff
@@ -193,7 +213,7 @@ bool local_attack(bool special)
 
 void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
-    // @todo mediate between single player and multiplayer
+    /// @todo mediate between single player and multiplayer
     send_damage(dmg_x, dmg_y, dmg);
 }
 
@@ -215,12 +235,12 @@ bool remote_attack_handler(WifiMsg remote_info)
     return false;
 }
 
-void reset_game()
+void reset_game(bool remote)
 {
     set_stage();
     score_local  = 0;
     score_remote = 0;
-    is_remote    = false; // TODO CHANGE based on bt status
+    is_remote    = remote;
     is_play      = true;
 }
 void new_round()
