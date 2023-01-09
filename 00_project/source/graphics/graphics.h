@@ -52,27 +52,19 @@ void init_main_screen();
  */
 void show_timer();
 
-
-
+/**
+ * @brief The function allows to display and move the sprite which represents the local player.
+ */
 void sprite_pos_local(Player* const player);
 
+/**
+ * @brief The function allows to display and move the sprite which represents the local player.
+ */
+void sprite_pos_remote(Player* const player);
 
-
-
-
-
-//void configureSprites();
-
-
-
-//void sprite_pos_local(PlayerState* const player);
-
-//void sprite_pos_remote(PlayerState* const player);
-
-void change_background();
-
-void set_background(int new_background);
-
+/**
+ * @brief The function computes the remaining time for the end of the game.
+ */
 void set_time_remaining(int min, int sec, int msec);
 
 // show statistics
@@ -80,7 +72,8 @@ void show_settings(int games_played, int games_won);
 
 void manage_timer();
 
-void show_sprites(Player* plr1, Player* plr2);
+//void change_background();
+//void set_background(int new_background);
 
 
 #endif // __GRAPHICS_H

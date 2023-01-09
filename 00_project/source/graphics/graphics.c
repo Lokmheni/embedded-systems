@@ -35,9 +35,10 @@
 #define	BLACK ARGB16(1,0,0,0)
 
 
-int min = 0, sec = 0, msec = 0;
+int min = 0, sec = 0, msec = 0, time_round = 60*60; // 60 seconds for each round
 
 void ISR_TIMER0(){
+	set_time_remaining(min, sec, msec);
 
 	msec = (msec + 1)%1000;
 	if(msec == 0)
@@ -147,17 +148,19 @@ void show_timer(){
 	irqEnable(IRQ_TIMER0);
 }
 
-//void sprite_pos_local(PlayerState* const player) {}
+//void change_background() {}
 
-//void sprite_pos_remote(PlayerState* const player) {}
+//void set_background(int new_background) {}
 
-void change_background() {}
+void set_time_remaining(int min, int sec, int msec){
+	int time_passed = 60*60*min + 60*sec + msec;
+	int time_remaining = time_round - time_passed;
+}
 
-void set_background(int new_background) {}
-
-void set_time_remaining(int min, int sec, int msec) {}
-
-void show_settings(int games_played, int games_won) {}
+void show_settings(int games_played, int games_won){
+	printf("\n\nGames Played : %d", games_played);
+	printf("\n\nGames Won : %d", games_won);
+}
 
 
 void sprite_pos_local(Player* const player) {
