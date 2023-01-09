@@ -148,15 +148,31 @@ void update_game_mov(RequestedAction action, RequestedMovement movement,
             if (take_damage(&player_local, dx, dy, 0))
                 {
                     remote_bot_attack();
+                    player_remote.action = ACTION_TYPE_SPECIAL_ATTACK;
                 }
             else
                 {
                     // movement:
+                    u8 old_x;
                     move(&player_remote,
                          player_local.pos_x < player_remote.pos_x
                              ? DIRECTION_LEFT
                              : DIRECTION_RIGHT,
                          player_local.pos_y < player_remote.pos_y, BOT_SPEED);
+
+                    // action type for graphics
+                    if (player_remote.pos_y < SPRITE_FLOOR_HEIGHT)
+                        {
+                            player_remote.action = old_x == player_remote.pos_x
+                                                     ? ACTION_TYPE_JUMP_INPLACE
+                                                     : ACTION_TYPE_JUMP_MOVE;
+                        }
+                    else
+                        {
+                            player_remote.action = old_x == player_remote.pos_x
+                                                     ? ACTION_TYPE_IDLE
+                                                     : ACTION_TYPE_WALK;
+                        }
                 }
         }
 
