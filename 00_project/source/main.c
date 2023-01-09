@@ -25,16 +25,22 @@ int main(void)
 {
     consoleDemoInit();
     //oamInit(&oamMain, SpriteMapping_1D_32, false);
+
+    Player* t;
+
+    (t->pos_x) = 0;
+    (t->pos_y) = 192;
+
     init_screens();
-
-
-    //sprite_pos_remote(t);
-    //sprite_pos_local(t);
+    get_touch_input();
+    sprite_pos_remote(t);
+    sprite_pos_local(t);
 
 
     while(1) {
+
     	swiWaitForVBlank();
-    	//oamUpdate(&oamMain);
+    	oamUpdate(&oamMain);
     }
 }
 

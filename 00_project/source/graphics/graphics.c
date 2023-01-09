@@ -35,9 +35,10 @@
 #define	BLACK ARGB16(1,0,0,0)
 
 
-int min = 0, sec = 0, msec = 0;
+int min = 0, sec = 0, msec = 0, time_round = 60*60; // 60 seconds for each round
 
 void ISR_TIMER0(){
+	set_time_remaining(min, sec, msec);
 
 	msec = (msec + 1)%1000;
 	if(msec == 0)
@@ -139,25 +140,30 @@ void show_timer(){
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
 	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
+	manage_timer();
+}
 
-    //min = sec = msec = 0;
+void manage_timer(){
+	//min = sec = msec = 0;
 	TIMER_DATA(0) = TIMER_FREQ_1024(1000);
 	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
 	irqSet(IRQ_TIMER0, &ISR_TIMER0);
 	irqEnable(IRQ_TIMER0);
 }
 
-//void sprite_pos_local(PlayerState* const player) {}
+//void change_background() {}
 
-//void sprite_pos_remote(PlayerState* const player) {}
+//void set_background(int new_background) {}
 
-void change_background() {}
+void set_time_remaining(int min, int sec, int msec){
+	int time_passed = 60*60*min + 60*sec + msec;
+	int time_remaining = time_round - time_passed;
+}
 
-void set_background(int new_background) {}
-
-void set_time_remaining(int min, int sec, int msec) {}
-
-void show_settings(int games_played, int games_won) {}
+void show_settings(int games_played, int games_won){
+	printf("\n\nGames Played : %d", games_played);
+	printf("\n\nGames Won : %d", games_won);
+}
 
 
 void sprite_pos_local(Player* const player) {
@@ -165,7 +171,7 @@ void sprite_pos_local(Player* const player) {
 	// Set up memory bank to work in sprite mode (offset since we are using VRAM
 	// A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+
 	// Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	// Allocate space for the graphic to show in the sprite
