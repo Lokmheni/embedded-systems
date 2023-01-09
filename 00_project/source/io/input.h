@@ -46,13 +46,11 @@ typedef enum
 } TouchInput;
 
 
-int get_input();
-
 int get_keys();
 
 void manage_key(int key);
 
-//void get_input(RequestedAction* action, RequestedMovement* movement);
+void get_input(RequestedAction* action, RequestedMovement* movement);
 
 
 void get_touch_input();

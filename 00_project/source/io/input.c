@@ -20,11 +20,10 @@ u16* gfx;
 
 int rand_ticks;
 
-//void get_input(RequestedAction* action, RequestedMovement* movement) {}
+void get_input(RequestedAction* action, RequestedMovement* movement) {}
 
 int get_keys(){
 	//Position
-
 	int keys;
 	while(1){
 		//Read held keys
@@ -91,7 +90,7 @@ void get_touch_input() {
 }
 
 
-int get_input(){
+/*int get_input(){
 	int keys;
 	while(1){
 	//Read held keys
@@ -103,4 +102,4 @@ int get_input(){
 			continue;
 	}
 	return 0;
-}
+}*/

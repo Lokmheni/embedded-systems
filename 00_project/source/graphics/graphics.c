@@ -140,8 +140,11 @@ void show_timer(){
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
 	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
+	manage_timer();
+}
 
-    //min = sec = msec = 0;
+void manage_timer(){
+	//min = sec = msec = 0;
 	TIMER_DATA(0) = TIMER_FREQ_1024(1000);
 	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
 	irqSet(IRQ_TIMER0, &ISR_TIMER0);
@@ -168,7 +171,7 @@ void sprite_pos_local(Player* const player) {
 	// Set up memory bank to work in sprite mode (offset since we are using VRAM
 	// A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+
 	// Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	// Allocate space for the graphic to show in the sprite
