@@ -24,30 +24,17 @@ int x1, y, x2;
 int main(void)
 {
     consoleDemoInit();
-
-    oamInit(&oamMain, SpriteMapping_1D_32, false);
-
-    Player* t;
-    Player* s;
-
-    (t->pos_x) = 0;
-    (t->pos_y) = 90;
-
-    (s->pos_x) = 250;
-    (s->pos_y) = 90;
+    //oamInit(&oamMain, SpriteMapping_1D_32, false);
     init_screens();
-    get_touch_input();
-   // sprite_pos_local(t);
-    //show_timer();
 
-    x1 = 0;
-    x2 = 256;
 
-    y = 90;
+    //sprite_pos_remote(t);
+    //sprite_pos_local(t);
+
 
     while(1) {
     	swiWaitForVBlank();
-    	oamUpdate(&oamMain);
+    	//oamUpdate(&oamMain);
     }
 }
 
