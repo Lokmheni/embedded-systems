@@ -122,7 +122,8 @@ void init_main_screen(Player* t){
 	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
 	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
-
+	sprite_pos_local(t);
+	sprite_pos_remote(t);
 
 	//configureSprites();
 }

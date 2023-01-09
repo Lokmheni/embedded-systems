@@ -24,17 +24,22 @@ int x1, y, x2;
 int main(void)
 {
     consoleDemoInit();
-    //oamInit(&oamMain, SpriteMapping_1D_32, false);
+    oamInit(&oamMain, SpriteMapping_1D_32, false);
 
     Player* t;
+    Player* s;
 
     (t->pos_x) = 0;
-    (t->pos_y) = 192;
+    (t->pos_y) = 90;
+
+    (s->pos_x) = 0;
+    (s->pos_y) = 90;
+
 
     init_screens();
     get_touch_input();
-    sprite_pos_remote(t);
-    sprite_pos_local(t);
+    //sprite_pos_remote(t);
+    //sprite_pos_local(t);
 
 
     while(1) {
