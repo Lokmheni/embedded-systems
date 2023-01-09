@@ -66,7 +66,7 @@ void manage_key(int keys){
 	oamUpdate(&oamMain);
 }
 
-void get_touch_input() {
+bool get_touch_input() {
 	bool set_up = true;
 	while(1){
 		//Read the touchscreen position
@@ -80,9 +80,10 @@ void get_touch_input() {
 			int x = touch.px;
 			int y = touch.py;
 			if((x > 78 && x < 178) && ((y > 75 && y < 75+21) || (y > 75+21 && y < 75+42))){
+				return 1;
 				//printf("Lokman");
-				show_timer();
-				init_main_screen();
+				//show_timer();
+				//init_main_screen();
 				set_up = false;
 			}
 		}

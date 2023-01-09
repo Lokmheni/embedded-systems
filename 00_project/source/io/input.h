@@ -53,7 +53,7 @@ void manage_key(int key);
 void get_input(RequestedAction* action, RequestedMovement* movement);
 
 
-void get_touch_input();
+bool get_touch_input();
 
 
 #endif // __INPUT_H_
