@@ -7,6 +7,7 @@
 #include <nds.h>
 #include <stdio.h>
 
+#include "P_Audio.h"
 #include "game/game_controller.h"
 #include "graphics/graphics.h"
 #include "numbers.h"
@@ -25,6 +26,8 @@ int main(void)
 {
     consoleDemoInit();
     oamInit(&oamMain, SpriteMapping_1D_32, false);
+    Audio_Init();
+    Audio_PlayMusic();
 
     Player* t;
     Player* s;
