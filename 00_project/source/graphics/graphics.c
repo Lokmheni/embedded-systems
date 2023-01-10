@@ -259,7 +259,7 @@ void sprite_pos_local(Player* const player) {
 			   false         // Mosaic
 			);
 
-			oamSet(&oamMain, // oam handler
+			/*oamSet(&oamMain, // oam handler
 				1,        // Number of sprite
 				translate_remote_x(get_player_remote().pos_x),
 				get_player_remote().pos_y,  // Coordinates
@@ -273,7 +273,7 @@ void sprite_pos_local(Player* const player) {
 				false,        // Hide this sprite
 				false, false, // Horizontal or vertical flip
 				false         // Mosaic
-			);
+			);*/
 			// Update the sprites
 			swiWaitForVBlank();
 			oamUpdate(&oamMain);
@@ -286,7 +286,7 @@ void sprite_pos_remote(Player* const player){
 	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 	//Initialize sprite manager and the engine
-	//oamInit(&oamMain, SpriteMapping_1D_32, false);
+	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
@@ -295,9 +295,9 @@ void sprite_pos_remote(Player* const player){
 
 	oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
-			//translate_remote_x(get_player_remote().pos_x),
-			//get_player_remote().pos_y,  // Coordinates
-			90,90,
+			translate_remote_x(get_player_remote().pos_x),
+			get_player_remote().pos_y,  // Coordinates
+			//90,90,
 			0,                          // Priority
 			1,                          // Palette to use
 			SpriteSize_32x32,           // Sprite size

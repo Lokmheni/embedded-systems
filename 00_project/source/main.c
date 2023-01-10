@@ -41,8 +41,9 @@ int main(void)
     if(touch){
     	show_timer();
     	init_main_screen();
-    	sprite_pos_local(t);
-    	//sprite_pos_remote(s);
+
+    	sprite_pos_remote(s);
+    	//sprite_pos_local(t);
     }
 
 
