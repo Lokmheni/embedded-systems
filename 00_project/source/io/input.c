@@ -11,6 +11,7 @@
 
 
 #include "input.h"
+#include "sound.h"
 #include "../graphics/graphics.h"
 #include <nds.h>
 #include <stdio.h>
@@ -20,7 +21,7 @@ u16* gfx;
 
 int rand_ticks;
 
-void get_input(RequestedAction* action, RequestedMovement* movement) {
+void get_input(RequestedAction* action, RequestedMovement* movement, SoundEffect* sound) {
 
 	int keys;
 	while(1){
@@ -30,27 +31,33 @@ void get_input(RequestedAction* action, RequestedMovement* movement) {
 		if(keys & KEY_LEFT){
 			*movement = REQ_MOVE_LEFT;
 			*action = REQ_ACTION_NONE;
+			*sound = SOUND_EFFECT_MOVE;
 		}
 		if(keys & KEY_RIGHT){
 			*movement = REQ_MOVE_RIGHT;
 			*action = REQ_ACTION_NONE;
+			*sound = SOUND_EFFECT_MOVE;
 		}
 		if(keys & KEY_X){
 			*movement = REQ_MOVE_NONE;
 			*action = REQ_ACTION_JUMP;
+			*sound = SOUND_EFFECT_JUMP;
 		}
 		if(keys & KEY_A){
 			*movement = REQ_MOVE_NONE;
 			*action = REQ_ACTION_ATTACK;
+			*sound = SOUND_EFFECT_ATTACK;
 		}
 		if(keys & KEY_Y){
 			*movement = REQ_MOVE_NONE;
 			*action = REQ_ACTION_BLOCK;
+			*sound = SOUND_EFFECT_BLOCK;
 		}
 
 		if(keys & KEY_B){
 			*movement = REQ_MOVE_NONE;
 			*action = REQ_ACTION_SPECIAL_ATTACK;
+			*sound = SOUND_EFFECT_ATTACK;
 		}
 	}
 }

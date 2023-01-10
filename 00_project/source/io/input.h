@@ -13,6 +13,7 @@
 #define __INPUT_H_
 
 #include <nds.h>
+#include "sound.h"
 
 #define SCREEN_WIDTH	256
 #define	SCREEN_HEIGHT	192
@@ -50,7 +51,7 @@ int get_keys();
 
 void manage_key(int key);
 
-void get_input(RequestedAction* action, RequestedMovement* movement);
+void get_input(RequestedAction* action, RequestedMovement* movement, SoundEffect* sound);
 
 
 bool get_touch_input();
