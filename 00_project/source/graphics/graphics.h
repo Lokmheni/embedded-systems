@@ -15,6 +15,8 @@
 
 #include "../game/game.h"
 
+/// @brief proof a point
+void PROOF_OF_CONCEPT();
 
 
 /**

@@ -38,6 +38,10 @@
 
 int min = 0, sec = 0, msec = 0, time_remaining, time_round = 1000*60*2; // 120 seconds for each round
 
+
+void PROOF_OF_CONCEPT() { updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec); }
+
+
 void ISR_TIMER0(){
 	int time_remaining = set_time_remaining(min, sec, msec);
 	if(time_remaining > 0){
@@ -53,7 +57,7 @@ void ISR_TIMER0(){
 			changeColorDisp(BLACK, RED);
 		else
 			changeColorDisp(WHITE, BLACK);
-		updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
+		// updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 	}
 	else
 		gameover();

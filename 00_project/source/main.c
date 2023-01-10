@@ -19,7 +19,7 @@
 #include "string.h"
 #include "graphics/chrono_display.h"
 
-int min, sec, msec;
+
 int x1, y, x2;
 
 int main(void)
@@ -61,9 +61,10 @@ int main(void)
 
     while(1) {
 
+        PROOF_OF_CONCEPT();
 
-    	swiWaitForVBlank();
-    	oamUpdate(&oamMain);
+        swiWaitForVBlank();
+        oamUpdate(&oamMain);
     }
 }
 
