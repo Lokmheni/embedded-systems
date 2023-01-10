@@ -53,7 +53,7 @@ void ISR_TIMER0(){
 			changeColorDisp(BLACK, RED);
 		else
 			changeColorDisp(WHITE, BLACK);
-		updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
+		//updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 	}
 	else
 		gameover();

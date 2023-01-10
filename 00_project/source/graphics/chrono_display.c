@@ -25,6 +25,7 @@ void updateChronoDisp(u16* map,int min, int sec, int msec)
 	for(tile = 0; tile <1024; tile++)
 		map[tile] = 32;
 
+
 	/*****MINUTES******/
 	number = min;
 	if(min > 59) min = number = -1;
