@@ -13,6 +13,12 @@
 #ifndef __SOUND_H
 #define __SOUND_H
 
+#pragma once
+
+#include <nds.h>
+#include <maxmod9.h>
+#include "soundbank.h"
+#include "soundbank_bin.h"
 
 typedef enum
 {
@@ -22,6 +28,7 @@ typedef enum
     SOUND_EFFECT_MOVE,
     SOUND_EFFECT_JUMP
 } SoundEffect;
+
 
 
 void init_sound();

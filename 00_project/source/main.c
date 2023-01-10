@@ -7,7 +7,7 @@
 #include <nds.h>
 #include <stdio.h>
 
-#include "P_Audio.h"
+#include "io/sound.h"
 #include "game/game_controller.h"
 #include "graphics/graphics.h"
 #include "numbers.h"
@@ -26,8 +26,8 @@ int main(void)
 {
     consoleDemoInit();
     oamInit(&oamMain, SpriteMapping_1D_32, false);
-    Audio_Init();
-    Audio_PlayMusic();
+    init_sound();
+    play_music();
 
     Player* t;
     Player* s;
@@ -42,14 +42,14 @@ int main(void)
     init_screens();
     bool touch = get_touch_input();
     if(touch){
-
+    	stop_music();
+    	play_sound_effect(SOUND_EFFECT_ATTACK);
     	show_timer();
     	init_main_screen();
 
     	sprite_pos_remote(s);
     	sprite_pos_local(t);
     }
-
 
     while(1) {
 

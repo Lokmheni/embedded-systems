@@ -45,10 +45,6 @@ void init_main_screen();
 
 /**
  * @brief A timer showing the passed time of the round is displayed in tiled mode.
- * 		  The timer is configured to have a 1 Hz period.
- * 		  @ref ISR_TIMER0 is used as interrupt service routine.
- * 		  Then the ISR is being associated to the timer interrupt line.
- * 		  The timer interrupt line is enabled.
  */
 void show_timer();
 
@@ -70,6 +66,12 @@ void set_time_remaining(int min, int sec, int msec);
 // show statistics
 void show_settings(int games_played, int games_won);
 
+/**
+ * @brief	The timer is configured to have a 1 Hz period.
+ * 		  	@ref ISR_TIMER0 is used as interrupt service routine.
+ * 		  	Then the ISR is being associated to the timer interrupt line.
+ * 		  	The timer interrupt line is enabled.
+ * */
 void manage_timer();
 
 //void change_background();
