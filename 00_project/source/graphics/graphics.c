@@ -181,8 +181,8 @@ void sprite_pos_local(Player* const player) {
 	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
-	dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen/2] , player2PalLen);
-	dmaCopy(player2Tiles, gfx1, player2TilesLen);
+	//dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen/2] , player2PalLen);
+	//dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
 	//printf("BEGIN\n");
    while (1)
@@ -284,7 +284,7 @@ void sprite_pos_local(Player* const player) {
 void sprite_pos_remote(Player* const player){
 	u16* gfx1;
 	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
-	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+	VRAM_F_CR = VRAM_ENABLE | VRAM_F_MAIN_SPRITE_0x06400000;
 	//Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite
