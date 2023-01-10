@@ -42,6 +42,7 @@ int main(void)
     init_screens();
     bool touch = get_touch_input();
     if(touch){
+
     	show_timer();
     	init_main_screen();
 
