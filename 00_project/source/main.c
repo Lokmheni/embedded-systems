@@ -59,16 +59,8 @@ int main(void)
        	//sprite_pos_local(t);
        	    }
 
-<<<<<<< 7d1786a3ea9efe8bd4ac8c644701907acec78299
     while(1) {
-
-<<<<<<< 7d1786a3ea9efe8bd4ac8c644701907acec78299
-=======
     	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
->>>>>>> chronometer shown nicely, thanks simon
-=======
-
->>>>>>> issue with timer display
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);
     }
