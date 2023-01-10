@@ -166,7 +166,7 @@ void show_settings(int games_played, int games_won){
 
 
 void sprite_pos_local(Player* const player) {
-	u16* gfx, gfx1;
+	u16* gfx; //gfx1;
 	// Set up memory bank to work in sprite mode (offset since we are using VRAM
 	// A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
@@ -175,7 +175,7 @@ void sprite_pos_local(Player* const player) {
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	// Allocate space for the graphic to show in the sprite
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
-	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
+	//gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
 
 	// Copy data for the graphic (palette and bitmap)
 	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
@@ -244,7 +244,7 @@ void sprite_pos_local(Player* const player) {
 			Player l = get_player_local();
 			send_status(&l);
 			oamSet(&oamMain, // oam handler
-			   0,        // Number of sprite
+			   2,        // Number of sprite
 			   get_player_local().pos_x,
 			   get_player_local().pos_y, // Coordinates
 			   0,                          // Priority
@@ -284,7 +284,7 @@ void sprite_pos_local(Player* const player) {
 void sprite_pos_remote(Player* const player){
 	u16* gfx1;
 	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
-	VRAM_F_CR = VRAM_ENABLE | VRAM_F_MAIN_SPRITE_0x06400000;
+	//VRAM_F_CR = VRAM_ENABLE | VRAM_F_MAIN_SPRITE_0x06400000;
 	//Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite

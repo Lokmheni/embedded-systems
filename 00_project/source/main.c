@@ -43,7 +43,7 @@ int main(void)
     	init_main_screen();
 
     	sprite_pos_remote(s);
-    	//sprite_pos_local(t);
+    	sprite_pos_local(t);
     }
 
 
