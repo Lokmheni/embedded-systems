@@ -22,8 +22,37 @@ int rand_ticks;
 
 void get_input(RequestedAction* action, RequestedMovement* movement) {
 
-	//TODO
+	int keys;
+	while(1){
+		//Read held keys
+		scanKeys();
+		keys = keysHeld();
+		if(keys & KEY_LEFT){
+			*movement = REQ_MOVE_LEFT;
+			*action = REQ_ACTION_NONE;
+		}
+		if(keys & KEY_RIGHT){
+			*movement = REQ_MOVE_RIGHT;
+			*action = REQ_ACTION_NONE;
+		}
+		if(keys & KEY_X){
+			*movement = REQ_MOVE_NONE;
+			*action = REQ_ACTION_JUMP;
+		}
+		if(keys & KEY_A){
+			*movement = REQ_MOVE_NONE;
+			*action = REQ_ACTION_ATTACK;
+		}
+		if(keys & KEY_Y){
+			*movement = REQ_MOVE_NONE;
+			*action = REQ_ACTION_BLOCK;
+		}
 
+		if(keys & KEY_B){
+			*movement = REQ_MOVE_NONE;
+			*action = REQ_ACTION_SPECIAL_ATTACK;
+		}
+	}
 }
 
 int get_keys(){
@@ -33,7 +62,7 @@ int get_keys(){
 		//Read held keys
 		scanKeys();
 		keys = keysHeld();
-		if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP) || (keys & KEY_TOUCH))
+		if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP) || (keys & KEY_TOUCH) )
 			return keys;
 		else
 			return 0;
@@ -72,3 +101,4 @@ bool get_touch_input() {
 		}
 	}
 }
+
