@@ -77,6 +77,9 @@ void manage_timer();
 //void change_background();
 //void set_background(int new_background);
 
+/**
+ * @brief the function displays an image to say that the game is over.
+ */
 void gameover();
 
 #endif // __GRAPHICS_H

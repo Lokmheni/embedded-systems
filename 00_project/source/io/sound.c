@@ -38,20 +38,6 @@ void stop_music() {
 }
 
 void play_sound_effect(SoundEffect sound) {
-	//Declare a sound effect
-	//mm_sound_effect sound;
-	//Set the id of the sound effect with the input parameter
-	//sound.id = i;
-	//Set the rate to the default one (1024)
-	//sound.rate = 1024;
-	//Set the volume to the maximum (range 0...255)
-	//sound.volume = 255;
-	//Set the panning depending on the effect (0-left....255-right)
-	//if(i == SFX_PUNCH)
-	//	sound.panning = 0;
-	//if(i == SFX_BOING)
-	//	sound.panning = 255;
-	//Play the effect using the sound structure
 	if(sound == SOUND_EFFECT_ATTACK)
 		mmEffect(SFX_PUNCH);
 	if(sound == SOUND_EFFECT_JUMP)
