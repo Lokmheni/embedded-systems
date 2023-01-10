@@ -26,6 +26,7 @@ int main(void)
 {
     consoleDemoInit();
     oamInit(&oamMain, SpriteMapping_1D_32, false);
+    //gameover();
     init_sound();
     play_music();
 
@@ -43,7 +44,7 @@ int main(void)
     bool touch = get_touch_input();
     if(touch){
     	stop_music();
-    	play_sound_effect(SOUND_EFFECT_ATTACK);
+    	play_sound_effect(SOUND_EFFECT_JUMP);
     	show_timer();
     	init_main_screen();
 

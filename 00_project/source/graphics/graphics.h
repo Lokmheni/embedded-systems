@@ -61,7 +61,7 @@ void sprite_pos_remote(Player* const player);
 /**
  * @brief The function computes the remaining time for the end of the game.
  */
-void set_time_remaining(int min, int sec, int msec);
+int set_time_remaining(int min, int sec, int msec);
 
 // show statistics
 void show_settings(int games_played, int games_won);
@@ -77,5 +77,6 @@ void manage_timer();
 //void change_background();
 //void set_background(int new_background);
 
+void gameover();
 
 #endif // __GRAPHICS_H
