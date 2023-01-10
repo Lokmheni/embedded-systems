@@ -70,7 +70,7 @@ int get_keys(){
 	return 0;
 }
 
-void manage_key(int keys){
+/*void manage_key(int keys){
 	int x = 0, y = 192;
 	//Modify position of the sprite accordingly
 	if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP)){
@@ -79,7 +79,7 @@ void manage_key(int keys){
 		if((keys & KEY_LEFT) && (x  > 0)) x-=2;
 		if((keys & KEY_UP) && (y  > 0)) y-=2;
 	}
-}
+}*/
 
 bool get_touch_input(TouchInput* touchinput) {
 	bool set_up = true;

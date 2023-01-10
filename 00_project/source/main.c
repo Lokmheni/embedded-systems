@@ -48,20 +48,19 @@ int main(void)
     (s->pos_x) = 100;
     (s->pos_y) = 90;
 
-
     init_screens();
     bool touch = get_touch_input();
     if(touch){
     	stop_music();
-    	play_sound_effect(SOUND_EFFECT_JUMP);
-    	show_timer();
-    	init_main_screen();
-
-    	sprite_pos_remote(s);
-    	//sprite_pos_local(t);
-    }
+        play_sound_effect(*sound);
+        show_timer();
+        init_main_screen();
+       	sprite_pos_remote(s);
+       	//sprite_pos_local(t);
+       	    }
 
     while(1) {
+
 
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);
