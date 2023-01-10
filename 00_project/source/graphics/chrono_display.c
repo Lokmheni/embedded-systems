@@ -1,5 +1,6 @@
 #include "chrono_display.h"
 
+
 void printDigit(u16* map, int number, int x, int y)
 {
 	int i,j;

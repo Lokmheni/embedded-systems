@@ -7,7 +7,7 @@ void Audio_Init()
 	//Load module
 	mmLoad(MOD_FLATOUTLIES);
 	//Load effect
-	mmLoadEffect(SFX_SWISH);
+	mmLoadEffect(SFX_PUNCH);
 	mmLoadEffect(SFX_CLUNK);
 }
 
