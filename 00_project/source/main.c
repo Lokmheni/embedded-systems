@@ -27,6 +27,15 @@ int main(void)
     consoleDemoInit();
     oamInit(&oamMain, SpriteMapping_1D_32, false);
     //gameover();
+    SoundEffect* sound;
+    if(get_player_local().action == ACTION_TYPE_WALK)
+    	*sound = SOUND_EFFECT_MOVE;
+    if((get_player_local().action == ACTION_TYPE_NORMAL_ATTACK) || (get_player_local().action == ACTION_TYPE_SPECIAL_ATTACK))
+   		*sound = SOUND_EFFECT_ATTACK;
+   	if(get_player_local().action == ACTION_TYPE_JUMP_INPLACE || get_player_local().action == ACTION_TYPE_JUMP_MOVE)
+   		*sound = SOUND_EFFECT_JUMP;
+   	if(get_player_local().action == ACTION_TYPE_BLOCK_INPLACE || get_player_local().action == ACTION_TYPE_BLOCK_MOVE)
+   		*sound = SOUND_EFFECT_BLOCK;
     init_sound();
     play_music();
 
@@ -58,6 +67,10 @@ int main(void)
     	oamUpdate(&oamMain);
     }
 }
+
+
+
+
 
 
 

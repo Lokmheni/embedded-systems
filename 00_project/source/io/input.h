@@ -51,7 +51,7 @@ int get_keys();
 
 void manage_key(int key);
 
-void get_input(RequestedAction* action, RequestedMovement* movement, SoundEffect* sound);
+void get_input(RequestedAction* action, RequestedMovement* movement);
 
 
 bool get_touch_input();
