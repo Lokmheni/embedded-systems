@@ -170,16 +170,13 @@ void show_settings(int games_played, int games_won){
 
 
 void sprite_pos_local(Player* const player) {
-	u16* gfx, gfx1;
+
 	// Set up memory bank to work in sprite mode (offset since we are using VRAM
-	// A for backgrounds)
+    // A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 
-	//using extended palettes:
-	vramSetBankF(VRAM_F_LCD);
-	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
-	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
-	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+	u16* gfx, gfx1;
+
 
 	// Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
@@ -188,12 +185,24 @@ void sprite_pos_local(Player* const player) {
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
 
 
-	// Copy data for the graphic (palette and bitmap)
-	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
-	dmaCopy(playerTiles, gfx, playerTilesLen);
 
-	dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen] , player2PalLen);
+
+	//using extended palettes:
+	vramSetBankF(VRAM_F_LCD);
+	//dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
+	//dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen+1] , player2PalLen);
+	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
+	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
+	dmaCopy(playerTiles, gfx, playerTilesLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
+	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+
+	// Copy data for the graphic (palette and bitmap)
+	//dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
+
+
+	//dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen] , player2PalLen);
+	//dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
 
    while (1)
