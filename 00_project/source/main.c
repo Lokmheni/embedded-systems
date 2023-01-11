@@ -20,6 +20,8 @@
 #include "graphics/chrono_display.h"
 #include "health.h"
 
+void show_health();
+
 
 u8 GreenTile[64] =
 {
@@ -133,7 +135,7 @@ void show_health(){
 	// 1) VRAM configuration for SUB engine
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 	// 2) SUB engine configuration in tiled mode
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE|DISPLAY_BG1_ACTIVE;
 	// 3) Configure the background
 	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4);
 	// 4) Copy the 4 tiles to the tile base
