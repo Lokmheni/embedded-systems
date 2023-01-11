@@ -20,7 +20,26 @@
 #include "graphics/chrono_display.h"
 #include "health.h"
 
+#define	RED   ARGB16(1,31,0,0)
+#define	GREEN ARGB16(1,0,31,0)
+#define	BLUE  ARGB16(1,0,0,31)
+#define	WHITE ARGB16(1,31,31,31)
+#define	BLACK ARGB16(1,0,0,0)
+//#define	TRANS ARGB16(0,0,0,0)
 
+
+// Different color tiles
+u8 TransTile[64] =
+{
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0
+};
 u8 GreenTile[64] =
 {
 	1,1,1,1,1,1,1,1,
@@ -31,11 +50,11 @@ u8 GreenTile[64] =
 	1,1,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1
-};// = 0
-
+};
 
 u8 BlueTile[64] =
-{	2,2,2,2,2,2,2,2,
+{
+	2,2,2,2,2,2,2,2,
 	2,2,2,2,2,2,2,2,
 	2,2,2,2,2,2,2,2,
 	2,2,2,2,2,2,2,2,
@@ -43,7 +62,7 @@ u8 BlueTile[64] =
 	2,2,2,2,2,2,2,2,
 	2,2,2,2,2,2,2,2,
 	2,2,2,2,2,2,2,2
-};// = 2?
+};
 
 u8 WhiteTile[64] =
 {
@@ -57,17 +76,29 @@ u8 WhiteTile[64] =
 	3,3,3,3,3,3,3,3
 };
 
-u8 transTile[64] =
+u8 BlackTile[64] =
 {
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0
-};// = 1 ?
+	4,4,4,4,4,4,4,4,
+	4,4,4,4,4,4,4,4,
+	4,4,4,4,4,4,4,4,
+	4,4,4,4,4,4,4,4,
+	4,4,4,4,4,4,4,4,
+	4,4,4,4,4,4,4,4,
+	4,4,4,4,4,4,4,4,
+	4,4,4,4,4,4,4,4
+};
+
+u8 RedTile[64] =
+{
+	5,5,5,5,5,5,5,5,
+	5,5,5,5,5,5,5,5,
+	5,5,5,5,5,5,5,5,
+	5,5,5,5,5,5,5,5,
+	5,5,5,5,5,5,5,5,
+	5,5,5,5,5,5,5,5,
+	5,5,5,5,5,5,5,5,
+	5,5,5,5,5,5,5,5,
+};
 
 
 int main(void)
@@ -102,22 +133,19 @@ int main(void)
     init_screens();
     bool touch = get_touch_input();
     if(touch){
+
     	stop_music();
         play_sound_effect(*sound);
-        show_health();
+        //show_health();
         show_timer();
         init_main_screen();
 
-        //sprite_initializer(t,s);
-        //sprite_pos_remote(s);
-        //sprite_pos_local(t);
-       	}
-
-
-
+        sprite_initializer(t,s);
+        sprite_pos_remote(s);
+        sprite_pos_local(t);
+    }
     //show_timer();
-
-
+    //init_screens();
     //show_health();
 
     while(1) {
@@ -138,31 +166,34 @@ void show_health(){
 	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4);
 	// 4) Copy the 4 tiles to the tile base
 
-	swiCopy(GreenTile, &BG_TILE_RAM_SUB(4)[0], 32);
-	swiCopy(BlueTile, &BG_TILE_RAM_SUB(4)[32], 32);
-
-
+	swiCopy(TransTile, &BG_TILE_RAM_SUB(4)[0], 32);
+	swiCopy(GreenTile, &BG_TILE_RAM_SUB(4)[32], 32);
+	swiCopy(BlueTile, &BG_TILE_RAM_SUB(4)[64], 32);
+	swiCopy(WhiteTile, &BG_TILE_RAM_SUB(4)[96], 32);
+	swiCopy(BlackTile, &BG_TILE_RAM_SUB(4)[128], 32);
+	swiCopy(RedTile, &BG_TILE_RAM_SUB(4)[160], 32);
 	// 5) Initialize the palette (5 components)
-
+	//BG_PALETTE_SUB[0] = TRANS;
 	BG_PALETTE_SUB[1] = GREEN;
-	BG_PALETTE_SUB[0] = BLUE;
+	BG_PALETTE_SUB[2] = BLUE;
 	BG_PALETTE_SUB[3] = WHITE;
-
+	BG_PALETTE_SUB[4] = BLACK;
+	BG_PALETTE_SUB[5] = RED;
 	// 6) Generate the map
 	int i,j;
-	for(i = 0; i < 32; i++){
-			for(j = 0; j < 24; j++){
-				BG_MAP_RAM_SUB(25)[j*32+i] = 1;
-			}
+		for(i = 0; i < 32; i++){
+			for(j = 0; j < 24; j++)
+				BG_MAP_RAM_SUB(25)[j*32+i] = 0;
 		}
 
 	for(j = 3; j < 5; j++){
 		for(i = 4; i < 12; i++)
-			BG_MAP_RAM_SUB(25)[j*32+i] = 0;
+			BG_MAP_RAM_SUB(25)[j*32+i] = 1;
 		for(i = 20; i < 28; i++)
 			BG_MAP_RAM_SUB(25)[j*32+i] = 2;
 	}
 }
+
 
 
 

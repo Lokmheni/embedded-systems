@@ -39,7 +39,11 @@
 
 int min = 0, sec = 0, msec = 0, time_remaining, time_round = 1000*60*2; // 120 seconds for each round
 
-void updateChrono(){updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);}
+void updateChrono(){
+
+	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
+	show_health();
+}
 
 void ISR_TIMER0(){
 	int time_remaining = set_time_remaining(min, sec, msec);
@@ -61,6 +65,7 @@ void ISR_TIMER0(){
 	else
 		gameover();
 }
+
 
 void init_screens(){
 	// Configure the SUB engine in Rotoscale Mode
@@ -192,8 +197,8 @@ void sprite_pos_local(Player* const player) {
 	//gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
-   while (1)
-   {
+  // while (1)
+   //{
 	   set_stage();
 	   //swiWaitForVBlank();
 	   wifi_announce_lfg();
@@ -205,8 +210,8 @@ void sprite_pos_local(Player* const player) {
 		}
 		reset_game();
 		u32 keys;
-		while (1) // game
-		{
+		//while (1) // game
+		//{
 			RequestedAction   a;
 			RequestedMovement m;
 			a = REQ_ACTION_NONE;
@@ -285,8 +290,8 @@ void sprite_pos_local(Player* const player) {
 			swiWaitForVBlank();
 			oamUpdate(&oamMain);
 		  }
-	}
-}
+	//}
+//}
 
 void sprite_pos_remote(Player* const player){
 	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
