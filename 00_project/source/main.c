@@ -48,6 +48,9 @@ int main(void)
     (s->pos_x) = 100;
     (s->pos_y) = 90;
 
+
+
+
     init_screens();
     bool touch = get_touch_input();
     if(touch){
@@ -55,9 +58,9 @@ int main(void)
         play_sound_effect(*sound);
         show_timer();
         init_main_screen();
-       	sprite_pos_remote(s);
-       	//sprite_pos_local(t);
-       	    }
+        //sprite_pos_remote(s);
+        sprite_pos_local(t);
+       	}
 
     while(1) {
     	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);

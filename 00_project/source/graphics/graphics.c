@@ -170,25 +170,32 @@ void show_settings(int games_played, int games_won){
 
 
 void sprite_pos_local(Player* const player) {
-	u16* gfx; //gfx1;
+	u16* gfx, gfx1;
 	// Set up memory bank to work in sprite mode (offset since we are using VRAM
 	// A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+
+	//using extended palettes:
+	vramSetBankF(VRAM_F_LCD);
+	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
+	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
+	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	// Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	// Allocate space for the graphic to show in the sprite
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
-	//gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
+	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_16Color);
+
 
 	// Copy data for the graphic (palette and bitmap)
 	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
-	//dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen/2] , player2PalLen);
-	//dmaCopy(player2Tiles, gfx1, player2TilesLen);
+	dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen] , player2PalLen);
+	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
-	//printf("BEGIN\n");
+
    while (1)
    {
 	   set_stage();
@@ -263,7 +270,7 @@ void sprite_pos_local(Player* const player) {
 			   false         // Mosaic
 			);
 
-			/*oamSet(&oamMain, // oam handler
+			oamSet(&oamMain, // oam handler
 				1,        // Number of sprite
 				translate_remote_x(get_player_remote().pos_x),
 				get_player_remote().pos_y,  // Coordinates
@@ -277,7 +284,7 @@ void sprite_pos_local(Player* const player) {
 				false,        // Hide this sprite
 				false, false, // Horizontal or vertical flip
 				false         // Mosaic
-			);*/
+			);
 			// Update the sprites
 			swiWaitForVBlank();
 			oamUpdate(&oamMain);
@@ -286,9 +293,16 @@ void sprite_pos_local(Player* const player) {
 }
 
 void sprite_pos_remote(Player* const player){
+	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
+	//using extended palettes:
+	vramSetBankF(VRAM_F_LCD);
+	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
+	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
+	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+
+
 	u16* gfx1;
-	//Set up memory bank to work in sprite mode (offset since we are using VRAM A for backgrounds)
-	//VRAM_F_CR = VRAM_ENABLE | VRAM_F_MAIN_SPRITE_0x06400000;
+
 	//Initialize sprite manager and the engine
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	//Allocate space for the graphic to show in the sprite
@@ -299,9 +313,9 @@ void sprite_pos_remote(Player* const player){
 
 	oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
-			translate_remote_x(get_player_remote().pos_x),
-			get_player_remote().pos_y,  // Coordinates
-			//90,90,
+			//translate_remote_x(get_player_remote().pos_x),
+			//get_player_remote().pos_y,  // Coordinates
+			90,90,
 			0,                          // Priority
 			1,                          // Palette to use
 			SpriteSize_32x32,           // Sprite size
