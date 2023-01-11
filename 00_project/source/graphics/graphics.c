@@ -194,7 +194,7 @@ void sprite_pos_local(Player* const player) {
 	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
 	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
-	dmaCopy(player2Tiles, gfx1, player2TilesLen);
+	dmaCopy(player2Tiles, &gfx1, player2TilesLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	// Copy data for the graphic (palette and bitmap)
