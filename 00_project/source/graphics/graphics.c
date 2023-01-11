@@ -177,7 +177,8 @@ void sprite_pos_local(Player* const player) {
     // A for backgrounds)
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 
-	u16* gfx, gfx1;
+	u16* gfx;
+	u16* gfx1;
 
 
 	// Initialize sprite manager and the engine
