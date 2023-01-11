@@ -84,4 +84,6 @@ void gameover();
 
 void updateChrono();
 
+void show_health();
+
 #endif // __GRAPHICS_H
