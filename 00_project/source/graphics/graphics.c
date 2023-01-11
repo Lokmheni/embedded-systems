@@ -40,7 +40,11 @@
 int min = 0, sec = 0, msec = 0, time_remaining, time_round = 1000*60*2; // 120 seconds for each round
 
 void updateChrono(){
+	//int tile;
 
+	changeColorDisp(BLACK, RED);
+	//for(tile = 0; tile <1024; tile++)
+		//	BG_MAP_RAM_SUB(0)[tile] = 0;
 	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 	show_health();
 }

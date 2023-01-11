@@ -140,8 +140,9 @@ int main(void)
 
     	stop_music();
         play_sound_effect(*sound);
-        //show_health();
+
         show_timer();
+        //show_health();
         init_main_screen();
 
         sprite_initializer(t,s);
@@ -155,6 +156,7 @@ int main(void)
     while(1) {
 
     	updateChrono();
+
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);
     }
@@ -190,16 +192,30 @@ void show_health(){
 				BG_MAP_RAM_SUB(25)[j*32+i] = 0;
 		}*/
 
-	for(tile = 0; tile <1024; tile++)
-		BG_MAP_RAM_SUB(0)[tile] = 0;
+	//for(tile = 0; tile <1024; tile++)
+	//	BG_MAP_RAM_SUB(0)[tile] = 0;
 
-	for(j = 3; j < 5; j++){
-		for(i = 4; i < 12; i++)
-			BG_MAP_RAM_SUB(0)[j*32+i] = 1;
-		for(i = 20; i < 28; i++)
-			BG_MAP_RAM_SUB(0)[j*32+i] = 2;
+		for(j = 2; j < 6; j++){
+			if(j == 2 || j == 5){
+					for (i = 3; i < 14; i++)
+						BG_MAP_RAM_SUB(0)[j*32+i] = 4;
+					for (i = 19; i < 30; i++)
+						BG_MAP_RAM_SUB(0)[j*32+i] = 4;
+				}
+			else{
+				for(i = 3; i < 14; i++)
+					if(i == 3 || i == 13)
+						BG_MAP_RAM_SUB(0)[j*32+i] = 4;
+					else
+						BG_MAP_RAM_SUB(0)[j*32+i] = 1;
+				for(i = 19; i < 30; i++)
+					if(i == 19 || i == 29)
+						BG_MAP_RAM_SUB(0)[j*32+i] = 4;
+					else
+						BG_MAP_RAM_SUB(0)[j*32+i] = 1;
+			}
+		}
 	}
-}
 
 
 
