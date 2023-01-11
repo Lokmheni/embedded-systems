@@ -64,3 +64,5 @@ void updateChronoDisp(u16* map, int min, int sec, int msec);
  * generated tiles to guess which components of the palette are used.
  */
 void changeColorDisp(u16 b, u16 c);
+
+

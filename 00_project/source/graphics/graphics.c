@@ -38,6 +38,8 @@
 
 int min = 0, sec = 0, msec = 0, time_remaining, time_round = 1000*60*2; // 120 seconds for each round
 
+void updateChrono(){updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);}
+
 void ISR_TIMER0(){
 	int time_remaining = set_time_remaining(min, sec, msec);
 	if(time_remaining > 0){
@@ -189,12 +191,12 @@ void sprite_pos_local(Player* const player) {
 
 	//using extended palettes:
 	vramSetBankF(VRAM_F_LCD);
-	//dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
-	//dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen+1] , player2PalLen);
+	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
+	dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen+1] , player2PalLen);
 	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
 	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
-	dmaCopy(player2Tiles, &gfx1, player2TilesLen);
+	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	// Copy data for the graphic (palette and bitmap)

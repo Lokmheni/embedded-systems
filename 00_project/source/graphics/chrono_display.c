@@ -89,3 +89,5 @@ void changeColorDisp(uint16 b, uint16 c)
 	BG_PALETTE_SUB[255] = b;
 }
 
+
+

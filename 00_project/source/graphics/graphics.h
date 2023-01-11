@@ -82,4 +82,6 @@ void manage_timer();
  */
 void gameover();
 
+void updateChrono();
+
 #endif // __GRAPHICS_H
