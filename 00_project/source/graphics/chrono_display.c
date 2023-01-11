@@ -84,7 +84,7 @@ void updateChronoDisp(u16* map,int min, int sec, int msec)
 
 void changeColorDisp(uint16 b, uint16 c)
 {
-	//The olors are stored in the components 0 and 255 of the palette
+	//The colors are stored in the components 0 and 255 of the palette
 	BG_PALETTE_SUB[0] = c;
 	BG_PALETTE_SUB[255] = b;
 }

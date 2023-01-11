@@ -20,12 +20,16 @@
 #include "graphics/chrono_display.h"
 #include "health.h"
 
-#define	RED   ARGB16(1,31,0,0)
-#define	GREEN ARGB16(1,0,31,0)
-#define	BLUE  ARGB16(1,0,0,31)
+/************************
+ * Macros for the colors
+ ***********************/
+#define	RED ARGB16(1,31,0,0)
+#define GREEN ARGB16(1,0,31,0)
+#define	BLUE ARGB16(1,0,0,31)
+#define	YELLOW ARGB16(1,31,31,0)
+#define	LIGHT_BLUE ARGB16(1,0,31,31)
 #define	WHITE ARGB16(1,31,31,31)
 #define	BLACK ARGB16(1,0,0,0)
-//#define	TRANS ARGB16(0,0,0,0)
 
 
 // Different color tiles
@@ -163,15 +167,15 @@ void show_health(){
 	// 2) SUB engine configuration in tiled mode
 	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
 	// 3) Configure the background
-	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4);
+	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 	// 4) Copy the 4 tiles to the tile base
 
-	swiCopy(TransTile, &BG_TILE_RAM_SUB(4)[0], 32);
-	swiCopy(GreenTile, &BG_TILE_RAM_SUB(4)[32], 32);
-	swiCopy(BlueTile, &BG_TILE_RAM_SUB(4)[64], 32);
-	swiCopy(WhiteTile, &BG_TILE_RAM_SUB(4)[96], 32);
-	swiCopy(BlackTile, &BG_TILE_RAM_SUB(4)[128], 32);
-	swiCopy(RedTile, &BG_TILE_RAM_SUB(4)[160], 32);
+	//swiCopy(TransTile, &BG_TILE_RAM_SUB(1)[0], 32);
+	swiCopy(GreenTile, &BG_TILE_RAM_SUB(1)[32], 32);
+	swiCopy(BlueTile, &BG_TILE_RAM_SUB(1)[64], 32);
+	swiCopy(WhiteTile, &BG_TILE_RAM_SUB(1)[96], 32);
+	swiCopy(BlackTile, &BG_TILE_RAM_SUB(1)[128], 32);
+	swiCopy(RedTile, &BG_TILE_RAM_SUB(1)[160], 32);
 	// 5) Initialize the palette (5 components)
 	//BG_PALETTE_SUB[0] = TRANS;
 	BG_PALETTE_SUB[1] = GREEN;
@@ -180,17 +184,20 @@ void show_health(){
 	BG_PALETTE_SUB[4] = BLACK;
 	BG_PALETTE_SUB[5] = RED;
 	// 6) Generate the map
-	int i,j;
-		for(i = 0; i < 32; i++){
+	int i,j, tile;
+	/*	for(i = 0; i < 32; i++){
 			for(j = 0; j < 24; j++)
 				BG_MAP_RAM_SUB(25)[j*32+i] = 0;
-		}
+		}*/
+
+	for(tile = 0; tile <1024; tile++)
+		BG_MAP_RAM_SUB(0)[tile] = 0;
 
 	for(j = 3; j < 5; j++){
 		for(i = 4; i < 12; i++)
-			BG_MAP_RAM_SUB(25)[j*32+i] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+i] = 1;
 		for(i = 20; i < 28; i++)
-			BG_MAP_RAM_SUB(25)[j*32+i] = 2;
+			BG_MAP_RAM_SUB(0)[j*32+i] = 2;
 	}
 }
 
