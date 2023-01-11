@@ -20,17 +20,55 @@
 #include "graphics/chrono_display.h"
 #include "health.h"
 
-/*enum BUFFER_TYPE
+
+u8 GreenTile[64] =
 {
-    MAIN,
-    SUB,
-}bT;
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1
+};// = 0
 
-int x = 2; x2 = 122; y = 2;
 
-u16* P_Graphics_mainBuffer;
-u16* P_Graphics_subBuffer;
-u16 color = RED;*/
+u8 BlueTile[64] =
+{	2,2,2,2,2,2,2,2,
+	2,2,2,2,2,2,2,2,
+	2,2,2,2,2,2,2,2,
+	2,2,2,2,2,2,2,2,
+	2,2,2,2,2,2,2,2,
+	2,2,2,2,2,2,2,2,
+	2,2,2,2,2,2,2,2,
+	2,2,2,2,2,2,2,2
+};// = 2?
+
+u8 WhiteTile[64] =
+{
+	3,3,3,3,3,3,3,3,
+	3,3,3,3,3,3,3,3,
+	3,3,3,3,3,3,3,3,
+	3,3,3,3,3,3,3,3,
+	3,3,3,3,3,3,3,3,
+	3,3,3,3,3,3,3,3,
+	3,3,3,3,3,3,3,3,
+	3,3,3,3,3,3,3,3
+};
+
+u8 transTile[64] =
+{
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0
+};// = 1 ?
+
 
 int main(void)
 {
@@ -66,14 +104,20 @@ int main(void)
     if(touch){
     	stop_music();
         play_sound_effect(*sound);
+        show_health();
         show_timer();
         init_main_screen();
+
         //sprite_initializer(t,s);
         //sprite_pos_remote(s);
         //sprite_pos_local(t);
        	}
 
-    //show_health();
+
+
+    //show_timer();
+
+
     //show_health();
 
     while(1) {
@@ -82,6 +126,42 @@ int main(void)
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);
     }
+}
+
+
+void show_health(){
+	// 1) VRAM configuration for SUB engine
+	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
+	// 2) SUB engine configuration in tiled mode
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	// 3) Configure the background
+	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4);
+	// 4) Copy the 4 tiles to the tile base
+
+	swiCopy(GreenTile, &BG_TILE_RAM_SUB(4)[0], 32);
+	swiCopy(BlueTile, &BG_TILE_RAM_SUB(4)[32], 32);
+
+
+	// 5) Initialize the palette (5 components)
+
+	BG_PALETTE_SUB[1] = GREEN;
+	BG_PALETTE_SUB[0] = BLUE;
+	BG_PALETTE_SUB[3] = WHITE;
+
+	// 6) Generate the map
+	int i,j;
+	for(i = 0; i < 32; i++){
+			for(j = 0; j < 24; j++){
+				BG_MAP_RAM_SUB(25)[j*32+i] = 1;
+			}
+		}
+
+	for(j = 3; j < 5; j++){
+		for(i = 4; i < 12; i++)
+			BG_MAP_RAM_SUB(25)[j*32+i] = 0;
+		for(i = 20; i < 28; i++)
+			BG_MAP_RAM_SUB(25)[j*32+i] = 2;
+	}
 }
 
 

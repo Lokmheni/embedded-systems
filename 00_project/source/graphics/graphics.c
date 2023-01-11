@@ -147,50 +147,9 @@ void show_timer(){
 	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
 
 	manage_timer();
-
 }
 
-void show_health(){
-	u16* mapMemory;
-	bool full;
-	int value = full ? 1 : 0;
-	//convert index16x16 to 32x32
-	//also make it fall right->left rather than top->bottom
-	//
-	//  0  1  2  3     12  8  4  0
-	//  4  5  6  7  => 13  9  5  1
-	//  8  9 10 11  => 14 10  6  2
-	// 12 13 14 15     15 11  7  3
 
-	//16x16->32*32 CONVERSION
-	int index16;
-	int index32;
-	index32 =  index16*2;
-	index32 += (index16/16)*32;
-	mapMemory[index32] = value;
-	mapMemory[index32+1] = value;
-	mapMemory[index32+32] = value;
-	mapMemory[index32+32+1] = value;
-
-
-	//Enable a suitable VRAM block and map it to the sub engine
-	VRAM_H_CR = VRAM_ENABLE
-			| VRAM_H_SUB_BG;
-	//Configure the engine in Mode 0 and use the BG0
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
-	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
-
-	swiCopy(healthTiles, BG_TILE_RAM_SUB(2), healthTilesLen);
-	swiCopy(healthPal, BG_PALETTE_SUB, healthPalLen);
-
-	//Assign components 254 and 255 as explained in the manual
-	BG_PALETTE_SUB[254] = ARGB16(1,0,0,0);
-	BG_PALETTE_SUB[255] = ARGB16(1,31,15,0);
-	//Set the pointer mapMemory to the RAM location of the chosen MAP_BASE
-	//Hint: use the macro BG_MAP_RAM
-	mapMemory = (u16*)BG_MAP_RAM(0);
-}
 
 void manage_timer(){
 	//min = sec = msec = 0;
