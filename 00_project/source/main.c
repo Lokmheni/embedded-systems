@@ -35,7 +35,7 @@ u16 color = RED;*/
 int main(void)
 {
     consoleDemoInit();
-    /*oamInit(&oamMain, SpriteMapping_1D_32, false);
+    oamInit(&oamMain, SpriteMapping_1D_32, false);
     //gameover();
     SoundEffect* sound;
     if(get_player_local().action == ACTION_TYPE_WALK)
@@ -68,14 +68,16 @@ int main(void)
         play_sound_effect(*sound);
         show_timer();
         init_main_screen();
-       // sprite_initializer(t,s);
+        //sprite_initializer(t,s);
         //sprite_pos_remote(s);
         //sprite_pos_local(t);
-       	}*/
+       	}
 
-    show_health();
+    //show_health();
+    //show_health();
 
     while(1) {
+
     	updateChrono();
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);

@@ -146,9 +146,8 @@ void show_timer(){
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
 	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
 
-
-
 	manage_timer();
+
 }
 
 void show_health(){
@@ -186,8 +185,8 @@ void show_health(){
 	swiCopy(healthPal, BG_PALETTE_SUB, healthPalLen);
 
 	//Assign components 254 and 255 as explained in the manual
-	BG_PALETTE[254] = ARGB16(1,0,0,0);
-	BG_PALETTE[255] = ARGB16(1,31,15,0);
+	BG_PALETTE_SUB[254] = ARGB16(1,0,0,0);
+	BG_PALETTE_SUB[255] = ARGB16(1,31,15,0);
 	//Set the pointer mapMemory to the RAM location of the chosen MAP_BASE
 	//Hint: use the macro BG_MAP_RAM
 	mapMemory = (u16*)BG_MAP_RAM(0);
