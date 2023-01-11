@@ -68,7 +68,8 @@ int main(void)
         play_sound_effect(*sound);
         show_timer();
         init_main_screen();
-        //sprite_pos_remote(s);
+        sprite_initializer(t,s);
+        sprite_pos_remote(s);
         sprite_pos_local(t);
        	}
     //health();
