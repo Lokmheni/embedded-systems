@@ -153,7 +153,7 @@ void update_game_mov(RequestedAction action, RequestedMovement movement,
             else
                 {
                     // movement:
-                    u8 old_x;
+                    u8 old_x = player_remote.pos_x;
                     move(&player_remote,
                          player_local.pos_x < player_remote.pos_x
                              ? DIRECTION_LEFT
