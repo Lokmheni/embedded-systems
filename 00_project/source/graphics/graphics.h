@@ -84,8 +84,8 @@ void gameover();
 
 void sprite_initializer();
 
-void updateChrono();
+void updateChrono(Player* t);
 
-void show_health();
+void show_health(Player* t);
 
 #endif // __GRAPHICS_H

@@ -20,6 +20,8 @@
 #include "graphics/chrono_display.h"
 #include "health.h"
 
+Player* t;
+Player* s;
 
 
 int main(void)
@@ -40,15 +42,13 @@ int main(void)
 
     while(1) {
 
-    	updateChrono();
+    	updateChrono(t);
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);
     }
 }
 
 void play(){
-	Player* t;
-    Player* s;
 
     (t->pos_x) = 0;
     (t->pos_y) = 90;
