@@ -14,6 +14,7 @@
 #include "sound.h"
 #include "../graphics/graphics.h"
 #include "../game/game_controller.h"
+#include "../settings.h"
 #include <nds.h>
 #include <stdio.h>
 
