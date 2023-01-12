@@ -43,7 +43,7 @@ typedef enum
     TOUCH_INPUT_NONE,
     TOUCH_INPUT_MULTI_PLAYER,
     TOUCH_INPUT_SINGLE_PLAYER,
-    //TOUCH_INPUT_PLAY
+    TOUCH_INPUT_PLAY
 } TouchInput;
 
 
@@ -54,7 +54,9 @@ void manage_key(int key);
 void get_input(RequestedAction* action, RequestedMovement* movement);
 
 
-bool get_touch_input();
+bool get_touch_input(TouchInput* touchinput);
+
+bool get_touch_to_restart(TouchInput* touchinput);
 
 
 #endif // __INPUT_H_

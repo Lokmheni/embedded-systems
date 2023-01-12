@@ -498,4 +498,8 @@ void gameover(){
 	REG_BG3PC_SUB = 0;
 	REG_BG3PB_SUB = 0;
 	REG_BG3PD_SUB = 256;
+	TouchInput* touchinput;
+	bool touch = get_touch_to_restart(touchinput);
+	if(touch)
+		init_sub_screen();
 }
