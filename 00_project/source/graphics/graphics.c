@@ -334,7 +334,7 @@ void sprite_pos_local(Player* const player) {
 	//gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
-	bool remote;
+	/*bool remote;
   // while (1)
    //{
 	   set_stage();
@@ -391,7 +391,7 @@ void sprite_pos_local(Player* const player) {
 				update_game_complete(a, m, msg);
 			}
 			Player l = get_player_local();
-			send_status(&l);
+			send_status(&l);*/
 			oamSet(&oamMain, // oam handler
 			   0,        // Number of sprite
 			   get_player_local().pos_x,
@@ -424,7 +424,7 @@ void sprite_pos_local(Player* const player) {
 				false         // Mosaic
 			);*/
 			// Update the sprites
-			swiWaitForVBlank();
+			//swiWaitForVBlank();
 			oamUpdate(&oamMain);
 		  }
 	//}
@@ -445,7 +445,7 @@ void sprite_pos_remote(Player* const player){
 	//Allocate space for the graphic to show in the sprite
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	//Copy data for the graphic (palette and bitmap)
-	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
+	//dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
 	oamSet(&oamMain, // oam handler
