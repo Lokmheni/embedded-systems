@@ -577,12 +577,12 @@ void sprite_initializer(){
 
 void gameover(){
 	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG1_ACTIVE;
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE | DISPLAY_BG3_ACTIVE ;
 	// Configure the corresponding VRAM memory bank correctly
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 	// Configure background BG2 and BG3 in rotoscale mode using 8bit pixels
-	BGCTRL_SUB[1] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	//BGCTRL_SUB[3] = BG_BMP_BASE(0) | BG_BMP8_256x256;
+	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
+	BGCTRL_SUB[3] = BG_BMP_BASE(0) | BG_BMP8_256x256;
 	swiCopy(gameoverBitmap, BG_GFX_SUB, gameoverBitmapLen/2);
 	swiCopy(gameoverPal, BG_PALETTE_SUB, gameoverPalLen/2);
 	// Set up affine matrix
