@@ -308,7 +308,7 @@ void manage_timer(){
 int set_time_remaining(int min, int sec, int msec){
 	int time_passed = 1000*60*min + 1000*sec + msec;
 	//time_remaining = time_round - time_passed;
-	return time_round - time_passed;;
+	return (time_round - time_passed);
 }
 
 void show_settings(int games_played, int games_won){

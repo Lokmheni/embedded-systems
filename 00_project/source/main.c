@@ -41,7 +41,6 @@ int main(void)
     while(1) {
 
     	updateChrono();
-
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);
     }
@@ -80,7 +79,7 @@ void play(){
         sprite_pos_remote(s);
         sprite_pos_local(t);
     }
-	touch = get_touch_to_restart(touchinput);
+	//touch = get_touch_to_restart(touchinput);
 	/*if(touch)
 		play();*/
 }
