@@ -154,219 +154,218 @@ void show_health(Player *t, Player* s){
 				BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
 			}
 		else{
-			for(i = 2; i < 15; i++)
-				if(i == 2 || i == 14)
+			for(i = 2; i < 14; i++)
+				if(i == 2 || i == 13)
 					BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
 				else
 					BG_MAP_RAM_SUB(0)[j*32+i] = 0;
-			for(i = 18; i < 31; i++)
-				if(i == 18 || i == 30)
+			for(i = 19; i < 31; i++)
+				if(i == 19 || i == 30)
 					BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
 				else
 					BG_MAP_RAM_SUB(0)[j*32+i] = 0;
 		}
 	}
 
-	switch((s->health)){
-		case 10:
+	if((s->health) > 90){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
+		}
+	}
+	else if((s->health) > 80){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
+		}
+	}
+
+	else if((s->health) > 70){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
+		}
+	}
+	else if((s->health) > 60){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
+		}
+	}
+
+	else if((s->health) > 50){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
+		}
+	}
+	else if((s->health) > 40){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
+		}
+	}
+	else if((s->health) > 30){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
+		}
+	}
+
+	else if((s->health) > 20){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
+		}
+	}
+	else if((s->health) > 10){
+		for(j = 2; j < 6; j++){
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
+		}
+	}
+
+	else if((s->health) > 0){
+		for(j = 2; j < 6; j++)
+			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
+	}
+
+
+	if((t->health) > 90){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+3] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+4] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+5] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+6] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+		else if((s->health) > 80){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+4] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+5] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+6] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+
+		else if((s->health) > 70){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+5] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+6] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+		else if((s->health) > 60){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+6] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+
+		else if((s->health) > 50){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+7] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+		else if((s->health) > 40){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+8] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+		else if((s->health) > 30){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+9] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+
+		else if((s->health) > 20){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+10] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+		else if((s->health) > 10){
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+11] = 1;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+			}
+		}
+
+		else if((s->health) > 0){
 			for(j = 2; j < 6; j++)
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				break;
-		case 20:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-
-			}
-				break;
-		case 30:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-
-			}
-			break;
-		case 40:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-
-			}
-			break;
-		case 50:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-			}
-			break;
-		case 60:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-			}
-			break;
-		case 70:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-			}
-			break;
-		case 80:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-			}
-			break;
-		case 90:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			}
-			break;
-		case 100:
-			for(j = 2; j < 6; j++){
-				BG_MAP_RAM_SUB(0)[j*32+19] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-				BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			}
-			break;
-	}
-
-	switch((t->health)){
-			case 10:
-				for(j = 2; j < 6; j++)
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					break;
-			case 20:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-				}
-					break;
-			case 30:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-				}
-				break;
-			case 40:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-				}
-				break;
-			case 50:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-				}
-				break;
-			case 60:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-				}
-				break;
-			case 70:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-				}
-				break;
-			case 80:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-				}
-				break;
-			case 90:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-				}
-				break;
-			case 100:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-					BG_MAP_RAM_SUB(0)[j*32+3] = 1;
-				}
-				break;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 1;
 		}
+
 }
 
 void updateChrono(Player* t, Player* s){
