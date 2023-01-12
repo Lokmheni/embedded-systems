@@ -123,7 +123,7 @@ void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 	// 2) SUB engine configuration in tiled mode
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	//REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
 	// 3) Configure the background
 	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 	// 4) Copy the 4 tiles to the tile base
@@ -466,17 +466,15 @@ void init_main_screen(Player* t){
 	swiCopy(paysageTiles, BG_TILE_RAM(1), paysageTilesLen/2);
 	swiCopy(paysagePal, BG_PALETTE, paysagePalLen/2);
 	swiCopy(paysageMap, BG_MAP_RAM(0), paysageMapLen/2);
-	//sprite_pos_local(t);
-	//sprite_pos_remote(t);
 }
 
 void show_timer(){
 
 	//Enable a suitable VRAM block and map it to the sub engine
-	VRAM_H_CR = VRAM_ENABLE
-			| VRAM_H_SUB_BG;
+	//VRAM_H_CR = VRAM_ENABLE
+	//		| VRAM_H_SUB_BG;
 	//Configure the engine in Mode 0 and use the BG0
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG3_ACTIVE;
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG3_ACTIVE | DISPLAY_BG0_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
 	BGCTRL_SUB[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
@@ -577,12 +575,12 @@ void sprite_initializer(){
 
 void gameover(){
 	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE | DISPLAY_BG3_ACTIVE ;
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
 	// Configure the corresponding VRAM memory bank correctly
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
-	// Configure background BG2 and BG3 in rotoscale mode using 8bit pixels
+	// Configure background BG2 in rotoscale mode using 8bit pixels
 	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	BGCTRL_SUB[3] = BG_BMP_BASE(0) | BG_BMP8_256x256;
+
 	swiCopy(gameoverBitmap, BG_GFX_SUB, gameoverBitmapLen/2);
 	swiCopy(gameoverPal, BG_PALETTE_SUB, gameoverPalLen/2);
 	// Set up affine matrix
