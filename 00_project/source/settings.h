@@ -13,6 +13,7 @@
 #ifndef __SETTINGS_H
 #define __SETTINGS_H
 #include <nds.h>
+#include "io/input.h"
 
 typedef enum
 {
@@ -21,7 +22,7 @@ typedef enum
 } PlayMode;
 
 
-PlayMode selected_game_mode();
+PlayMode selected_game_mode(TouchInput* touchinput);
 
 bool handle_settings();
 

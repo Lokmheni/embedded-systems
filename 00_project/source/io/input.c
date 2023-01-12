@@ -96,13 +96,15 @@ bool get_touch_input(TouchInput* touchinput) {
 			int y = touch.py;
 			if((x > 78 && x < 178) && (y > 75 && y < 75+21)){
 				*touchinput = TOUCH_INPUT_MULTI_PLAYER;
-				return 1;
+				selected_game_mode(*touchinput);
 				set_up = false;
+				return 1;
 			}
 			if((x > 78 && x < 178) && (y > 75+21 && y < 75+42)){
 				*touchinput = TOUCH_INPUT_SINGLE_PLAYER;
-				return 1;
+
 				set_up = false;
+				return 1;
 			}
 
 		}

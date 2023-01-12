@@ -333,6 +333,7 @@ void sprite_pos_local(Player* const player) {
 	//gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
+	bool remote;
   // while (1)
    //{
 	   set_stage();
@@ -341,10 +342,9 @@ void sprite_pos_local(Player* const player) {
 	   WifiMsg msg;
 	   if (msg.msg == WIFI_REQ_LFG)
 	   {
-		   send_ctrl_instruction(
-		   START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0);
+		   send_ctrl_instruction(START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0, 0);
 		}
-		reset_game();
+		reset_game(remote);
 		u32 keys;
 		//while (1) // game
 		//{
@@ -382,12 +382,12 @@ void sprite_pos_local(Player* const player) {
 			if (receive_messages(&msg))
 			{
 				//printf("received wifi msg\n");
-				update_game(a, m, msg);
+				update_game_complete(a, m, msg);
 			}
 			else
 			{
 				msg.msg = WIFI_NULL_MSG;
-				update_game(a, m, msg);
+				update_game_complete(a, m, msg);
 			}
 			Player l = get_player_local();
 			send_status(&l);
