@@ -58,16 +58,13 @@ void get_input(RequestedAction* action, RequestedMovement* movement) {
 int get_keys(){
 	//Position
 	int keys;
-	while(1){
-		//Read held keys
-		scanKeys();
-		keys = keysHeld();
-		if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP) || (keys & KEY_TOUCH) )
-			return keys;
-		else
-			return 0;
-	}
-	return 0;
+	//Read held keys
+	scanKeys();
+	keys = keysHeld();
+	if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP) || (keys & KEY_TOUCH) )
+		return keys;
+	else
+		return 0;
 }
 
 /*void manage_key(int keys){
