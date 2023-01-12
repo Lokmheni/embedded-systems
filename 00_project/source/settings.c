@@ -14,7 +14,7 @@
 
 
 PlayMode selected_game_mode(TouchInput* touchinput) {
-	if(touchinput == TOUCH_INPUT_SINGLE_PLAYER)
+	if(*touchinput == TOUCH_INPUT_SINGLE_PLAYER)
 		return PLAY_MODE_SINGLE_PLAYER;
 	else
 		return TOUCH_INPUT_MULTI_PLAYER;
