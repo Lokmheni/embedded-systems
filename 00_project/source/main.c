@@ -42,7 +42,7 @@ int main(void)
 
     while(1) {
 
-    	updateChrono(t);
+    	updateChrono(t, s);
     	swiWaitForVBlank();
     	oamUpdate(&oamMain);
     }
@@ -71,7 +71,7 @@ void play(){
 	init_screens();
 	bool touch = get_touch_input(touchinput);
 	if(touch){
-		set_healthbars();
+
     	//stop_music();
         //play_sound_effect(*sound);
         show_timer();
