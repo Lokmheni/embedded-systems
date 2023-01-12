@@ -86,6 +86,9 @@ void sprite_initializer();
 
 void updateChrono(Player* t);
 
+/**
+ * @brief the function displays the health bars and receives heaöth as parameter to set the tiles corresponding to decreasing health into transparent
+ */
 void show_health(Player* t);
 
 #endif // __GRAPHICS_H
