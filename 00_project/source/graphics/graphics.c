@@ -141,7 +141,7 @@ void show_health(){
 	BG_PALETTE_SUB[4] = BLACK;
 	BG_PALETTE_SUB[5] = RED;
 	// 6) Generate the map
-	int i,j, tile;
+	int i,j;
 	/*	for(i = 0; i < 32; i++){
 			for(j = 0; j < 24; j++)
 				BG_MAP_RAM_SUB(25)[j*32+i] = 0;
