@@ -74,15 +74,15 @@ void play(){
     	//stop_music();
         //play_sound_effect(*sound);
         show_timer();
-        //show_health();
+       /// show_health();
         init_main_screen();
         sprite_initializer();
         sprite_pos_remote(s);
         sprite_pos_local(t);
     }
 	touch = get_touch_to_restart(touchinput);
-	if(touch)
-		play();
+	/*if(touch)
+		play();*/
 }
 
 

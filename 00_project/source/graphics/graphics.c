@@ -115,7 +115,7 @@ u8 RedTile[64] =
 	5,5,5,5,5,5,5,5,
 };
 
-int min = 0, sec = 0, msec = 0, time_remaining, time_round = 1000*20; // 120 seconds for each round
+int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*20; // 120 seconds for each round
 
 int colore_cornice;
 
@@ -307,8 +307,8 @@ void manage_timer(){
 
 int set_time_remaining(int min, int sec, int msec){
 	int time_passed = 1000*60*min + 1000*sec + msec;
-	time_remaining = time_round - time_passed;
-	return time_remaining;
+	//time_remaining = time_round - time_passed;
+	return time_round - time_passed;;
 }
 
 void show_settings(int games_played, int games_won){
@@ -499,8 +499,5 @@ void gameover(){
 	REG_BG3PC_SUB = 0;
 	REG_BG3PB_SUB = 0;
 	REG_BG3PD_SUB = 256;
-	TouchInput* touchinput;
-	bool touch = get_touch_to_restart(touchinput);
-	if(touch)
-		init_sub_screen();
+
 }
