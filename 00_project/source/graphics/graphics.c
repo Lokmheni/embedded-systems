@@ -477,7 +477,7 @@ void show_timer(){
 
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
-	swiCopy(numbersPal, &BG_PALETTE_SUB[8], numbersPalLen);
+	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
 
 	manage_timer();
 }
