@@ -122,6 +122,8 @@ int colore_cornice;
 void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
+
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
 	// 3) Configure the background
 	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 	// 4) Copy the tiles to the tile base
@@ -469,13 +471,13 @@ void show_timer(){
 	//VRAM_H_CR = VRAM_ENABLE
 	//		| VRAM_H_SUB_BG;
 	//Configure the engine in Mode 0 and use the BG0
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG3_ACTIVE | DISPLAY_BG0_ACTIVE;
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG1_ACTIVE; //| DISPLAY_BG0_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-	BGCTRL_SUB[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+	BGCTRL_SUB[1] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
-	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
+	swiCopy(numbersPal, &BG_PALETTE_SUB[8], numbersPalLen);
 
 	manage_timer();
 }
