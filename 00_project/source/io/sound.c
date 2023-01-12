@@ -44,6 +44,6 @@ void play_sound_effect(SoundEffect sound) {
 		mmEffect(SFX_BOING);
 	if(sound == SOUND_EFFECT_BLOCK)
 		mmEffect(SFX_BLOCK);
-	if(sound == SOUND_EFFECT_BLOCK)
+	if(sound == SOUND_EFFECT_MOVE)
 		mmEffect(SFX_MOVE);
 }
