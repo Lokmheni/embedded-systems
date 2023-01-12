@@ -2,7 +2,7 @@
  * @file game_controller.c
  * @author Simon Thür
  * @brief
- * @version 0.1
+ * @version 1.1
  * @date 2022-12-04
  *
  * @copyright Copyright (c) 2022
@@ -22,12 +22,15 @@
 // player items
 Player player_local, player_remote;
 // core items
-int  score_remote, score_local;
-bool is_remote;
-bool is_play;
+u8   score_remote, score_local;
+bool is_remote;  /*<! true if remote is wifi person */
+bool is_play;    /*<! @deprecated handled outside of this scope*/
+bool bot_attack; /*<! true if bot attack cooldown active */
 
 
 // IRQ
+
+/// @brief Local execute delayed attack isr
 void isr_attack()
 {
     // DISABLE IRQ:
@@ -39,37 +42,91 @@ void isr_attack()
         {
             u8 x, y;
             where_is_my_hit(&x, &y);
-            // transmitting data... is this smart? Assistant says its probably
-            // fine, @TODO test and see if it works...
             local_attack_handler(x, y, DAMAGE_SPECIAL);
         }
     // unblock player:
     player_local.action = ACTION_TYPE_IDLE;
 }
 
+/// @brief Attack from local bot on local player isr
+void isr_bot_attack()
+{
+    // DISABLE IRQ AND TIMER
+    irqDisable(IRQ_TIMER3);
+    TIMER3_CR &= ~TIMER_ENABLE;
+    // UNBLOCK BOT
+    bot_attack = false;
+    // do damage to local
+    u8 dx, dy;
+    do_damage(&player_remote, &dx, &dy);
+    take_damage(&player_local, dx, dy, DAMAGE_SPECIAL);
+}
+
+
+/**
+ * @brief Local bot execute attack (init timer and isr)
+ *
+ */
+void remote_bot_attack()
+{
+    // IRQ
+    irqSet(IRQ_TIMER3, isr_bot_attack);
+    irqEnable(IRQ_TIMER3);
+    // timer
+    TIMER3_DATA = TIMER_FREQ_256(SPECIAL_ATK_CHARGEUP_FREQ); // gcc warn ok
+    TIMER3_CR   = TIMER_ENABLE | TIMER_DIV_256 | TIMER_IRQ_REQ;
+
+    // block bot
+    bot_attack = true;
+}
+
 // getters
 Player get_player_local() { return player_local; }
 Player get_player_remote() { return player_remote; }
-void   get_scores(int* local, int* remote)
+void   get_scores(u8* local, u8* remote)
 {
     *local  = score_local;
     *remote = score_remote;
 }
 
+
+void set_score_remote(u8 remote) { score_remote = remote; }
+void inc_score_lcoal()
+{
+    score_local = score_local + 1 > score_local
+                    ? score_local + 1
+                    : score_local; // conditional increment
+}
+
+
+void send_local_player() { send_status(&player_local); }
+
+
 // ctrl
 
-
-void update_game(RequestedAction action, RequestedMovement movement,
-                 WifiMsg remote_info)
+void update_game_complete(RequestedAction action, RequestedMovement movement,
+                          WifiMsg remote_info)
 {
+    if (action == REQ_ACTION_ATTACK)
+        local_attack(false);
+    else if (action == REQ_ACTION_SPECIAL_ATTACK)
+        local_attack(true);
+    update_game_mov(action, movement, remote_info);
+}
 
+void update_game_mov(RequestedAction action, RequestedMovement movement,
+                     WifiMsg remote_info)
+{
     // do remote stuff
     if (remote_info.msg == WIFI_PLAYER_X_DIR_ACTION)
         {
-            player_remote.dir    = remote_info.dat2;
+            player_remote.dir =
+                remote_info.dat2 == DIRECTION_LEFT
+                    ? DIRECTION_RIGHT
+                    : DIRECTION_LEFT; // switch direction for remote
             player_remote.action = remote_info.dat3;
             inferred_move(&player_remote);
-            player_remote.pos_x = translate_remote_x(remote_info.dat1);
+            player_remote.pos_x = translate_remote_x_sprite(remote_info.dat1);
         }
     else if (remote_info.msg == WIFI_PLAYER_Y_YS_HP)
         {
@@ -78,13 +135,49 @@ void update_game(RequestedAction action, RequestedMovement movement,
             player_remote.y_speed = remote_info.dat2;
             player_remote.health  = remote_info.dat3;
         }
-    else
+    else if (is_remote)
         {
             inferred_move(&player_remote);
         }
+    else if (!bot_attack) // Bot logic
+        {
+            // dmg
+            u8 dx, dy;
+            do_damage(&player_remote, &dx, &dy);
+            // BOT ONLY DOING SPECIAL ATTACKS, ALLOWS FOR EVADING
+            if (take_damage(&player_local, dx, dy, 0))
+                {
+                    remote_bot_attack();
+                    player_remote.action = ACTION_TYPE_SPECIAL_ATTACK;
+                }
+            else
+                {
+                    // movement:
+                    u8 old_x;
+                    move(&player_remote,
+                         player_local.pos_x < player_remote.pos_x
+                             ? DIRECTION_LEFT
+                             : DIRECTION_RIGHT,
+                         player_local.pos_y < player_remote.pos_y, BOT_SPEED);
+
+                    // action type for graphics
+                    if (player_remote.pos_y < SPRITE_FLOOR_HEIGHT)
+                        {
+                            player_remote.action = old_x == player_remote.pos_x
+                                                     ? ACTION_TYPE_JUMP_INPLACE
+                                                     : ACTION_TYPE_JUMP_MOVE;
+                        }
+                    else
+                        {
+                            player_remote.action = old_x == player_remote.pos_x
+                                                     ? ACTION_TYPE_IDLE
+                                                     : ACTION_TYPE_WALK;
+                        }
+                }
+        }
 
     // check if attacking
-    if (player_local.action == ACTION_TYPE_NORMAL_ATTACK &&
+    if (player_local.action == ACTION_TYPE_NORMAL_ATTACK ||
         player_local.action == ACTION_TYPE_SPECIAL_ATTACK)
         {
             // no movements when attacking, potentially do other stuff
@@ -105,7 +198,7 @@ void update_game(RequestedAction action, RequestedMovement movement,
                          (action == REQ_ACTION_BLOCK) ? SPEED_BLOCKING : SPEED);
 
                     // determine action
-                    if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
+                    if (player_local.pos_y < SPRITE_FLOOR_HEIGHT)
                         {
                             player_local.action = ACTION_TYPE_JUMP_MOVE;
                         }
@@ -121,7 +214,7 @@ void update_game(RequestedAction action, RequestedMovement movement,
                 }
             else // adjust action for when not moving:
                 {
-                    if (player_local.pos_y != SPRITE_FLOOR_HEIGHT)
+                    if (player_local.pos_y < SPRITE_FLOOR_HEIGHT)
                         {
                             player_local.action = ACTION_TYPE_JUMP_INPLACE;
                         }
@@ -158,6 +251,9 @@ void set_stage()
     // specifics remote
     player_remote.dir     = DIRECTION_LEFT;
     player_remote.pos_x   = SCREEN_WIDTH - SPRITE_START_POS - SPRITE_WIDTH;
+
+    // singlplayer reset
+    bot_attack = false;
 }
 
 
@@ -190,16 +286,34 @@ bool local_attack(bool special)
 
 void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
-    // todo mediate between single player and multiplayer
+    /// @todo mediate between single player and multiplayer
     send_damage(dmg_x, dmg_y, dmg);
 }
 
-void reset_game()
+bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg)
+{
+    return take_damage(&player_local, translate_remote_x_point(dmg_x), dmg_y,
+                       dmg);
+}
+
+
+bool remote_attack_handler(WifiMsg remote_info)
+{
+    // take damage (local)
+    if (remote_info.msg == WIFI_DAMAGE_X_Y_DMG)
+        {
+            return remote_attack(remote_info.dat1, remote_info.dat2,
+                                 remote_info.dat3);
+        }
+    return false;
+}
+
+void reset_game(bool remote)
 {
     set_stage();
     score_local  = 0;
     score_remote = 0;
-    is_remote    = false; // TODO CHANGE based on bt status
+    is_remote    = remote;
     is_play      = true;
 }
 void new_round()
@@ -209,12 +323,7 @@ void new_round()
 }
 
 
-void where_is_my_hit(u8* x, u8* y)
-{
-    *x = player_local.pos_x +
-         (player_local.dir == DIRECTION_LEFT ? 0 : SPRITE_WIDTH);
-    *y = player_local.pos_y + SPRITE_HEIGHT / 2;
-}
+void where_is_my_hit(u8* x, u8* y) { do_damage(&player_local, x, y); }
 
 #ifdef CONSOLE_DEBUG
 void print_players()

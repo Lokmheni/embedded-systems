@@ -2,7 +2,7 @@
  * @file game.h
  * @author Simon Thür & Lokman Mheni
  * @brief Definition of necessary functions for game mechanics
- * @version 0.1
+ * @version 1.0
  * @date 2022-11-28
  *
  * @copyright Copyright (c) 2022
@@ -34,7 +34,7 @@ typedef enum ActionType
 {
     ACTION_TYPE_IDLE,
     ACTION_TYPE_WALK,
-    ACTION_TYPE_JUMP_INPLACE, // TODO IMPLEMENT INPLACE AND MOVE
+    ACTION_TYPE_JUMP_INPLACE,
     ACTION_TYPE_JUMP_MOVE,
     ACTION_TYPE_NORMAL_ATTACK,
     ACTION_TYPE_SPECIAL_ATTACK,
@@ -94,15 +94,23 @@ void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y);
 
 
 /**
- * @brief Translate remote x_coord to local coordinate system.
+ * @brief Translate remote x_coord (sprite) to local coordinate system. (will
+ * take care of sprite width offset)
  *
  * @note Direction must also be inverted
  *
  * @param x_coord Remote x-coordinate
  * @return u8 x-coordinate in local system
  */
-u8 translate_remote_x(u8 x_coord);
+u8 translate_remote_x_sprite(u8 x_coord);
 
+/**
+ * @brief Translate remote x_coord (singular point) to local coordinate system.
+ *
+ * @param x_coord Remote x-coordinate
+ * @return u8 x-coordinate in local system
+ */
+u8 translate_remote_x_point(u8 x_coord);
 
 /**
  * @brief Update player based on current action, direction, position etc.

@@ -2,7 +2,7 @@
  * @file game_controller.h
  * @author Simon Thür and Lokman Mheni
  * @brief
- * @version 0.1
+ * @version 1.1
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -39,9 +39,27 @@ Player get_player_remote();
  * @param[out] score_local
  * @param[out] score_remote
  */
-void get_scores(int* local, int* remote);
+void get_scores(u8* local, u8* remote);
+
+/**
+ * @brief Set the remote scores object
+ *
+ * @param remote score of remote
+ */
+void set_score_remote(u8 remote);
+
+/**
+ * @brief Increment local score by 1
+ *
+ */
+void inc_score_lcoal();
 
 
+/**
+ * @brief Send the local player over wifi.
+ *
+ */
+void send_local_player();
 //===================================================================
 // Control
 //===================================================================
@@ -51,20 +69,29 @@ void get_scores(int* local, int* remote);
  */
 void set_stage();
 
-
 /**
- * @brief Calculate next step of the game based on player input and remote
- * message.
- *
- * @note This function only updates movements! It does not care about damage.
- * Damage and health should be handled separately elsewhere
+ * @brief Execute complete frame step of local and remote players.
  *
  * @param action Action that the player wishes to execute
  * @param movement that the player wishes to do.
  * @param remote_info Messages concerning what remote is doing
  */
-void update_game(RequestedAction action, RequestedMovement movement,
-                 WifiMsg remote_info);
+void update_game_complete(RequestedAction action, RequestedMovement movement,
+                          WifiMsg remote_info);
+
+/**
+ * @brief Calculate next step of the game based on player input and remote
+ * message.
+ *
+ * @note This function only updates movements! It does not care about
+ * damage. Damage and health should be handled separately elsewhere
+ *
+ * @param action Action that the player wishes to execute
+ * @param movement that the player wishes to do.
+ * @param remote_info Messages concerning what remote is doing
+ */
+void update_game_mov(RequestedAction action, RequestedMovement movement,
+                     WifiMsg remote_info);
 
 
 /**
@@ -91,11 +118,33 @@ bool local_attack(bool special);
 void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg);
 
 /**
- * @brief Set/Reset the game stage, points health etc.
- * (also starts game already)
+ * @brief Do damage to local player (i.e. handle remote attacks)
  *
+ * @param dmg_x coord of dmg
+ * @param dmg_y coord of dmg
+ * @param dmg amount of dmg
+ * @return true if player was hit (even if dmg is 0)
+ * @return false if player was not hit
  */
-void reset_game();
+bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg);
+
+/**
+ * @brief This function takes care of remote attacks. If an attack was
+ * successful, damage is subtracted from local player.
+ *
+ * @param remote_attack in the WifiMsg format (attack msg type)
+ * @return true if attack hit the player
+ * @return false if the attack did not hit.
+ */
+bool remote_attack_handler(WifiMsg remote_info);
+
+
+/**
+ * @brief Set/Reset the game stage, points health etc.
+ *
+ * @param remote whether game is remote.
+ */
+void reset_game(bool remote);
 
 /**
  * @brief Start new round, only resets health and positions. Ideally one should
