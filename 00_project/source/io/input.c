@@ -11,9 +11,103 @@
 
 
 #include "input.h"
+#include "sound.h"
+#include "../graphics/graphics.h"
+#include "../game/game_controller.h"
+#include <nds.h>
+#include <stdio.h>
 
 
-void get_input(RequestedAction* action, RequestedMovement* movement) {}
+u16* gfx;
+
+int rand_ticks;
+
+void get_input(RequestedAction* action, RequestedMovement* movement) {
+
+	int keys;
+	scanKeys();
+	keys = keysHeld();
+	if(keys & KEY_LEFT){
+		*movement = REQ_MOVE_LEFT;
+		*action = REQ_ACTION_NONE;
+	}
+	if(keys & KEY_RIGHT){
+		*movement = REQ_MOVE_RIGHT;
+		*action = REQ_ACTION_NONE;
+	}
+	if(keys & KEY_X){
+		*movement = REQ_MOVE_NONE;
+		*action = REQ_ACTION_JUMP;
+	}
+	if(keys & KEY_A){
+		*movement = REQ_MOVE_NONE;
+		*action = REQ_ACTION_ATTACK;
+	}
+	if(keys & KEY_Y){
+		*movement = REQ_MOVE_NONE;
+		*action = REQ_ACTION_BLOCK;
+	}
+	if(keys & KEY_B){
+		*movement = REQ_MOVE_NONE;
+		*action = REQ_ACTION_SPECIAL_ATTACK;
+	}
+
+}
 
 
-void get_touch_input() {}
+int get_keys(){
+	//Position
+	int keys;
+	while(1){
+		//Read held keys
+		scanKeys();
+		keys = keysHeld();
+		if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP) || (keys & KEY_TOUCH) )
+			return keys;
+		else
+			return 0;
+	}
+	return 0;
+}
+
+/*void manage_key(int keys){
+	int x = 0, y = 192;
+	//Modify position of the sprite accordingly
+	if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP)){
+		if((keys & KEY_RIGHT) && (x < (SCREEN_WIDTH - SPRITE_WIDTH))) x+=2;
+		if((keys & KEY_DOWN) && (y < (SCREEN_HEIGHT - SPRITE_HEIGHT))) y+=2;
+		if((keys & KEY_LEFT) && (x  > 0)) x-=2;
+		if((keys & KEY_UP) && (y  > 0)) y-=2;
+	}
+}*/
+
+bool get_touch_input(TouchInput* touchinput) {
+	bool set_up = true;
+	while(1){
+		//Read the touchscreen position
+		touchPosition touch;
+		touchRead(&touch);
+		scanKeys();
+		int keys = keysHeld();
+		//If touched, set the background in main
+
+		if((keys & KEY_TOUCH) && set_up){
+			int x = touch.px;
+			int y = touch.py;
+			if((x > 78 && x < 178) && (y > 75 && y < 75+21)){
+				*touchinput = TOUCH_INPUT_MULTI_PLAYER;
+				return 1;
+				set_up = false;
+			}
+			if((x > 78 && x < 178) && (y > 75+21 && y < 75+42)){
+				*touchinput = TOUCH_INPUT_SINGLE_PLAYER;
+				return 1;
+				set_up = false;
+			}
+
+		}
+		else
+			*touchinput = TOUCH_INPUT_NONE;
+	}
+}
+
