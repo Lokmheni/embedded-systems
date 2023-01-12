@@ -82,6 +82,8 @@ void manage_timer();
  */
 void gameover();
 
+void sprite_initializer();
+
 void updateChrono();
 
 void show_health();

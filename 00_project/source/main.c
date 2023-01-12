@@ -76,7 +76,7 @@ void play(){
         show_timer();
         //show_health();
         init_main_screen();
-        sprite_initializer(t,s);
+        sprite_initializer();
         sprite_pos_remote(s);
         sprite_pos_local(t);
     }

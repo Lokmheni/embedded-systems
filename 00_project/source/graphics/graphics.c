@@ -467,7 +467,7 @@ void sprite_pos_remote(Player* const player){
 
 }
 
-void sprite_initializer(t,s){
+void sprite_initializer(){
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 
 	oamInit(&oamMain, SpriteMapping_1D_32, true);
