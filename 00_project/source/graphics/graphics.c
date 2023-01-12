@@ -143,133 +143,125 @@ void show_health(Player *t){
 	BG_PALETTE_SUB[5] = RED;
 	// 6) Generate the map
 	int i,j;
-	/*	for(i = 0; i < 32; i++){
-			for(j = 0; j < 24; j++)
-				BG_MAP_RAM_SUB(25)[j*32+i] = 0;
-		}*/
-
-	//for(tile = 0; tile <1024; tile++)
-	//	BG_MAP_RAM_SUB(0)[tile] = 0;
-
-		for(j = 2; j < 6; j++){
-			if(j == 2 || j == 5){
-					for (i = 3; i < 15; i++)
-						BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
-					for (i = 19; i < 31; i++)
-						BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
-				}
-			else{
-				for(i = 3; i < 15; i++)
-					if(i == 2 || i == 14)
-						BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
-					else
-						BG_MAP_RAM_SUB(0)[j*32+i] = 1;
-				for(i = 19; i < 31; i++)
-					if(i == 19 || i == 30)
-						BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
-					else
-						BG_MAP_RAM_SUB(0)[j*32+i] = 1;
+	for(j = 1; j < 7; j++){
+		if(j == 1 || j == 6){
+			for (i = 2; i < 15; i++)
+				BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
+			for (i = 19; i < 31; i++)
+				BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
 			}
-		}
-		switch((t->health)){
-			case 90:
-				for(j = 2; j < 6; j++)
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					break;
-			case 80:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-				}
-					break;
-			case 70:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-				}
-				break;
-			case 60:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 0;
-				}
-				break;
-			case 50:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 0;
-				}
-				break;
-			case 40:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 0;
-				}
-				break;
-			case 30:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 0;
-				}
-				break;
-			case 20:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+6] = 0;
-				}
-				break;
-			case 10:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+6] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+5] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+4] = 0;
-			}
-			break;
-			case 0:
-				for(j = 2; j < 6; j++){
-					BG_MAP_RAM_SUB(0)[j*32+13] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+12] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+11] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+10] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+9] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+8] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+7] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+6] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+5] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+4] = 0;
-					BG_MAP_RAM_SUB(0)[j*32+3] = 0;
-				}
-				break;
+		else{
+			for(i = 2; i < 15; i++)
+				if(i == 2 || i == 14)
+					BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
+				else
+					BG_MAP_RAM_SUB(0)[j*32+i] = 1;
+			for(i = 19; i < 31; i++)
+				if(i == 19 || i == 30)
+					BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
+				else
+					BG_MAP_RAM_SUB(0)[j*32+i] = 1;
 		}
 	}
+	switch((t->health)){
+		case 90:
+			for(j = 2; j < 6; j++)
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				break;
+		case 80:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+			}
+				break;
+		case 70:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+			}
+			break;
+		case 60:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 0;
+			}
+			break;
+		case 50:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 0;
+			}
+			break;
+		case 40:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 0;
+			}
+			break;
+		case 30:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 0;
+			}
+			break;
+		case 20:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+6] = 0;
+			}
+			break;
+		case 10:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+6] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+5] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+4] = 0;
+			}
+			break;
+		case 0:
+			for(j = 2; j < 6; j++){
+				BG_MAP_RAM_SUB(0)[j*32+13] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+12] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+11] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+10] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+9] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+8] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+7] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+6] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+5] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+4] = 0;
+				BG_MAP_RAM_SUB(0)[j*32+3] = 0;
+			}
+			break;
+	}
+}
 
 void updateChrono(Player* t){
 	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
@@ -309,7 +301,6 @@ void init_screens(){
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 	// Configure background BG2 in rotoscale mode using 8bit pixels
 	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	BGCTRL_SUB[3] = BG_BMP_BASE(1) | BG_BMP8_256x256;
 
 	// 1) VRAM Configuration for MAIN engine
 	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
@@ -378,9 +369,9 @@ void show_timer(){
 	VRAM_H_CR = VRAM_ENABLE
 			| VRAM_H_SUB_BG;
 	//Configure the engine in Mode 0 and use the BG0
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG3_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+	BGCTRL_SUB[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
@@ -399,13 +390,8 @@ void manage_timer(){
 	irqEnable(IRQ_TIMER0);
 }
 
-//void change_background() {}
-
-//void set_background(int new_background) {}
-
 int set_time_remaining(int min, int sec, int msec){
 	int time_passed = 1000*60*min + 1000*sec + msec;
-	//time_remaining = time_round - time_passed;
 	return (time_round - time_passed);
 }
 
@@ -417,133 +403,34 @@ void show_settings(int games_played, int games_won){
 
 void sprite_pos_local(Player* const player) {
 
-	// Set up memory bank to work in sprite mode (offset since we are using VRAM
-    // A for backgrounds)
-	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-
 	u16* gfx;
-	//u16* gfx1;
-
-
-	// Initialize sprite manager and the engine
-	//oamInit(&oamMain, SpriteMapping_1D_32, true);
-	// Allocate space for the graphic to show in the sprite
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	//gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+
 	dmaCopy(playerTiles, gfx, playerTilesLen);
 
-	/*bool remote;
-  // while (1)
-   //{
-	   set_stage();
-	   //swiWaitForVBlank();
-	   wifi_announce_lfg();
-	   WifiMsg msg;
-	   if (msg.msg == WIFI_REQ_LFG)
-	   {
-		   send_ctrl_instruction(START_GAME | IS_PLAY | SET_STAGE | RESET_GAME, 0, 0);
-		}
-		reset_game(remote);
-		u32 keys;
-		//while (1) // game
-		//{
-			RequestedAction   a;
-			RequestedMovement m;
-			a = REQ_ACTION_NONE;
-			scanKeys();
-			keys = keysHeld();
-			if (keys & KEY_A)
-			{
-				a = REQ_ACTION_JUMP;
-			//	printf("Key pressed A\n");
-			}
-			if (keys / KEY_Y)
-			{
-				a = REQ_ACTION_BLOCK;
-				//printf("Key pressed Y\n");
-			}
-			if (keys & KEY_X)
-			{
-				a = REQ_ACTION_ATTACK;
-			}
-			m = REQ_MOVE_NONE;
-			if (keys & KEY_LEFT)
-			{
-				m = REQ_MOVE_LEFT;
-				//printf("Key pressed left\n");
-			}
-			if (keys & KEY_RIGHT)
-			{
-				m = REQ_MOVE_RIGHT;
-				//printf("Key pressed right\n");
-			}
+	oamSet(&oamMain, // oam handler
+		   0,        // Number of sprite
+		   get_player_local().pos_x,
+		   get_player_local().pos_y, // Coordinates
+		   0,                          // Priority
+		   0,                          // Palette to use
+		   SpriteSize_32x32,           // Sprite size
+		   SpriteColorFormat_256Color, // Color format
+		   gfx,          // Loaded graphic to display
+		   -1,           // Affine rotation to use (-1 none)
+		   false,        // Double size if rotating
+		   false,        // Hide this sprite
+		   false, false, // Horizontal or vertical flip
+		   false         // Mosaic
+		);
 
-			if (receive_messages(&msg))
-			{
-				//printf("received wifi msg\n");
-				update_game_complete(a, m, msg);
-			}
-			else
-			{
-				msg.msg = WIFI_NULL_MSG;
-				update_game_complete(a, m, msg);
-			}
-			Player l = get_player_local();
-			send_status(&l);*/
-			oamSet(&oamMain, // oam handler
-			   0,        // Number of sprite
-			   get_player_local().pos_x,
-			   get_player_local().pos_y, // Coordinates
-			   0,                          // Priority
-			   0,                          // Palette to use
-			   SpriteSize_32x32,           // Sprite size
-			   SpriteColorFormat_256Color, // Color format
-			   gfx,          // Loaded graphic to display
-			   -1,           // Affine rotation to use (-1 none)
-			   false,        // Double size if rotating
-			   false,        // Hide this sprite
-			   false, false, // Horizontal or vertical flip
-			   false         // Mosaic
-			);
+		oamUpdate(&oamMain);
+}
 
-			/*oamSet(&oamMain, // oam handler
-				1,        // Number of sprite
-				translate_remote_x(get_player_remote().pos_x),
-				get_player_remote().pos_y,  // Coordinates
-				0,                          // Priority
-				1,                          // Palette to use
-				SpriteSize_32x32,           // Sprite size
-				SpriteColorFormat_256Color, // Color format
-				gfx1,         // Loaded graphic to display
-				-1,           // Affine rotation to use (-1 none)
-				false,        // Double size if rotating
-				false,        // Hide this sprite
-				false, false, // Horizontal or vertical flip
-				false         // Mosaic
-			);*/
-			// Update the sprites
-			//swiWaitForVBlank();
-			oamUpdate(&oamMain);
-		  }
-	//}
-//}
 
 void sprite_pos_remote(Player* const player){
-	//VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-	//using extended palettes:
-	/*vramSetBankF(VRAM_F_LCD);
-	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
-	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
-	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);*/
-
 	u16* gfx1;
-
-	//Initialize sprite manager and the engine
-	//oamInit(&oamMain, SpriteMapping_1D_32, false);
-	//Allocate space for the graphic to show in the sprite
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-	//Copy data for the graphic (palette and bitmap)
-	//dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
 	oamSet(&oamMain, // oam handler
@@ -562,15 +449,14 @@ void sprite_pos_remote(Player* const player){
 			false, false, // Horizontal or vertical flip
 			false         // Mosaic
 		);
+
 	oamUpdate(&oamMain);
 
 }
 
 void sprite_initializer(){
 	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
-
 	oamInit(&oamMain, SpriteMapping_1D_32, true);
-
 	//using extended palettes:
 	vramSetBankF(VRAM_F_LCD);
 	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
@@ -584,12 +470,12 @@ void sprite_initializer(){
 
 void gameover(){
 	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE |  DISPLAY_BG3_ACTIVE;
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG1_ACTIVE;
 	// Configure the corresponding VRAM memory bank correctly
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 	// Configure background BG2 and BG3 in rotoscale mode using 8bit pixels
-	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	BGCTRL_SUB[3] = BG_BMP_BASE(0) | BG_BMP8_256x256;
+	BGCTRL_SUB[1] = BG_BMP_BASE(0) | BG_BMP8_256x256;
+	//BGCTRL_SUB[3] = BG_BMP_BASE(0) | BG_BMP8_256x256;
 	swiCopy(gameoverBitmap, BG_GFX_SUB, gameoverBitmapLen/2);
 	swiCopy(gameoverPal, BG_PALETTE_SUB, gameoverPalLen/2);
 	// Set up affine matrix
