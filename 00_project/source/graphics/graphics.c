@@ -121,7 +121,7 @@ int colore_cornice;
 
 void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
-	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
+	//VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 
 	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
 	// 3) Configure the background
@@ -470,8 +470,8 @@ void show_timer(){
 	//Enable a suitable VRAM block and map it to the sub engine
 	//VRAM_H_CR = VRAM_ENABLE
 	//		| VRAM_H_SUB_BG;
-	//Configure the engine in Mode 0 and use the BG0
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG1_ACTIVE; //| DISPLAY_BG0_ACTIVE;
+	//Configure the engine in Mode 0 and use the BG1
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG1_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
 	BGCTRL_SUB[1] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
@@ -574,7 +574,7 @@ void gameover(){
 	// Configure the SUB engine in Rotoscale Mode
 	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
 	// Configure the corresponding VRAM memory bank correctly
-	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
+	VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
 	// Configure background BG2 in rotoscale mode using 8bit pixels
 	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
 
