@@ -17,6 +17,7 @@
 #include "play_mode.h"
 #include "player2.h"
 #include "../io/input.h"
+#include "../settings.h"
 #include "streetfighter.h"
 #include <math.h>
 #include "numbers.h"
