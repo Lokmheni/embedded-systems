@@ -119,7 +119,7 @@ int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*20; // 120
 
 int colore_cornice;
 
-void show_health(Player *t){
+void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 	// 2) SUB engine configuration in tiled mode
@@ -127,7 +127,6 @@ void show_health(Player *t){
 	// 3) Configure the background
 	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 	// 4) Copy the 4 tiles to the tile base
-
 	//swiCopy(TransTile, &BG_TILE_RAM_SUB(1)[0], 32);
 	swiCopy(GreenTile, &BG_TILE_RAM_SUB(1)[32], 32);
 	swiCopy(BlueTile, &BG_TILE_RAM_SUB(1)[64], 32);
@@ -141,6 +140,10 @@ void show_health(Player *t){
 	BG_PALETTE_SUB[3] = WHITE;
 	BG_PALETTE_SUB[4] = BLACK;
 	BG_PALETTE_SUB[5] = RED;
+}
+
+void show_health(Player *t){
+
 	// 6) Generate the map
 	int i,j;
 	for(j = 1; j < 7; j++){
@@ -265,6 +268,7 @@ void show_health(Player *t){
 
 void updateChrono(Player* t){
 	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
+	set_healthbars();
 	show_health(t);
 }
 

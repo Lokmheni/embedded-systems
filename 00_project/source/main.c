@@ -67,9 +67,11 @@ void play(){
 		*sound = SOUND_EFFECT_BLOCK;
 	init_sound();
 	play_music();
+
 	init_screens();
 	bool touch = get_touch_input(touchinput);
 	if(touch){
+		set_healthbars();
     	//stop_music();
         //play_sound_effect(*sound);
         show_timer();
