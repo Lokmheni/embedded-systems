@@ -31,8 +31,9 @@ void play(){
     (s->pos_x) = 100;
     (s->pos_y) = 90;
 
-    (t->health) = 100;
     (s->health) = 90;
+    (t->health) = 100;
+
     TouchInput* touchinput;
 	SoundEffect* sound;
 	if(get_player_local().action == ACTION_TYPE_WALK)
