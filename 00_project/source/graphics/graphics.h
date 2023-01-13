@@ -74,6 +74,14 @@ void show_settings(int games_played, int games_won);
  * */
 void manage_timer();
 
+/**
+ * @brief Get the timer timeout object 
+ * 
+ * @return true if the timer has run out
+ * @return false if timer is uninitialaized or still counting
+ */
+bool get_timer_timeout();
+
 //void change_background();
 //void set_background(int new_background);
 

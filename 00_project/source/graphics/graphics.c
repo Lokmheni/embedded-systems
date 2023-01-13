@@ -119,6 +119,10 @@ int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*20; // 120
 
 int colore_cornice;
 
+bool timer_timeout;
+
+bool get_timer_timeout() { return timer_timeout; }
+
 void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
 	//VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
@@ -399,7 +403,7 @@ void ISR_TIMER0(){
 		//updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 	}
 	else
-		gameover();
+        timer_timeout = true;
 }
 
 
@@ -490,6 +494,7 @@ void show_timer(){
 
 
 void manage_timer(){
+	timer_timeout=false;
 	//min = sec = msec = 0;
 	TIMER_DATA(0) = TIMER_FREQ_1024(1000);
 	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
