@@ -25,6 +25,7 @@ Player* s;
 
 void play(){
 
+
     (t->pos_x) = 0;
     (t->pos_y) = 90;
 
@@ -72,6 +73,8 @@ int main(void)
     consoleDemoInit();
     oamInit(&oamMain, SpriteMapping_1D_32, false);
     //gameover();
+    t = malloc(sizeof(Player));
+    s = malloc(sizeof(Player));
 
 
 
