@@ -123,21 +123,27 @@ void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
 	//VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG3_ACTIVE;
 	// 3) Configure the background
-	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(1) | BG_TILE_BASE(3);
 	// 4) Copy the tiles to the tile base
-	swiCopy(GreenTile, &BG_TILE_RAM_SUB(1)[32], 32);
-	swiCopy(BlueTile, &BG_TILE_RAM_SUB(1)[64], 32);
-	swiCopy(WhiteTile, &BG_TILE_RAM_SUB(1)[96], 32);
-	swiCopy(BlackTile, &BG_TILE_RAM_SUB(1)[128], 32);
-	swiCopy(RedTile, &BG_TILE_RAM_SUB(1)[160], 32);
+	swiCopy(GreenTile, &BG_TILE_RAM_SUB(3)[32], 32);
+	swiCopy(BlueTile, &BG_TILE_RAM_SUB(3)[64], 32);
+	swiCopy(WhiteTile, &BG_TILE_RAM_SUB(3)[96], 32);
+	swiCopy(BlackTile, &BG_TILE_RAM_SUB(3)[128], 32);
+	swiCopy(RedTile, &BG_TILE_RAM_SUB(3)[160], 32);
 	// 5) Initialize the palette (5 components)
 	BG_PALETTE_SUB[1] = GREEN;
 	BG_PALETTE_SUB[2] = BLUE;
 	BG_PALETTE_SUB[3] = WHITE;
 	BG_PALETTE_SUB[4] = BLACK;
 	BG_PALETTE_SUB[5] = RED;
+
+	int i;
+	for(i = 0; i < 468*2; i++){
+		BG_MAP_RAM_SUB(1)[i] = -1;
+	}
+
 }
 
 void show_health(Player *t, Player* s){
@@ -147,221 +153,221 @@ void show_health(Player *t, Player* s){
 	for(j = 1; j < 6; j++){
 		if(j == 1 || j == 5){
 			for (i = 2; i < 14; i++)
-				BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
+				BG_MAP_RAM_SUB(1)[j*32+i] = colore_cornice;
 			for (i = 19; i < 31; i++)
-				BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
+				BG_MAP_RAM_SUB(1)[j*32+i] = colore_cornice;
 			}
 		else{
 			for(i = 2; i < 14; i++)
 				if(i == 2 || i == 13)
-					BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
+					BG_MAP_RAM_SUB(1)[j*32+i] = colore_cornice;
 				else
-					BG_MAP_RAM_SUB(0)[j*32+i] = 0;
+					BG_MAP_RAM_SUB(1)[j*32+i] = 3;
 			for(i = 19; i < 31; i++)
 				if(i == 19 || i == 30)
-					BG_MAP_RAM_SUB(0)[j*32+i] = colore_cornice;
+					BG_MAP_RAM_SUB(1)[j*32+i] = colore_cornice;
 				else
-					BG_MAP_RAM_SUB(0)[j*32+i] = 0;
+					BG_MAP_RAM_SUB(1)[j*32+i] = 3;
 		}
 	}
 
 	if((s->health) > 90){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+20] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+20] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
 		}
 	}
 	else if((s->health) > 80){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+21] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+21] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
 		}
 	}
 
 	else if((s->health) > 70){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+22] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+22] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
 		}
 	}
 	else if((s->health) > 60){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+23] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+23] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+25] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+26] = 1;
 		}
 	}
 
 	else if((s->health) > 50){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+24] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+24] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+25] = 1;
 		}
 	}
 	else if((s->health) > 40){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+25] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+26] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+25] = 1;
 		}
 	}
 	else if((s->health) > 30){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+26] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+26] = 1;
 		}
 	}
 
 	else if((s->health) > 20){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+27] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+27] = 1;
 		}
 	}
 	else if((s->health) > 10){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+28] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
 		}
 	}
 
 	else if((s->health) > 0){
-		for(j = 2; j < 6; j++)
-			BG_MAP_RAM_SUB(0)[j*32+29] = 1;
+		for(j = 2; j < 5; j++)
+			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
 	}
 
 
 	if((t->health) > 90){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+12] = 1;
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+6] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+7] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+8] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+9] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+10] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+11] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+12] = 1;
 		}
 	}
-	else if((s->health) > 80){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+11] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
-		}
-	}
-
-	else if((s->health) > 70){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+10] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
-		}
-	}
-	else if((s->health) > 60){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+9] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
+	else if((t->health) > 80){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+6] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+7] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+8] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+9] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+10] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+11] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
 		}
 	}
 
-	else if((s->health) > 50){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+8] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
+	else if((t->health) > 70){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+6] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+7] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+8] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+9] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+10] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
 		}
 	}
-	else if((s->health) > 40){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+7] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
-		}
-	}
-	else if((s->health) > 30){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+6] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
+	else if((t->health) > 60){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+6] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+7] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+8] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+9] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
 		}
 	}
 
-	else if((s->health) > 20){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+5] = 1;
+	else if((t->health) > 50){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+7] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+8] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+6] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
 		}
 	}
-	else if((s->health) > 10){
-		for(j = 2; j < 6; j++){
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
-			BG_MAP_RAM_SUB(0)[j*32+4] = 1;
+	else if((t->health) > 40){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+7] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+6] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
+		}
+	}
+	else if((t->health) > 30){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+6] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
 		}
 	}
 
-	else if((s->health) > 0){
-		for(j = 2; j < 6; j++)
-			BG_MAP_RAM_SUB(0)[j*32+3] = 1;
+	else if((t->health) > 20){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+5] = 1;
+		}
+	}
+	else if((t->health) > 10){
+		for(j = 2; j < 5; j++){
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+		}
+	}
+
+	else if((t->health) > 0){
+		for(j = 2; j < 5; j++)
+			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
 	}
 
 }
@@ -471,9 +477,9 @@ void show_timer(){
 	//VRAM_H_CR = VRAM_ENABLE
 	//		| VRAM_H_SUB_BG;
 	//Configure the engine in Mode 0 and use the BG1
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG1_ACTIVE;
+	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG1_ACTIVE | DISPLAY_BG0_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-	BGCTRL_SUB[1] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+	BGCTRL_SUB[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);

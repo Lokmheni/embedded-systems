@@ -23,31 +23,6 @@
 Player* t;
 Player* s;
 
-
-int main(void)
-{
-    consoleDemoInit();
-    oamInit(&oamMain, SpriteMapping_1D_32, false);
-    //gameover();
-
-
-
-    play();
-
-
-
-    //show_timer();
-    //init_screens();
-    //show_health();
-
-    while(1) {
-
-    	updateChrono(t, s);
-    	swiWaitForVBlank();
-    	oamUpdate(&oamMain);
-    }
-}
-
 void play(){
 
     (t->pos_x) = 0;
@@ -55,6 +30,9 @@ void play(){
 
     (s->pos_x) = 100;
     (s->pos_y) = 90;
+
+    (t->health) = 100;
+    (s->health) = 90;
     TouchInput* touchinput;
 	SoundEffect* sound;
 	if(get_player_local().action == ACTION_TYPE_WALK)
@@ -85,6 +63,28 @@ void play(){
 	/*if(touch)
 		play();*/
 }
+
+
+
+int main(void)
+{
+    consoleDemoInit();
+    oamInit(&oamMain, SpriteMapping_1D_32, false);
+    //gameover();
+
+
+
+    play();
+
+
+    while(1) {
+
+    	updateChrono(t, s);
+    	swiWaitForVBlank();
+    	oamUpdate(&oamMain);
+    }
+}
+
 
 
 
