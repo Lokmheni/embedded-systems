@@ -70,7 +70,7 @@ void play(){
 
 int main(void)
 {
-    consoleDemoInit();
+    
     oamInit(&oamMain, SpriteMapping_1D_32, false);
     //gameover();
     t = malloc(sizeof(Player));

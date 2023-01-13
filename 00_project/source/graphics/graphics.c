@@ -503,8 +503,8 @@ int set_time_remaining(int min, int sec, int msec){
 }
 
 void show_settings(int games_played, int games_won){
-	printf("\n\nGames Played : %d", games_played); //TODO
-	printf("\n\nGames Won : %d", games_won);		//TODO
+	///@todo printf("\n\nGames Played : %d", games_played); 
+	///@todo printf("\n\nGames Won : %d", games_won);		
 }
 
 
