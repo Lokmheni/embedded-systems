@@ -49,24 +49,48 @@
 
 #include <nds.h>
 
+#include "game/game_sync_fsm.h"
 #include "graphics/graphics.h"
+#include "io/input.h"
+#include "io/sound.h"
 
 
 int main(void)
 {
     //===================================================================
-    // Setup (for graphics, ordering is necessary)
+    // Setup Graphics (ordering relevant)
     //===================================================================
     init_screens();
     init_main_screen();
     sprite_initializer();
-    init_sound();
-    play_music();
 
     ///@todo move oamInit to graphics
     oamInit(&oamMain, SpriteMapping_1D_32, false);
 
+    //===================================================================
+    // Setup Graphics (ordering relevant)
+    //===================================================================
+    init_sound();
+    play_music();
 
+    //===================================================================
+    // Setup Game
+    //===================================================================
+    TouchInput ti;
+    get_touch_input(&ti);
+    if (ti == TOUCH_INPUT_SINGLE_PLAYER)
+        {
+            go_for_singleplayer();
+        }
+    else
+        {
+            go_for_multiplayer();
+        }
+
+
+    //===================================================================
+    // Main game loop
+    //===================================================================
     for (;;)
         {
 
