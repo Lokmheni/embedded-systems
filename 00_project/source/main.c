@@ -1,7 +1,7 @@
 /**
  * @file main.c
- * @author Simon Thür and Lokman Mheni
- * @brief Project for embedded systems EE-310
+ * @authors Simon Thür and Lokman Mheni
+ * @brief Project **Street-fighter** for embedded systems EE-310
  * @version 0.1
  * @date 2023-01-13
  *
@@ -9,8 +9,8 @@
  *
  *
  *
- * This is the project `Street-fighter` by Simon Thür and Lokman Mheni. The main
- * aim is a multiplayer 1v1 fighter game through wifi connection. As an
+ * This is the project **Street-fighter** by Simon Thür and Lokman Mheni. The
+ * main aim is a multiplayer 1v1 fighter game through wifi connection. As an
  * 'afterthought' the game also features a very basic single player mode.
  *
  * ### Here is a list of where requirements can be found
