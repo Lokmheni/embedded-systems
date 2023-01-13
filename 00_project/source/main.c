@@ -49,10 +49,11 @@
 
 #include <nds.h>
 
+#include "constants.h"
+#include "game/game_controller.h"
 #include "game/game_sync_fsm.h"
 #include "graphics/graphics.h"
 #include "io/input.h"
-#include "io/sound.h"
 
 
 int main(void)
@@ -77,6 +78,8 @@ int main(void)
     // Setup Game
     //===================================================================
     TouchInput ti;
+
+
     get_touch_input(&ti);
     if (ti == TOUCH_INPUT_SINGLE_PLAYER)
         {
@@ -89,11 +92,21 @@ int main(void)
 
 
     //===================================================================
+    // Switch to game screens
+    //===================================================================
+    show_timer();
+    show_health();
+
+    //===================================================================
     // Main game loop
     //===================================================================
+    RequestedAction   a;
+    RequestedMovement m;
+    WifiMsg           msg;
     for (;;)
         {
-
+            get_input(&a, &m);
+            exec_sync_fsm(a, m, msg, get_timer_timeout());
 
             swiWaitForVBlank();
 
