@@ -18,7 +18,7 @@ include $(DEVKITARM)/ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/game source/graphcis source/io
+SOURCES		:=	source source/game source/graphics source/io
 DATA		:=
 INCLUDES	:=	include
 GRAPHICS	:=	data
@@ -37,7 +37,7 @@ CFLAGS	:=	-g -Wall -O3\
 		-ffast-math \
 		$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM9
+CFLAGS	+=	$(INCLUDE) -DARM9 -DCONSOLE_DEBUG
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)
