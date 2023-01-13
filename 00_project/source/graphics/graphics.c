@@ -147,8 +147,8 @@ void set_healthbars(){
 }
 
 void show_health(Player *t, Player* s){
-	(t->health) = 20;
-	(s->health) = 80;
+	(s->health) = 20;
+
 	// 6) Generate the map
 	int i,j;
 	for(j = 1; j < 6; j++){
@@ -270,7 +270,7 @@ void show_health(Player *t, Player* s){
 		for(j = 2; j < 5; j++)
 			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
 	}
-
+	(t->health) = 80;
 
 	if((t->health) > 90){
 		for(j = 2; j < 5; j++){
