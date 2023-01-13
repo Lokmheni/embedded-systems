@@ -147,7 +147,8 @@ void set_healthbars(){
 }
 
 void show_health(Player *t, Player* s){
-
+	(t->health) = 20;
+	(s->health) = 80;
 	// 6) Generate the map
 	int i,j;
 	for(j = 1; j < 6; j++){
