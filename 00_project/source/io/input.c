@@ -29,70 +29,31 @@ void get_input(RequestedAction* action, RequestedMovement* movement) {
 	scanKeys();
 	keys = keysHeld();
 
-	if(keys & KEY_LEFT){
+	if(keys & KEY_LEFT)
 		*movement = REQ_MOVE_LEFT;
-		if(keys & KEY_B)
-			*action = REQ_ACTION_SPECIAL_ATTACK;
-		else if(keys & KEY_X)
-			*action = REQ_ACTION_JUMP;
-		else if(keys & KEY_A)
-			*action = REQ_ACTION_ATTACK;
-		else if(keys & KEY_Y)
-			*action = REQ_ACTION_BLOCK;
-		else
-			*action = REQ_ACTION_NONE;
-	}
-	if(keys & KEY_RIGHT){
+
+	else if(keys & KEY_RIGHT)
 		*movement = REQ_MOVE_RIGHT;
-		if(keys & KEY_B)
-			*action = REQ_ACTION_SPECIAL_ATTACK;
-		else if(keys & KEY_X)
-			*action = REQ_ACTION_JUMP;
-		else if(keys & KEY_A)
-			*action = REQ_ACTION_ATTACK;
-		else if(keys & KEY_Y)
-			*action = REQ_ACTION_BLOCK;
-		else
-			*action = REQ_ACTION_NONE;
-	}
+
+	else *movement = REQ_MOVE_NONE;
 
 
-	if(keys & KEY_X){
+
+
+	if(keys & KEY_X)
 		*action = REQ_ACTION_JUMP;
-		if(keys & KEY_LEFT)
-			*movement = REQ_MOVE_LEFT;
-		else if(keys & KEY_RIGHT)
-			*movement = REQ_MOVE_RIGHT;
-		else
-			*movement = REQ_MOVE_NONE;
-	}
-	if(keys & KEY_A){
+
+	else if(keys & KEY_A)
 		*action = REQ_ACTION_ATTACK;
-		if(keys & KEY_LEFT)
-			*movement = REQ_MOVE_LEFT;
-		else if(keys & KEY_RIGHT)
-			*movement = REQ_MOVE_RIGHT;
-		else
-			*movement = REQ_MOVE_NONE;
-	}
-	if(keys & KEY_Y){
+
+	else if(keys & KEY_Y)
 		*action = REQ_ACTION_BLOCK;
-		if(keys & KEY_LEFT)
-			*movement = REQ_MOVE_LEFT;
-		else if(keys & KEY_RIGHT)
-			*movement = REQ_MOVE_RIGHT;
-		else
-			*movement = REQ_MOVE_NONE;
-	}
-	if(keys & KEY_B){
+
+	else if(keys & KEY_B)
 		*action = REQ_ACTION_SPECIAL_ATTACK;
-		if(keys & KEY_LEFT)
-			*movement = REQ_MOVE_LEFT;
-		else if(keys & KEY_RIGHT)
-			*movement = REQ_MOVE_RIGHT;
-		else
-			*movement = REQ_MOVE_NONE;
-	}
+
+	else
+		*action = REQ_ACTION_NONE;
 
 }
 
