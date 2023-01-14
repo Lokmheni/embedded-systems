@@ -69,7 +69,16 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                     round_done = true;
                     go_for_end_round();
                 }
-            ///@todo end when singleplayer win?
+            else if ((con_state == CONNECTION_TYPE_NULL &&
+                      get_player_remote()->health > MAX_HEALTH) ||
+                     (timeout &&
+                      get_player_remote()->health < get_player_local()->health))
+                {
+                    // Singleplayerwin:
+                    round_done = true;
+                    inc_score_lcoal();
+                    go_for_end_round();
+                }
 
 
             // soundeffects (if either of player begins jumping)

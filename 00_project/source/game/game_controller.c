@@ -286,8 +286,14 @@ bool local_attack(bool special)
 
 void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
 {
-    /// @todo mediate between single player and multiplayer
-    send_damage(dmg_x, dmg_y, dmg);
+    if (is_remote)
+        {
+            send_damage(dmg_x, dmg_y, dmg);
+        }
+    else
+        {
+            take_damage(&player_remote, dmg_x, dmg_y, dmg);
+        }
 }
 
 bool remote_attack(u8 dmg_x, u8 dmg_y, u8 dmg)
