@@ -72,7 +72,7 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
             ///@todo end when singleplayer win?
 
 
-            // soundeffects
+            // soundeffects (if either of player begins jumping)
             if (((al != ACTION_TYPE_JUMP_INPLACE ||
                   al != ACTION_TYPE_JUMP_MOVE) &&
                  (get_player_local()->action == ACTION_TYPE_JUMP_INPLACE ||
@@ -83,13 +83,6 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                   get_player_remote()->action == ACTION_TYPE_JUMP_MOVE)))
                 {
                     play_sound_effect(SOUND_EFFECT_JUMP);
-                }
-
-            if (get_player_local()->health < hpl ||
-                get_player_remote()->health < hpr)
-                {
-                    ///@note this works for MP only
-                    play_sound_effect(SOUND_EFFECT_BLOCK);
                 }
         }
 
