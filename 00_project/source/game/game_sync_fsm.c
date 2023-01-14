@@ -13,6 +13,7 @@
 #include "game_sync_fsm.h"
 
 #include "../constants.h"
+#include "../graphics/graphics.h"
 #include "game_controller.h"
 
 //===================================================================
@@ -151,6 +152,10 @@ void go_for_end_round()
             con_state = CONNECTION_TYPE_MASTER;
         }
     game_state = GAME_IN_ROUND_END;
+
+    // screen stuff
+    swiWaitForVBlank();
+    gameover();
 }
 
 void go_for_new_round()
@@ -161,6 +166,10 @@ void go_for_new_round()
     get_scores(&scr, &dontcare);
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
+
+    // timer and screen stuff
+    swiWaitForVBlank();
+    show_timer();
 }
 
 

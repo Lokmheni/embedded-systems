@@ -109,22 +109,14 @@ int main(void)
         {
             receive_messages(&msg);
             get_input(&a, &m);
-            bool done = exec_sync_fsm(a, m, msg, get_timer_timeout());
+            exec_sync_fsm(a, m, msg, get_timer_timeout());
 
             swiWaitForVBlank();
             sprite_pos_local(get_player_local());
             sprite_pos_remote(get_player_remote());
-
-
-            if (done)
+            if (get_game_state() == GAME_IN_PROGRESS)
                 {
-                    gameover();
-                    get_touch_to_restart(&ti);
-                    swiWaitForVBlank();
-                    show_timer();
-                }
-            else
-                {
+
                     updateChrono(get_player_local(), get_player_remote());
                 }
 
