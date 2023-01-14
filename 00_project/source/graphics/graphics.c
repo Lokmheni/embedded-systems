@@ -522,8 +522,8 @@ void sprite_pos_local(const Player*  player) {
 
 	oamSet(&oamMain, // oam handler
 		   0,        // Number of sprite
-		   get_player_local()->pos_x,
-		   get_player_local()->pos_y, // Coordinates
+		  player->pos_x,
+		  player->pos_y, // Coordinates
 		   0,                          // Priority
 		   0,                          // Palette to use
 		   SpriteSize_32x32,           // Sprite size
@@ -547,9 +547,8 @@ void sprite_pos_remote(const Player* player){
 
 	oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
-			//translate_remote_x(get_player_remote().pos_x),
-			//get_player_remote().pos_y,  // Coordinates
-			90,90,
+			player->pos_x,
+			player->pos_y,  // Coordinates
 			0,                          // Priority
 			1,                          // Palette to use
 			SpriteSize_32x32,           // Sprite size
