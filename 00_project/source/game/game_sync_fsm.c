@@ -51,7 +51,14 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // actual game
     if (game_state == GAME_IN_PROGRESS)
         {
+
+            ActionType al  = get_player_local()->action;
+            ActionType ar  = get_player_remote()->action;
+            u8         hpl = get_player_local()->health;
+            u8         hpr = get_player_remote()->health;
             update_game_complete(a, m, msg);
+
+
             // check player death (lazy evaluation) || timeout loss
             if (((con_state == CONNECTION_TYPE_NULL ||
                   remote_attack_handler(msg)) &&
@@ -63,6 +70,27 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                     go_for_end_round();
                 }
             ///@todo end when singleplayer win?
+
+
+            // soundeffects
+            if (((al != ACTION_TYPE_JUMP_INPLACE ||
+                  al != ACTION_TYPE_JUMP_MOVE) &&
+                 (get_player_local()->action == ACTION_TYPE_JUMP_INPLACE ||
+                  get_player_local()->action == ACTION_TYPE_JUMP_MOVE)) ||
+                ((ar != ACTION_TYPE_JUMP_INPLACE ||
+                  ar != ACTION_TYPE_JUMP_MOVE) &&
+                 (get_player_remote()->action == ACTION_TYPE_JUMP_INPLACE ||
+                  get_player_remote()->action == ACTION_TYPE_JUMP_MOVE)))
+                {
+                    play_sound_effect(SOUND_EFFECT_JUMP);
+                }
+
+            if (get_player_local()->health < hpl ||
+                get_player_remote()->health < hpr)
+                {
+                    ///@note this works for MP only
+                    play_sound_effect(SOUND_EFFECT_BLOCK);
+                }
         }
 
 
