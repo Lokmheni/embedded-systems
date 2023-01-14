@@ -18,7 +18,7 @@
 Player old_plr_state;
 
 
-void send_status(Player* const plr)
+void send_status(const Player* plr)
 {
     // check jump and health
     if ((plr->y_speed > old_plr_state.y_speed) ||

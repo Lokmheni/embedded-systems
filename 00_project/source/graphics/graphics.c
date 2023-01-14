@@ -513,7 +513,7 @@ void show_settings(int games_played, int games_won){
 }
 
 
-void sprite_pos_local(Player* const player) {
+void sprite_pos_local(const Player*  player) {
 
 	u16* gfx;
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
@@ -522,8 +522,8 @@ void sprite_pos_local(Player* const player) {
 
 	oamSet(&oamMain, // oam handler
 		   0,        // Number of sprite
-		   get_player_local().pos_x,
-		   get_player_local().pos_y, // Coordinates
+		   get_player_local()->pos_x,
+		   get_player_local()->pos_y, // Coordinates
 		   0,                          // Priority
 		   0,                          // Palette to use
 		   SpriteSize_32x32,           // Sprite size
@@ -540,8 +540,8 @@ void sprite_pos_local(Player* const player) {
 }
 
 
-void sprite_pos_remote(Player* const player){
-	u16* gfx1;
+void sprite_pos_remote(const Player* player){
+    u16* gfx1;
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
@@ -563,7 +563,6 @@ void sprite_pos_remote(Player* const player){
 		);
 
 	oamUpdate(&oamMain);
-
 }
 
 void sprite_initializer(){

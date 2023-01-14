@@ -81,9 +81,9 @@ void remote_bot_attack()
 }
 
 // getters
-Player get_player_local() { return player_local; }
-Player get_player_remote() { return player_remote; }
-void   get_scores(u8* local, u8* remote)
+const Player* get_player_local() { return &player_local; }
+const Player* get_player_remote() { return &player_remote; }
+void          get_scores(u8* local, u8* remote)
 {
     *local  = score_local;
     *remote = score_remote;

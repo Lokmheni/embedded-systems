@@ -51,12 +51,12 @@ void show_timer();
 /**
  * @brief The function allows to display and move the sprite which represents the local player.
  */
-void sprite_pos_local(Player* const player);
+void sprite_pos_local(const Player* player);
 
 /**
  * @brief The function allows to display and move the sprite which represents the local player.
  */
-void sprite_pos_remote(Player* const player);
+void sprite_pos_remote(const Player* player);
 
 /**
  * @brief The function computes the remaining time for the end of the game.

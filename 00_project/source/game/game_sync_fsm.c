@@ -54,9 +54,9 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
             // check player death (lazy evaluation) || timeout loss
             if (((con_state == CONNECTION_TYPE_NULL ||
                   remote_attack_handler(msg)) &&
-                 get_player_local().health > MAX_HEALTH) ||
+                 get_player_local()->health > MAX_HEALTH) ||
                 (timeout &&
-                 get_player_local().health < get_player_remote().health))
+                 get_player_local()->health < get_player_remote()->health))
                 {
                     round_done = true;
                     go_for_end_round();
