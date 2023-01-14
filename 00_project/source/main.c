@@ -113,7 +113,7 @@ int main(void)
             sprite_pos_local(get_player_local());
             sprite_pos_remote(get_player_remote());
 
-            show_health(get_player_local(), get_player_remote());
+            updateChrono(get_player_local(), get_player_remote());
 
 
             /// @todo move oamUpdate to graphics
