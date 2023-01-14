@@ -62,8 +62,6 @@ int main(void)
     // Setup Graphics (ordering relevant)
     //===================================================================
     init_screens();
-    init_main_screen();
-    sprite_initializer();
 
     ///@todo move oamInit to graphics
     oamInit(&oamMain, SpriteMapping_1D_32, false);
@@ -94,6 +92,8 @@ int main(void)
     //===================================================================
     // Switch to game screens
     //===================================================================
+    init_main_screen();
+    sprite_initializer();
     show_timer();
     show_health(get_player_local(), get_player_remote());
 
