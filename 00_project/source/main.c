@@ -95,7 +95,7 @@ int main(void)
     // Switch to game screens
     //===================================================================
     show_timer();
-    show_health();
+    show_health(get_player_local(), get_player_remote());
 
     //===================================================================
     // Main game loop
@@ -105,10 +105,16 @@ int main(void)
     WifiMsg           msg;
     for (;;)
         {
+            receive_messages(&msg);
             get_input(&a, &m);
             exec_sync_fsm(a, m, msg, get_timer_timeout());
 
             swiWaitForVBlank();
+            sprite_pos_local(get_player_local());
+            sprite_pos_remote(get_player_remote());
+
+            show_health(get_player_local(), get_player_remote());
+
 
             /// @todo move oamUpdate to graphics
             oamUpdate(&oamMain);
