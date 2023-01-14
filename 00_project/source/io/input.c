@@ -28,30 +28,32 @@ void get_input(RequestedAction* action, RequestedMovement* movement) {
 	int keys;
 	scanKeys();
 	keys = keysHeld();
-	if(keys & KEY_LEFT){
+
+	if(keys & KEY_LEFT)
 		*movement = REQ_MOVE_LEFT;
-		*action = REQ_ACTION_NONE;
-	}
-	if(keys & KEY_RIGHT){
+
+	else if(keys & KEY_RIGHT)
 		*movement = REQ_MOVE_RIGHT;
-		*action = REQ_ACTION_NONE;
-	}
-	if(keys & KEY_X){
-		*movement = REQ_MOVE_NONE;
+
+	else *movement = REQ_MOVE_NONE;
+
+
+
+
+	if(keys & KEY_X)
 		*action = REQ_ACTION_JUMP;
-	}
-	if(keys & KEY_A){
-		*movement = REQ_MOVE_NONE;
+
+	else if(keys & KEY_A)
 		*action = REQ_ACTION_ATTACK;
-	}
-	if(keys & KEY_Y){
-		*movement = REQ_MOVE_NONE;
+
+	else if(keys & KEY_Y)
 		*action = REQ_ACTION_BLOCK;
-	}
-	if(keys & KEY_B){
-		*movement = REQ_MOVE_NONE;
+
+	else if(keys & KEY_B)
 		*action = REQ_ACTION_SPECIAL_ATTACK;
-	}
+
+	else
+		*action = REQ_ACTION_NONE;
 
 }
 
