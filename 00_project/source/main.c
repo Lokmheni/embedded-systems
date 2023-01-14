@@ -92,10 +92,11 @@ int main(void)
     //===================================================================
     // Switch to game screens
     //===================================================================
+    set_stage();
     init_main_screen();
     sprite_initializer();
     show_timer();
-    show_health(get_player_local(), get_player_remote());
+
 
     //===================================================================
     // Main game loop
@@ -103,18 +104,29 @@ int main(void)
     RequestedAction   a;
     RequestedMovement m;
     WifiMsg           msg;
+    consoleDemoInit();
     for (;;)
         {
             receive_messages(&msg);
             get_input(&a, &m);
-            exec_sync_fsm(a, m, msg, get_timer_timeout());
+            bool done = exec_sync_fsm(a, m, msg, get_timer_timeout());
 
             swiWaitForVBlank();
             sprite_pos_local(get_player_local());
             sprite_pos_remote(get_player_remote());
 
-            updateChrono(get_player_local(), get_player_remote());
 
+            if (done)
+                {
+                    gameover();
+                    get_touch_to_restart(&ti);
+                    swiWaitForVBlank();
+                    show_timer();
+                }
+            else
+                {
+                    updateChrono(get_player_local(), get_player_remote());
+                }
 
             /// @todo move oamUpdate to graphics
             oamUpdate(&oamMain);
