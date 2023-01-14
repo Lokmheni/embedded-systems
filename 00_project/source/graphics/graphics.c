@@ -495,7 +495,7 @@ void show_timer(){
 
 void manage_timer(){
 	timer_timeout=false;
-	//min = sec = msec = 0;
+	min = sec = msec = 0;
 	TIMER_DATA(0) = TIMER_FREQ_1024(1000);
 	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
 	irqSet(IRQ_TIMER0, &ISR_TIMER0);
