@@ -52,10 +52,9 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     if (game_state == GAME_IN_PROGRESS)
         {
 
-            ActionType al  = get_player_local()->action;
-            ActionType ar  = get_player_remote()->action;
-            u8         hpl = get_player_local()->health;
-            u8         hpr = get_player_remote()->health;
+            ActionType al = get_player_local()->action;
+            ActionType ar = get_player_remote()->action;
+
             update_game_complete(a, m, msg);
 
 

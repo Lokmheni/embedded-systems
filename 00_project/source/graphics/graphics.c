@@ -150,7 +150,7 @@ void set_healthbars(){
 
 }
 
-void show_health(Player *t, Player* s){
+void show_health(const Player *t, const Player* s){
 	// 6) Generate the map
 	int i,j;
 	for(j = 1; j < 6; j++){
@@ -375,7 +375,7 @@ void show_health(Player *t, Player* s){
 
 }
 
-void updateChrono(Player* t, Player* s){
+void updateChrono(const Player* t, const Player* s){
 	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 	set_healthbars();
 	show_health(t, s);
