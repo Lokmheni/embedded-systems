@@ -81,12 +81,12 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
 
 
             // soundeffects (if either of player begins jumping)
-            if (((al != ACTION_TYPE_JUMP_INPLACE ||
-                  al != ACTION_TYPE_JUMP_MOVE) &&
+            if ((!(al == ACTION_TYPE_JUMP_INPLACE ||
+                   al == ACTION_TYPE_JUMP_MOVE) &&
                  (get_player_local()->action == ACTION_TYPE_JUMP_INPLACE ||
                   get_player_local()->action == ACTION_TYPE_JUMP_MOVE)) ||
-                ((ar != ACTION_TYPE_JUMP_INPLACE ||
-                  ar != ACTION_TYPE_JUMP_MOVE) &&
+                (!(ar == ACTION_TYPE_JUMP_INPLACE ||
+                   ar == ACTION_TYPE_JUMP_MOVE) &&
                  (get_player_remote()->action == ACTION_TYPE_JUMP_INPLACE ||
                   get_player_remote()->action == ACTION_TYPE_JUMP_MOVE)))
                 {
