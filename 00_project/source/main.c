@@ -67,7 +67,7 @@ int main(void)
     oamInit(&oamMain, SpriteMapping_1D_32, false);
 
     //===================================================================
-    // Setup Graphics (ordering relevant)
+    // Setup Sound (ordering relevant)
     //===================================================================
     init_sound();
     play_music();

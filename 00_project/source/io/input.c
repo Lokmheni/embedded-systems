@@ -81,36 +81,37 @@ int get_keys(){
 	}
 }*/
 
-bool get_touch_input(TouchInput* touchinput) {
-	bool set_up = true;
-	while(1){
+void get_touch_input(TouchInput* touchinput) {
+	//bool set_up = true;
+	//while(1){
 		//Read the touchscreen position
 		touchPosition touch;
+		*touchinput = TOUCH_INPUT_NONE;
 		touchRead(&touch);
 		scanKeys();
 		int keys = keysHeld();
 		//If touched, set the background in main
 
-		if((keys & KEY_TOUCH) && set_up){
+		if((keys & KEY_TOUCH) /*&& set_up*/){
 			int x = touch.px;
 			int y = touch.py;
 			if((x > 78 && x < 178) && (y > 75 && y < 75+21)){
 				*touchinput = TOUCH_INPUT_SINGLE_PLAYER;
-				selected_game_mode(touchinput);
-				set_up = false;
-				return 1;
+				//selected_game_mode(touchinput);
+				//set_up = false;
+				//return 1;
 			}
 			if((x > 78 && x < 178) && (y > 75+21 && y < 75+42)){
 				*touchinput = TOUCH_INPUT_MULTI_PLAYER;
-				selected_game_mode(touchinput);
-				set_up = false;
-				return 1;
+				//selected_game_mode(touchinput);
+				//set_up = false;
+				//return 1;
 			}
 
 		}
-		else
-			*touchinput = TOUCH_INPUT_NONE;
-	}
+		//else
+		//	*touchinput = TOUCH_INPUT_NONE;
+	//}
 }
 
 bool get_touch_to_restart(TouchInput* touchinput) {

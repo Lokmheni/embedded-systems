@@ -55,7 +55,7 @@ void manage_key(int key);
 void get_input(RequestedAction* action, RequestedMovement* movement);
 
 
-bool get_touch_input(TouchInput* touchinput);
+void get_touch_input(TouchInput* touchinput);
 
 //blocking call (infinite loop that gets stuck)
 bool get_touch_to_restart(TouchInput* touchinput);
