@@ -78,15 +78,15 @@ int main(void)
     TouchInput ti;
 
 
-    get_touch_input(&ti);
-    if (ti == TOUCH_INPUT_SINGLE_PLAYER)
-        {
-            go_for_singleplayer();
-        }
-    else
-        {
-            go_for_multiplayer();
-        }
+    if(get_touch_input(&ti))
+    	if (ti == TOUCH_INPUT_SINGLE_PLAYER)
+        	{
+            	go_for_singleplayer();
+        	}
+    	else
+        	{
+            	go_for_multiplayer();
+        	}
 
 
     //===================================================================
