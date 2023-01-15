@@ -67,7 +67,7 @@ int main(void)
     oamInit(&oamMain, SpriteMapping_1D_32, false);
 
     //===================================================================
-    // Setup Graphics (ordering relevant)
+    // Setup Sound (ordering relevant)
     //===================================================================
     init_sound();
     play_music();
@@ -78,15 +78,15 @@ int main(void)
     TouchInput ti;
 
 
-    get_touch_input(&ti);
-    if (ti == TOUCH_INPUT_SINGLE_PLAYER)
-        {
-            go_for_singleplayer();
-        }
-    else
-        {
-            go_for_multiplayer();
-        }
+    if(get_touch_input(&ti))
+    	if (ti == TOUCH_INPUT_SINGLE_PLAYER)
+        	{
+            	go_for_singleplayer();
+        	}
+    	else
+        	{
+            	go_for_multiplayer();
+        	}
 
 
     //===================================================================
