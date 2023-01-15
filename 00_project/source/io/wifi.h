@@ -23,7 +23,7 @@
  *      RESET_GAME and IS_PLAY defined in @ref wifi_instr.h )
  *
  * 4.   During game, for every frame send \b LOCAL player  with @ref
- *      send_status(Player* const plr) and the function will arbitrate whether
+ *      send_status(const Player* plr) and the function will arbitrate whether
  *      or not a transmission needs to be sent or not.
  *
  * 5.   Whenever a player does damage, this is to be sent to the remote NDS
@@ -80,7 +80,7 @@ typedef struct __attribute__((__packed__)) WifiMsg
  *
  * @param[in] plr local player current state
  */
-void send_status(Player* const plr);
+void send_status(const Player* plr);
 
 /**
  * @brief Transfer damage done to remote device (irrelevant of whether the

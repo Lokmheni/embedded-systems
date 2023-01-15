@@ -28,6 +28,7 @@ typedef enum
     REQ_ACTION_SPECIAL_ATTACK,
     REQ_ACTION_BLOCK,
     REQ_ACTION_JUMP,
+    REQ_ACTION_START_GAME,
     REQ_ACTION_NONE
 } RequestedAction;
 

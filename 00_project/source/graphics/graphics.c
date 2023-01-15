@@ -119,6 +119,10 @@ int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*20; // 120
 
 int colore_cornice;
 
+bool timer_timeout;
+
+bool get_timer_timeout() { return timer_timeout; }
+
 void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
 	//VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
@@ -146,7 +150,7 @@ void set_healthbars(){
 
 }
 
-void show_health(Player *t, Player* s){
+void show_health(const Player *t, const Player* s){
 	// 6) Generate the map
 	int i,j;
 	for(j = 1; j < 6; j++){
@@ -371,7 +375,7 @@ void show_health(Player *t, Player* s){
 
 }
 
-void updateChrono(Player* t, Player* s){
+void updateChrono(const Player* t, const Player* s){
 	updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 	set_healthbars();
 	show_health(t, s);
@@ -399,7 +403,7 @@ void ISR_TIMER0(){
 		//updateChronoDisp(BG_MAP_RAM_SUB(0), min, sec, msec);
 	}
 	else
-		gameover();
+        timer_timeout = true;
 }
 
 
@@ -490,7 +494,8 @@ void show_timer(){
 
 
 void manage_timer(){
-	//min = sec = msec = 0;
+	timer_timeout=false;
+	min = sec = msec = 0;
 	TIMER_DATA(0) = TIMER_FREQ_1024(1000);
 	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
 	irqSet(IRQ_TIMER0, &ISR_TIMER0);
@@ -503,12 +508,12 @@ int set_time_remaining(int min, int sec, int msec){
 }
 
 void show_settings(int games_played, int games_won){
-	printf("\n\nGames Played : %d", games_played); //TODO
-	printf("\n\nGames Won : %d", games_won);		//TODO
+	///@todo printf("\n\nGames Played : %d", games_played); 
+	///@todo printf("\n\nGames Won : %d", games_won);		
 }
 
 
-void sprite_pos_local(Player* const player) {
+void sprite_pos_local(const Player*  player) {
 
 	u16* gfx;
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
@@ -517,8 +522,8 @@ void sprite_pos_local(Player* const player) {
 
 	oamSet(&oamMain, // oam handler
 		   0,        // Number of sprite
-		   get_player_local().pos_x,
-		   get_player_local().pos_y, // Coordinates
+		  player->pos_x,
+		  player->pos_y, // Coordinates
 		   0,                          // Priority
 		   0,                          // Palette to use
 		   SpriteSize_32x32,           // Sprite size
@@ -535,16 +540,15 @@ void sprite_pos_local(Player* const player) {
 }
 
 
-void sprite_pos_remote(Player* const player){
-	u16* gfx1;
+void sprite_pos_remote(const Player* player){
+    u16* gfx1;
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
 
 	oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
-			//translate_remote_x(get_player_remote().pos_x),
-			//get_player_remote().pos_y,  // Coordinates
-			90,90,
+			player->pos_x,
+			player->pos_y,  // Coordinates
 			0,                          // Priority
 			1,                          // Palette to use
 			SpriteSize_32x32,           // Sprite size
@@ -558,7 +562,6 @@ void sprite_pos_remote(Player* const player){
 		);
 
 	oamUpdate(&oamMain);
-
 }
 
 void sprite_initializer(){
