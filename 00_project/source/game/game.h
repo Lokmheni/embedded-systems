@@ -2,7 +2,7 @@
  * @file game.h
  * @author Simon Thür & Lokman Mheni
  * @brief Definition of necessary functions for game mechanics
- * @version 1.0
+ * @version 1.1
  * @date 2022-11-28
  *
  * @copyright Copyright (c) 2022
@@ -86,11 +86,11 @@ bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage);
 /**
  * @brief Evaluate the position (coordinates) where a player would do damage
  *
- * @param[in,out] plr the relevant player
+ * @param[in] plr the relevant player
  * @param[out] dmg_x x coordinate of damage
  * @param[out] dmg_y y coordinate of damage
  */
-void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y);
+void do_damage(const Player* plr, u8* dmg_x, u8* dmg_y);
 
 
 /**

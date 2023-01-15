@@ -2,7 +2,7 @@
  * @file game.c
  * @author Simon Thür & Lokman Mheni
  * @brief Implementation of game mechanics
- * @version 1.0
+ * @version 1.1
  * @date 2022-11-28
  *
  * @copyright Copyright (c) 2022
@@ -11,6 +11,7 @@
 #include "game.h"
 
 #include "../constants.h"
+#include "../io/sound.h"
 
 void move(Player* plr, Direction dir, bool jmp, int dist)
 {
@@ -48,27 +49,37 @@ void move(Player* plr, Direction dir, bool jmp, int dist)
 
 bool take_damage(Player* plr, int dmg_x, int dmg_y, int damage)
 {
+    bool hit = true;
     // test x
     if (plr->pos_x > dmg_x || (plr->pos_x + SPRITE_WIDTH) < dmg_x)
-        return false;
+        hit = false;
     // test y
-    if (plr->pos_y > dmg_y || (plr->pos_y + SPRITE_HEIGHT) < dmg_y)
-        return false;
+    else if (plr->pos_y > dmg_y || (plr->pos_y + SPRITE_HEIGHT) < dmg_y)
+        hit = false;
 
     // reduce damage if blocked
-    if (plr->action == ACTION_TYPE_BLOCK_MOVE ||
-        plr->action == ACTION_TYPE_BLOCK_INPLACE)
+    else if (plr->action == ACTION_TYPE_BLOCK_MOVE ||
+             plr->action == ACTION_TYPE_BLOCK_INPLACE)
         {
             plr->health -= damage / BLOCK_FACTOR;
         }
     else
         plr->health -= damage;
 
-    return true;
+
+    // sound effects
+    if (damage)
+        {
+            if (hit)
+                play_sound_effect(SOUND_EFFECT_BLOCK);
+            else
+                play_sound_effect(SOUND_EFFECT_ATTACK);
+        }
+    return hit;
 }
 
 
-void do_damage(Player* const plr, u8* dmg_x, u8* dmg_y)
+void do_damage(const Player* plr, u8* dmg_x, u8* dmg_y)
 {
     *dmg_x = plr->pos_x + (plr->dir == DIRECTION_LEFT ? 0 : SPRITE_WIDTH);
     *dmg_y = plr->pos_y + SPRITE_HEIGHT / 2;

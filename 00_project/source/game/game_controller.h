@@ -24,15 +24,15 @@
 /**
  * @brief Get the player local object
  *
- * @return Player
+ * @return const Player*  (const ref to player)
  */
-Player get_player_local();
+const Player* get_player_local();
 /**
  * @brief Get the player remote object
  *
- * @return Player
+ * @return const Player* (const ref to player)
  */
-Player get_player_remote();
+const Player* get_player_remote();
 /**
  * @brief Get the scores of the game
  *

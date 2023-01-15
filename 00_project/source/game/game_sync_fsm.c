@@ -2,7 +2,7 @@
  * @file game_sync_fsm.c
  * @author Simon Thür
  * @brief FSM for wifi synchronization
- * @version 0.1
+ * @version 1.0
  * @date 2022-12-30
  *
  * @copyright Copyright (c) 2022
@@ -13,6 +13,7 @@
 #include "game_sync_fsm.h"
 
 #include "../constants.h"
+#include "../graphics/graphics.h"
 #include "game_controller.h"
 
 //===================================================================
@@ -50,18 +51,47 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // actual game
     if (game_state == GAME_IN_PROGRESS)
         {
+
+            ActionType al = get_player_local()->action;
+            ActionType ar = get_player_remote()->action;
+
             update_game_complete(a, m, msg);
+
+
             // check player death (lazy evaluation) || timeout loss
             if (((con_state == CONNECTION_TYPE_NULL ||
                   remote_attack_handler(msg)) &&
-                 get_player_local().health > MAX_HEALTH) ||
+                 get_player_local()->health > MAX_HEALTH) ||
                 (timeout &&
-                 get_player_local().health < get_player_remote().health))
+                 get_player_local()->health < get_player_remote()->health))
                 {
                     round_done = true;
                     go_for_end_round();
                 }
-            ///@todo end when singleplayer win?
+            else if ((con_state == CONNECTION_TYPE_NULL &&
+                      get_player_remote()->health > MAX_HEALTH) ||
+                     (timeout &&
+                      get_player_remote()->health < get_player_local()->health))
+                {
+                    // Singleplayerwin:
+                    round_done = true;
+                    inc_score_lcoal();
+                    go_for_end_round();
+                }
+
+
+            // soundeffects (if either of player begins jumping)
+            if ((!(al == ACTION_TYPE_JUMP_INPLACE ||
+                   al == ACTION_TYPE_JUMP_MOVE) &&
+                 (get_player_local()->action == ACTION_TYPE_JUMP_INPLACE ||
+                  get_player_local()->action == ACTION_TYPE_JUMP_MOVE)) ||
+                (!(ar == ACTION_TYPE_JUMP_INPLACE ||
+                   ar == ACTION_TYPE_JUMP_MOVE) &&
+                 (get_player_remote()->action == ACTION_TYPE_JUMP_INPLACE ||
+                  get_player_remote()->action == ACTION_TYPE_JUMP_MOVE)))
+                {
+                    play_sound_effect(SOUND_EFFECT_JUMP);
+                }
         }
 
 
@@ -79,9 +109,9 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // userdriven (io) state-transitions
 
     // exit endstates
-    if (game_state == GAME_IN_END && a != REQ_ACTION_NONE)
+    if (game_state == GAME_IN_END && a == REQ_ACTION_START_GAME)
         game_state = GAME_IN_SETUP;
-    if (game_state == GAME_IN_ROUND_END && a != REQ_ACTION_NONE &&
+    if (game_state == GAME_IN_ROUND_END && a == REQ_ACTION_START_GAME &&
         con_state != CONNECTION_TYPE_SLAVE)
         game_state = GAME_IN_ROUND_SETUP;
 
@@ -151,6 +181,10 @@ void go_for_end_round()
             con_state = CONNECTION_TYPE_MASTER;
         }
     game_state = GAME_IN_ROUND_END;
+
+    // screen stuff
+    swiWaitForVBlank();
+    gameover();
 }
 
 void go_for_new_round()
@@ -161,6 +195,10 @@ void go_for_new_round()
     get_scores(&scr, &dontcare);
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
+
+    // timer and screen stuff
+    swiWaitForVBlank();
+    show_timer();
 }
 
 
