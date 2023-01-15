@@ -109,6 +109,11 @@ int main(void)
         {
             receive_messages(&msg);
             get_input(&a, &m);
+            if (get_game_state() != GAME_IN_PROGRESS)
+                {
+                    if (keysHeld() & KEY_TOUCH)
+                        a = REQ_ACTION_START_GAME;
+                }
             exec_sync_fsm(a, m, msg, get_timer_timeout());
 
             swiWaitForVBlank();

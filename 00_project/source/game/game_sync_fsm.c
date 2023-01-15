@@ -110,9 +110,9 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // userdriven (io) state-transitions
 
     // exit endstates
-    if (game_state == GAME_IN_END && a != REQ_ACTION_NONE)
+    if (game_state == GAME_IN_END && a == REQ_ACTION_START_GAME)
         game_state = GAME_IN_SETUP;
-    if (game_state == GAME_IN_ROUND_END && a != REQ_ACTION_NONE &&
+    if (game_state == GAME_IN_ROUND_END && a == REQ_ACTION_START_GAME &&
         con_state != CONNECTION_TYPE_SLAVE)
         game_state = GAME_IN_ROUND_SETUP;
 
