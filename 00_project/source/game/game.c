@@ -2,7 +2,7 @@
  * @file game.c
  * @author Simon Thür & Lokman Mheni
  * @brief Implementation of game mechanics
- * @version 1.0
+ * @version 1.1
  * @date 2022-11-28
  *
  * @copyright Copyright (c) 2022

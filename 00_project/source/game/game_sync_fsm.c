@@ -2,7 +2,7 @@
  * @file game_sync_fsm.c
  * @author Simon Thür
  * @brief FSM for wifi synchronization
- * @version 0.1
+ * @version 1.0
  * @date 2022-12-30
  *
  * @copyright Copyright (c) 2022
