@@ -101,4 +101,16 @@ void set_healthbars();
  */
 void show_health(const Player* t, const Player* s);
 
+/**
+ * @brief the function displays an image to say that the player won.
+ */
+void youwin();
+
+/**
+ * @brief the function displays an image to say that the player lost.
+ */
+void youlose();
+
+
+
 #endif // __GRAPHICS_H

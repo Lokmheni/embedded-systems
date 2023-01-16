@@ -25,6 +25,10 @@
 #include "chrono_display.h"
 #include "gameover.h"
 #include "health.h"
+#include "youwin.h"
+#include "youlose.h"
+
+
 
 #include "../game/game_controller.h"
 
@@ -509,7 +513,7 @@ int set_time_remaining(int min, int sec, int msec){
 
 void show_settings(int games_played, int games_won){
 	///@todo printf("\n\nGames Played : %d", games_played); 
-	///@todo printf("\n\nGames Won : %d", games_won);		
+	///@todo printf("\n\nGames Won : %d", games_won);
 }
 
 
@@ -589,9 +593,41 @@ void gameover(){
 	swiCopy(gameoverBitmap, BG_GFX_SUB, gameoverBitmapLen/2);
 	swiCopy(gameoverPal, BG_PALETTE_SUB, gameoverPalLen/2);
 	// Set up affine matrix
-	REG_BG3PA_SUB = 256;
+	/*REG_BG3PA_SUB = 256;
 	REG_BG3PC_SUB = 0;
 	REG_BG3PB_SUB = 0;
-	REG_BG3PD_SUB = 256;
+	REG_BG3PD_SUB = 256;*/
 
+}
+
+void youwin(){
+	// Configure the SUB engine in Rotoscale Mode
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
+	// Configure the corresponding VRAM memory bank correctly
+	VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
+	// Configure background BG2 in rotoscale mode using 8bit pixels
+	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
+	swiCopy(youwinBitmap, BG_GFX_SUB, youwinBitmapLen/2);
+	swiCopy(youwinPal, BG_PALETTE_SUB, youwinPalLen/2);
+	// Set up affine matrix
+	/*REG_BG3PA_SUB = 256;
+	REG_BG3PC_SUB = 0;
+	REG_BG3PB_SUB = 0;
+	REG_BG3PD_SUB = 256;*/
+}
+
+void youlose(){
+	// Configure the SUB engine in Rotoscale Mode
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
+	// Configure the corresponding VRAM memory bank correctly
+	VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
+	// Configure background BG2 in rotoscale mode using 8bit pixels
+	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
+	swiCopy(youwinBitmap, BG_GFX_SUB, youwinBitmapLen/2);
+	swiCopy(youwinPal, BG_PALETTE_SUB, youwinPalLen/2);
+	// Set up affine matrix
+	/*REG_BG3PA_SUB = 256;
+	REG_BG3PC_SUB = 0;
+	REG_BG3PB_SUB = 0;
+	REG_BG3PD_SUB = 256;*/
 }
