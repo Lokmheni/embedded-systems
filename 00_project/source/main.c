@@ -19,6 +19,8 @@
  *    - Arm9
  *      - Arrow keys: @ref input.c
  *      - Permanent storage: @ref memory.c
+ *    - Arm7
+ *      - Wifi: @ref wifi.c
  * 2. Timers/Interrupts
  *    - Game countdown: @ref graphics.c (@ref manage_timer())
  *    - Delayed attack: @ref game_controller.c (@ref local_attack())
@@ -78,15 +80,15 @@ int main(void)
     TouchInput ti;
 
 
-    if(get_touch_input(&ti))
-    	if (ti == TOUCH_INPUT_SINGLE_PLAYER)
-        	{
-            	go_for_singleplayer();
-        	}
-    	else
-        	{
-            	go_for_multiplayer();
-        	}
+    if (get_touch_input(&ti))
+        if (ti == TOUCH_INPUT_SINGLE_PLAYER)
+            {
+                go_for_singleplayer();
+            }
+        else
+            {
+                go_for_multiplayer();
+            }
 
 
     //===================================================================

@@ -233,6 +233,9 @@ void execute_commands(WifiMsg req)
             if (req.dat1 & WINNER_REMOTE)
                 inc_score_lcoal();
 
+            if (req.dat1 & (RESET_GAME || SET_STAGE))
+                show_timer();
+
             // statelevel
             // playpause
             if (req.dat1 & IS_PLAY)
