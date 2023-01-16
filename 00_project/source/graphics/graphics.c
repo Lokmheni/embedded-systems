@@ -532,7 +532,7 @@ void show_settings(int games_played, int games_won){
 	// Configure the corresponding VRAM memory bank correctly
 	VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
 	// Configure background BG2 in rotoscale mode using 8bit pixels
-	BGCTRL_SUB[2] = BG_BMP_BASE(25) | BG_BMP8_256x256;
+	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
 	//BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 	//swiCopy(youwinBitmap, BG_GFX_SUB, youwinBitmapLen/2);
 	//swiCopy(youwinPal, BG_PALETTE_SUB, youwinPalLen/2);
