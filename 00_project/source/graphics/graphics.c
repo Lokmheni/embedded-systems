@@ -479,9 +479,6 @@ void init_main_screen(Player* t){
 
 void show_timer(){
 
-	//Enable a suitable VRAM block and map it to the sub engine
-	//VRAM_H_CR = VRAM_ENABLE
-	//		| VRAM_H_SUB_BG;
 	//Configure the engine in Mode 0 and use the BG1
 	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG1_ACTIVE | DISPLAY_BG0_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
@@ -514,28 +511,12 @@ void show_settings(int games_played, int games_won){
 	///@todo printf("\n\nGames Played : %d", games_played); 
 	///@todo printf("\n\nGames Won : %d", games_won);
 	//changeColorDisp(WHITE , BLACK);
-	// Configure the SUB engine in Rotoscale Mode
-	//REG_DISPCNT_SUB = MODE_5_2D /*| DISPLAY_BG0_ACTIVE */| DISPLAY_BG2_ACTIVE;
-	// Configure the corresponding VRAM memory bank correctly
-	//VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
-	// Configure background BG2 in rotoscale mode using 8bit pixels
-	//BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	// Configure background BG2 in tile mode
-	//BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
-
-	//Copy the tiles and the palette to the corresonding location
-	//swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
-	//swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
 
 	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE; //| DISPLAY_BG0_ACTIVE;
-	// Configure the corresponding VRAM memory bank correctly
-	VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE | DISPLAY_BG0_ACTIVE;
 	// Configure background BG2 in rotoscale mode using 8bit pixels
-	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	//BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
-	//swiCopy(youwinBitmap, BG_GFX_SUB, youwinBitmapLen/2);
-	//swiCopy(youwinPal, BG_PALETTE_SUB, youwinPalLen/2);
+	BGCTRL_SUB[2] = BG_BMP_BASE(24) | BG_BMP8_256x256;
+	BGCTRL_SUB[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
 	swiCopy(statisticsBitmap, BG_GFX_SUB, statisticsBitmapLen/2);
 	swiCopy(statisticsPal, BG_PALETTE_SUB, statisticsPalLen/2);
@@ -544,10 +525,9 @@ void show_settings(int games_played, int games_won){
 	int games_played_dozens = (games_played%100)/10;
 	int games_played_units = (games_played%100)%10;
 
-	//printDigit(BG_MAP_RAM_SUB(0) , games_played_hundreds, 0, 0);
-	//printDigit(BG_MAP_RAM_SUB(0) , games_played_dozens, 4, 0);
-	//printDigit(BG_MAP_RAM_SUB(0) , games_played_units, 8, 0);
-	//updateStatsDisp(BG_MAP_RAM_SUB(0), games_played, games_won);
+	printDigit(BG_MAP_RAM_SUB(0) , games_played_hundreds, 8, 8);
+	printDigit(BG_MAP_RAM_SUB(0) , games_played_dozens, 4, 0);
+	printDigit(BG_MAP_RAM_SUB(0) , games_played_units, 8, 0);
 }
 
 void sprite_pos_local(const Player*  player) {
