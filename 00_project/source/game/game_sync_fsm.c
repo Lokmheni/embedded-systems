@@ -109,7 +109,8 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
     // userdriven (io) state-transitions
 
     // exit endstates
-    if (game_state == GAME_IN_END && a == REQ_ACTION_START_GAME)
+    if (game_state == GAME_IN_END && con_state == CONNECTION_TYPE_NULL &&
+        a == REQ_ACTION_START_GAME)
         game_state = GAME_IN_SETUP;
     if (game_state == GAME_IN_ROUND_END && a == REQ_ACTION_START_GAME &&
         con_state != CONNECTION_TYPE_SLAVE)
@@ -158,7 +159,7 @@ void go_for_game_init()
 {
     if (con_state != CONNECTION_TYPE_NULL)
         {
-            /// @todo update BG
+            /// @todo update BG <-Not happening, too much effort in frontend
             send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0, 0);
             reset_game(con_state != CONNECTION_TYPE_NULL);
             con_state = CONNECTION_TYPE_CONTESTED;
@@ -169,6 +170,8 @@ void go_for_game_init()
         }
 
     game_state = GAME_IN_PROGRESS;
+    show_timer();
+    manage_timer();
 }
 
 void go_for_end_round()
@@ -199,6 +202,7 @@ void go_for_new_round()
     // timer and screen stuff
     swiWaitForVBlank();
     show_timer();
+    manage_timer();
 }
 
 
@@ -232,6 +236,9 @@ void execute_commands(WifiMsg req)
                 set_stage();
             if (req.dat1 & WINNER_REMOTE)
                 inc_score_lcoal();
+
+            if (req.dat1 & (RESET_GAME | SET_STAGE))
+                manage_timer();
 
             // statelevel
             // playpause
