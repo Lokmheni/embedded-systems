@@ -60,7 +60,7 @@
 
 int main(void)
 {
-    /*//===================================================================
+    //===================================================================
     // Setup Graphics (ordering relevant)
     //===================================================================
     init_screens();
@@ -105,37 +105,32 @@ int main(void)
     //===================================================================
     RequestedAction   a;
     RequestedMovement m;
-    WifiMsg           msg;*/
+    WifiMsg           msg;
     consoleDemoInit();
 
-    REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE;
+    REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG2_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
-	//Copy the tiles and the palette to the corresonding location
-	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
-	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
-
-	show_settings(158, 0);
+	//show_settings(158, 0);
 	//printDigit(BG_MAP_RAM_SUB(0), 3, 8, 8);
 
     //updateStatsDisp(BG_MAP_RAM_SUB(0), 120, 0);
 
     for (;;)
         {
-           /* receive_messages(&msg);
+           receive_messages(&msg);
             get_input(&a, &m);
             if (get_game_state() != GAME_IN_PROGRESS)
                 {
                     if (keysHeld() & KEY_TOUCH)
                         a = REQ_ACTION_START_GAME;
                 }
-            exec_sync_fsm(a, m, msg, get_timer_timeout());*/
+            exec_sync_fsm(a, m, msg, get_timer_timeout());
 
 
 
             swiWaitForVBlank();
-            /*sprite_pos_local(get_player_local());
+            sprite_pos_local(get_player_local());
             sprite_pos_remote(get_player_remote());
             if (get_game_state() == GAME_IN_PROGRESS)
                 {
@@ -144,6 +139,6 @@ int main(void)
                 }
 
             /// @todo move oamUpdate to graphics
-            oamUpdate(&oamMain);*/
+            oamUpdate(&oamMain);
         }
 }
