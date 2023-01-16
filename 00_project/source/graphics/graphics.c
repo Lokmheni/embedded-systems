@@ -488,7 +488,6 @@ void show_timer(){
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
 	swiCopy(numbersPal, BG_PALETTE_SUB, numbersPalLen);
 
-	manage_timer();
 }
 
 

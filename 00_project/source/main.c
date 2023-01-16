@@ -88,6 +88,8 @@ int main(void)
         else
             {
                 go_for_multiplayer();
+                consoleDemoInit();
+                printf("\nWait for wifi connection\n");
             }
 
 
@@ -101,13 +103,19 @@ int main(void)
     show_timer();
 
 
+    if (get_connection_state() == CONNECTION_TYPE_LFG)
+        {
+            consoleDemoInit(); // clear screen
+            printf("\nWait for other player\n");
+        }
+
     //===================================================================
     // Main game loop
     //===================================================================
     RequestedAction   a;
     RequestedMovement m;
     WifiMsg           msg;
-    consoleDemoInit();
+
     for (;;)
         {
             receive_messages(&msg);
