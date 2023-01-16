@@ -95,6 +95,7 @@ int main(void)
     // Switch to game screens
     //===================================================================
     set_stage();
+    swiWaitForVBlank();
     init_main_screen();
     sprite_initializer();
     show_timer();

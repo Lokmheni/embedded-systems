@@ -170,6 +170,7 @@ void go_for_game_init()
         }
 
     game_state = GAME_IN_PROGRESS;
+    manage_timer();
 }
 
 void go_for_end_round()
@@ -199,7 +200,7 @@ void go_for_new_round()
 
     // timer and screen stuff
     swiWaitForVBlank();
-    show_timer();
+    manage_timer();
 }
 
 
@@ -235,7 +236,7 @@ void execute_commands(WifiMsg req)
                 inc_score_lcoal();
 
             if (req.dat1 & (RESET_GAME | SET_STAGE))
-                show_timer();
+                manage_timer();
 
             // statelevel
             // playpause

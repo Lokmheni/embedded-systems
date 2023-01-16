@@ -119,7 +119,7 @@ int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*20; // 120
 
 int colore_cornice;
 
-bool timer_timeout;
+bool timer_timeout=false;
 
 bool get_timer_timeout() { return timer_timeout; }
 
