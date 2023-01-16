@@ -170,6 +170,7 @@ void go_for_game_init()
         }
 
     game_state = GAME_IN_PROGRESS;
+    show_timer();
     manage_timer();
 }
 
@@ -200,6 +201,7 @@ void go_for_new_round()
 
     // timer and screen stuff
     swiWaitForVBlank();
+    show_timer();
     manage_timer();
 }
 
