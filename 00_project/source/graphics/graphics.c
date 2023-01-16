@@ -119,7 +119,7 @@ u8 RedTile[64] =
 	5,5,5,5,5,5,5,5,
 };
 
-int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*20; // 120 seconds for each round
+int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*60*2; // 120 seconds for each round
 
 int colore_cornice;
 
@@ -514,6 +514,82 @@ int set_time_remaining(int min, int sec, int msec){
 void show_settings(int games_played, int games_won){
 	///@todo printf("\n\nGames Played : %d", games_played); 
 	///@todo printf("\n\nGames Won : %d", games_won);
+	changeColorDisp(WHITE , BLACK);
+
+	int games_played_hundreds = games_played / 100;
+	int games_played_dozens = (games_played%100)/10;
+	int games_played_units = (games_played%100)%10;
+
+	printDigit(BG_MAP_RAM_SUB(0) , games_played_hundreds, 0, 0);
+	printDigit(BG_MAP_RAM_SUB(0) , games_played_dozens, 4, 0);
+	printDigit(BG_MAP_RAM_SUB(0) , games_played_units, 8, 0);
+	//updateStatsDisp(BG_MAP_RAM_SUB(0), games_played, games_won);
+}
+
+void updateStatsDisp(u16* map,int games_played, int games_won)
+{
+	int x = 0, y = 0;
+	int number;
+	int tile;
+
+	//Clear the map
+	for(tile = 0; tile <1024; tile++)
+		map[tile] = 32;
+
+
+	/*****HUNDREDS******/
+	number = games_played;
+	if(games_played > 999) games_played = number = -1;
+	//First digit
+	x = 0; y = 8;
+	if(games_played>=0) number = games_played/10;
+	printDigit(map, number, x,y);
+	/*//Second digit
+	x = 4; y = 8;
+	if(hundreds>=0) number = hundreds %10;
+	printDigit(map, number, x,y);*/
+
+	/*****COLON******/
+	/*x = 8; y = 8;
+	for(i = 0; i<8;i++)
+		for(j = 0; j<2; j++)
+			map[(i + y)*32+j+x] = (u16)(i*4+j)+32*10+2;*/
+
+	/*****DOZENS******/
+	//number = dozens;
+	if(games_played > 99) games_played = number = -1;
+	//First digit
+	x = 10; y = 8;
+	if(games_played>=0) number = games_played / 10;
+	printDigit(map, number, x,y);
+	//Second digit
+	/*x = 14; y = 8;
+	if(dozens>=0) number = dozens % 10;
+	printDigit(map, number, x,y);*/
+
+	/*****POINT MSEC******/
+	/*x = 18; y = 8;
+	for(i = 0; i<8;i++)
+		for(j = 0; j<2; j++)
+			map[(i + y)*32+j+x] = (u16)(i*4+j)+32*10;*/
+
+	/*****UNITS******/
+	//number = units;
+	if(games_played > 9) games_played = number = -1;
+	//First digit
+	x = 20; y = 8;
+	if(games_played>=0) number = games_played;
+	printDigit(map, number, x,y);
+
+	/*//Second digit
+	x = 24; y = 8;
+	if(units>=0) number = (units % 100) / 10;
+	printDigit(map, number, x,y);
+
+	//Third digit
+	x = 28; y = 8;
+	if(units>=0) number = (units % 10) % 10;
+	printDigit(map, number, x,y);*/
 }
 
 

@@ -66,6 +66,8 @@ int set_time_remaining(int min, int sec, int msec);
 // show statistics
 void show_settings(int games_played, int games_won);
 
+void updateStatsDisp(u16* map, int  games_played, int games_won);
+
 /**
  * @brief	The timer is configured to have a 1 Hz period.
  * 		  	@ref ISR_TIMER0 is used as interrupt service routine.
