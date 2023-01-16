@@ -87,9 +87,9 @@ int main(void)
             }
         else
             {
-                go_for_multiplayer();
                 consoleDemoInit();
                 printf("\nWait for wifi connection\n");
+                go_for_multiplayer();
             }
 
 
