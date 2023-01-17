@@ -130,7 +130,7 @@ void set_healthbars(){
 	// 1) VRAM configuration for SUB engine
 	//VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG3_ACTIVE;
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG1_ACTIVE;
 	// 3) Configure the background
 	BGCTRL_SUB[0] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(1) | BG_TILE_BASE(3);
 	// 4) Copy the tiles to the tile base
@@ -412,7 +412,7 @@ void ISR_TIMER0(){
 
 void init_screens(){
 	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE |  DISPLAY_BG3_ACTIVE;
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
 	// Configure the corresponding VRAM memory bank correctly
 	VRAM_C_CR = VRAM_ENABLE | VRAM_C_SUB_BG;
 	// Configure background BG2 in rotoscale mode using 8bit pixels
@@ -421,7 +421,7 @@ void init_screens(){
 	// 1) VRAM Configuration for MAIN engine
 	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
 	// 2) Main engine configuration in rotoscale mode
-	REG_DISPCNT = MODE_5_2D | DISPLAY_BG2_ACTIVE | DISPLAY_BG0_ACTIVE;
+	REG_DISPCNT = MODE_5_2D | DISPLAY_BG2_ACTIVE;
 	// 3) Configure the background
 	BGCTRL[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
 
@@ -468,7 +468,6 @@ void init_main_screen(Player* t){
 	REG_DISPCNT = MODE_5_2D | DISPLAY_BG0_ACTIVE;
 	//Activate and configure VRAM bank to work in background mode
 	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
-	VRAM_G_CR = VRAM_ENABLE | VRAM_G_MAIN_SPRITE_0x06400000;
 	//BG0 configuration for the background
 	BGCTRL[0] = BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1) | BG_32x32;
 	//Copy data to display background (tiles, palette and map)
@@ -479,10 +478,10 @@ void init_main_screen(Player* t){
 
 void show_timer(){
 
-	//Configure the engine in Mode 0 and use the BG1
-	REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG1_ACTIVE | DISPLAY_BG0_ACTIVE;
+	//Configure the engine in Mode 5 and use the BG1
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG1_ACTIVE;
 	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-	BGCTRL_SUB[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+	BGCTRL_SUB[1] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
@@ -513,18 +512,23 @@ void show_settings(int games_played, int games_won){
 	//changeColorDisp(WHITE , BLACK);
 
 	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE | DISPLAY_BG0_ACTIVE;
-	// Configure background BG2 in rotoscale mode using 8bit pixels
-	BGCTRL_SUB[2] = BG_BMP_BASE(24) | BG_BMP8_256x256;
-	BGCTRL_SUB[3] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
-
+	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;// | DISPLAY_BG1_ACTIVE;
+	//VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
+	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
 	swiCopy(statisticsBitmap, BG_GFX_SUB, statisticsBitmapLen/2);
 	swiCopy(statisticsPal, BG_PALETTE_SUB, statisticsPalLen/2);
+
+
+	//REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG1_ACTIVE; //| DISPLAY_BG3_ACTIVE;
+	// Configure background BG3 in rotoscale mode using 8bit pixels
+	//BGCTRL_SUB[1] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+	//REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG1_ACTIVE;
 
 	int games_played_hundreds = games_played / 100;
 	int games_played_dozens = (games_played%100)/10;
 	int games_played_units = (games_played%100)%10;
 
+	//changeColorDisp(WHITE, BLACK);
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_hundreds, 8, 8);
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_dozens, 4, 0);
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_units, 8, 0);
