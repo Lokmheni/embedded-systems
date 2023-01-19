@@ -108,13 +108,6 @@ int main(void)
     WifiMsg           msg;
     consoleDemoInit();
 
-    REG_DISPCNT_SUB = MODE_0_2D | DISPLAY_BG0_ACTIVE | DISPLAY_BG2_ACTIVE;
-	//Configure the engine to be used as a 32x32 grid of tiles of 256 colors
-
-	//show_settings(158, 0);
-	//printDigit(BG_MAP_RAM_SUB(0), 3, 8, 8);
-
-    //updateStatsDisp(BG_MAP_RAM_SUB(0), 120, 0);
 
     for (;;)
         {

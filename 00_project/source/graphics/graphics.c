@@ -118,6 +118,18 @@ u8 RedTile[64] =
 	5,5,5,5,5,5,5,5,
 };
 
+u8 YellowTile[64] =
+{
+	6,6,6,6,6,6,6,6,
+	6,6,6,6,6,6,6,6,
+	6,6,6,6,6,6,6,6,
+	6,6,6,6,6,6,6,6,
+	6,6,6,6,6,6,6,6,
+	6,6,6,6,6,6,6,6,
+	6,6,6,6,6,6,6,6,
+	6,6,6,6,6,6,6,6,
+};
+
 int min = 0, sec = 0, msec = 0, /*time_remaining,*/ time_round = 1000*60*2; // 120 seconds for each round
 
 int colore_cornice;
@@ -139,12 +151,14 @@ void set_healthbars(){
 	swiCopy(WhiteTile, &BG_TILE_RAM_SUB(3)[96], 32);
 	swiCopy(BlackTile, &BG_TILE_RAM_SUB(3)[128], 32);
 	swiCopy(RedTile, &BG_TILE_RAM_SUB(3)[160], 32);
+	swiCopy(YellowTile, &BG_TILE_RAM_SUB(3)[192], 32);
 	// 5) Initialize the palette (5 components)
 	BG_PALETTE_SUB[1] = GREEN;
 	BG_PALETTE_SUB[2] = BLUE;
 	BG_PALETTE_SUB[3] = WHITE;
 	BG_PALETTE_SUB[4] = BLACK;
 	BG_PALETTE_SUB[5] = RED;
+	BG_PALETTE_SUB[6] = YELLOW;
 
 	int i;
 	for(i = 0; i < 468*2; i++){
@@ -266,14 +280,14 @@ void show_health(const Player *t, const Player* s){
 	}
 	else if((s->health) > 10){
 		for(j = 2; j < 5; j++){
-			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
-			BG_MAP_RAM_SUB(1)[j*32+28] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+29] = 6;
+			BG_MAP_RAM_SUB(1)[j*32+28] = 6;
 		}
 	}
 
 	else if((s->health) > 0){
 		for(j = 2; j < 5; j++)
-			BG_MAP_RAM_SUB(1)[j*32+29] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+29] = 5;
 	}
 
 
@@ -366,14 +380,14 @@ void show_health(const Player *t, const Player* s){
 	}
 	else if((t->health) > 10){
 		for(j = 2; j < 5; j++){
-			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
-			BG_MAP_RAM_SUB(1)[j*32+4] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 6;
+			BG_MAP_RAM_SUB(1)[j*32+4] = 6;
 		}
 	}
 
 	else if((t->health) > 0){
 		for(j = 2; j < 5; j++)
-			BG_MAP_RAM_SUB(1)[j*32+3] = 1;
+			BG_MAP_RAM_SUB(1)[j*32+3] = 5;
 	}
 
 }

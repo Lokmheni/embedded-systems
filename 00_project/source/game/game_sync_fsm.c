@@ -184,13 +184,19 @@ void go_for_end_round()
 
     // screen stuff
     swiWaitForVBlank();
+
+    show_settings(158, 0);
+
     //if (get_player_local()->health < get_player_remote()->health)
     //	youlose();
     //else if(get_player_remote()->health < get_player_local()->health)
-    //	youwin();
-
+   //youwin();
+   //   if(get_key_to_continue()){
+    //show_settings(158,0);
+   //}
     //gameover();
-    show_settings(158, 0);
+
+
 }
 
 void go_for_new_round()
