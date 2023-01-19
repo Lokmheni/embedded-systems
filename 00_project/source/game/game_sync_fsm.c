@@ -183,9 +183,8 @@ void go_for_end_round()
     game_state = GAME_IN_ROUND_END;
 
     // screen stuff
+    show_settings(158, 100);
     swiWaitForVBlank();
-
-    show_settings(158, 0);
 
     //if (get_player_local()->health < get_player_remote()->health)
     //	youlose();
@@ -201,7 +200,7 @@ void go_for_end_round()
 
 void go_for_new_round()
 {
-    /// @todo change BG and send ctrl changeBG instr
+	// @todo change BG and send ctrl changeBG instr
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
