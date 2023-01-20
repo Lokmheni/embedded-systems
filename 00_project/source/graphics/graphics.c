@@ -139,7 +139,7 @@ int min = 0, sec = 0, msec = 0, time_round = 1000*60*2; // 120 seconds for each 
 
 int colore_cornice;
 
-u16* gfx, *gfx1;
+u16 *gfx, *gfx1, *gfx_atk, *gfx_spc,*gfx1_atk,*gfx1_spc;
 
 bool timer_timeout;
 
@@ -334,34 +334,55 @@ void sprite_initializer(){
 
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
+
+    gfx_atk = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player_attack_normalTiles, gfx_atk, player_attack_normalTilesLen);
+    dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[2],
+            player_attack_normalPal);
+
+	gfx_spc = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player_attack_specialTiles, gfx_spc, player_attack_specialTilesLen);
+    dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[3],
+            player_attack_specialPal);
+
+	gfx1_atk= oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player_attack_normalTiles, gfx1_atk, player_attack_normalTilesLen);
+    dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[4],
+            player_attack_normalPal);
+
+	gfx1_spc= oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	dmaCopy(player_attack_specialTiles, gfx1_spc, player_attack_specialTilesLen);
+	dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[5],player_attack_specialPal);
 }
 
 void sprite_pos_local(const Player*  player) {
+	u16*_gfx;
+	int pal;
 	switch (player->action)
 	{
 	case ACTION_TYPE_NORMAL_ATTACK:
-        dmaCopy(player_attack_normalTiles, gfx, player_attack_normalTilesLen);
-        dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[0],player_attack_normalPal);
+        _gfx = gfx_atk;
+        pal  = 2;
         break;
-	case ACTION_TYPE_SPECIAL_ATTACK:
-		dmaCopy(player_attack_specialTiles, gfx, player_attack_specialTilesLen);
-		dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[0],player_attack_specialPal);
-		break;
+    case ACTION_TYPE_SPECIAL_ATTACK:
+        _gfx = gfx_spc;
+        pal  = 3;
+        break;
     default:
-        dmaCopy(playerTiles, gfx, playerTilesLen);
-        dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
-		break;
-	}
+        _gfx = gfx;
+        pal  = 0;
+        break;
+    }
 
 	oamSet(&oamMain, // oam handler
 		   0,        // Number of sprite
 		  player->pos_x,
 		  player->pos_y, // Coordinates
 		   0,                          // Priority
-		   0,                          // Palette to use
+		   pal,                          // Palette to use
 		   SpriteSize_32x32,           // Sprite size
 		   SpriteColorFormat_256Color, // Color format
-		   gfx,          // Loaded graphic to display
+		   _gfx,          // Loaded graphic to display
 		   -1,           // Affine rotation to use (-1 none)
 		   false,        // Double size if rotating
 		   false,        // Hide this sprite
@@ -374,23 +395,24 @@ void sprite_pos_local(const Player*  player) {
 
 
 void sprite_pos_remote(const Player* player){
+    u16* _gfx;
+    int  pal;
 
-
-	switch (player->action)
+    switch (player->action)
 	{
 	case ACTION_TYPE_NORMAL_ATTACK:
-        dmaCopy(player_attack_normalTiles, gfx1, player_attack_normalTilesLen);
-        dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[1],player_attack_normalPal);
+        _gfx = gfx1_atk;
+        pal  = 4;
         break;
-	case ACTION_TYPE_SPECIAL_ATTACK:
-		dmaCopy(player_attack_specialTiles, gfx1, player_attack_specialTilesLen);
-		dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[1],player_attack_specialPal);
-		break;
+    case ACTION_TYPE_SPECIAL_ATTACK:
+        _gfx = gfx1_spc;
+        pal  = 5;
+        break;
     default:
-        dmaCopy(playerTiles, gfx1, playerTilesLen);
-        dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[1], playerPalLen);
-		break;
-	}
+        _gfx = gfx1;
+        pal  = 1;
+        break;
+    }
 
 
     oamSet(&oamMain, // oam handler
