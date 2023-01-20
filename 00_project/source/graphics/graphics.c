@@ -134,6 +134,8 @@ int min = 0, sec = 0, msec = 0, time_round = 1000*60*2; // 120 seconds for each 
 
 int colore_cornice;
 
+u16* gfx, *gfx1;
+
 bool timer_timeout;
 
 void ISR_TIMER0(){
@@ -323,14 +325,16 @@ void sprite_initializer(){
 	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
 	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+
+	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	dmaCopy(player2Tiles, gfx1, player2TilesLen);
+
+	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	dmaCopy(playerTiles, gfx, playerTilesLen);
 }
 
 void sprite_pos_local(const Player*  player) {
 
-	u16* gfx;
-	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-
-	dmaCopy(playerTiles, gfx, playerTilesLen);
 
 	oamSet(&oamMain, // oam handler
 		   0,        // Number of sprite
@@ -353,13 +357,7 @@ void sprite_pos_local(const Player*  player) {
 
 
 void sprite_pos_remote(const Player* player){
-    u16* gfx1;
-	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
-
-	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
-	dmaCopy(player2Tiles, gfx1, player2TilesLen);
-
-	oamSet(&oamMain, // oam handler
+    oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
 			player->pos_x,
 			player->pos_y,  // Coordinates

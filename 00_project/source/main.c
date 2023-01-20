@@ -107,7 +107,7 @@ int main(void)
     RequestedAction   a;
     RequestedMovement m;
     WifiMsg           msg;
-    consoleDemoInit();
+//    consoleDemoInit();
 
 
     for (;;)
@@ -120,19 +120,17 @@ int main(void)
                         a = REQ_ACTION_START_GAME;
                 }
             exec_sync_fsm(a, m, msg, get_timer_timeout());
+    	swiWaitForVBlank();
 
-
-
-            swiWaitForVBlank();
-            sprite_pos_local(get_player_local());
-            sprite_pos_remote(get_player_remote());
+        sprite_pos_local(get_player_local());
+        sprite_pos_remote(get_player_remote());
             if (get_game_state() == GAME_IN_PROGRESS)
                 {
-
                     updateChrono(get_player_local(), get_player_remote());
                 }
 
             /// @todo move oamUpdate to graphics
-            oamUpdate(&oamMain);
+            //oamUpdate(&oamMain);
+
         }
 }
