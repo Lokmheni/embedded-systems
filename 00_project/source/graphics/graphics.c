@@ -298,11 +298,11 @@ void show_settings(int games_played, int games_won){
 		if(pal_l8 != 0)
 			pal_l8 = 0;
 		else
-			pal_l8 = 3;
+			pal_l8 = 1;
 		if(pal_h8 != 0)
 			pal_h8 = 0;
 		else
-			pal_h8 = 3;
+			pal_h8 = 1;
 		image[i] = pal_h8<<8 | pal_l8;
 	}
 
