@@ -14,9 +14,12 @@
 #define __MEMORY_H
 
 
-void store_stats( int nbr_games, int nbr_won );
-
-void get_stats( int* nbr_games, int* nbr_won );
+#include <nds.h>
 
 
-#endif  // __MEMORY_H
+void store_stats(u8 nbr_games, u8 nbr_won);
+
+void get_stats(u8* nbr_games, u8* nbr_won);
+
+
+#endif // __MEMORY_H
