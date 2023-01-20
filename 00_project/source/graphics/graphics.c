@@ -31,6 +31,11 @@
 #include "../game/game_controller.h"
 
 
+#include "player_attack_normal.h"
+#include "player_attack_special.h"
+#include "player2_attack_normal.h"
+#include "player2_attack_special.h"
+
 #define	SPRITE_WIDTH	32
 #define	SPRITE_HEIGHT	32
 
@@ -320,8 +325,6 @@ void sprite_initializer(){
 	oamInit(&oamMain, SpriteMapping_1D_32, true);
 	//using extended palettes:
 	vramSetBankF(VRAM_F_LCD);
-	dmaCopy(playerPal, SPRITE_PALETTE , playerPalLen);
-	dmaCopy(player2Pal, &SPRITE_PALETTE[playerPalLen] , player2PalLen);
 	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
 	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
@@ -334,7 +337,21 @@ void sprite_initializer(){
 }
 
 void sprite_pos_local(const Player*  player) {
-
+	switch (player->action)
+	{
+	case ACTION_TYPE_NORMAL_ATTACK:
+        dmaCopy(player_attack_normalTiles, gfx, player_attack_normalTilesLen);
+        dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[0],player_attack_normalPal);
+        break;
+	case ACTION_TYPE_SPECIAL_ATTACK:
+		dmaCopy(player_attack_specialTiles, gfx, player_attack_specialTilesLen);
+		dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[0],player_attack_specialPal);
+		break;
+    default:
+        dmaCopy(playerTiles, gfx, playerTilesLen);
+        dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
+		break;
+	}
 
 	oamSet(&oamMain, // oam handler
 		   0,        // Number of sprite
@@ -357,6 +374,25 @@ void sprite_pos_local(const Player*  player) {
 
 
 void sprite_pos_remote(const Player* player){
+
+
+	switch (player->action)
+	{
+	case ACTION_TYPE_NORMAL_ATTACK:
+        dmaCopy(player_attack_normalTiles, gfx1, player_attack_normalTilesLen);
+        dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[1],player_attack_normalPal);
+        break;
+	case ACTION_TYPE_SPECIAL_ATTACK:
+		dmaCopy(player_attack_specialTiles, gfx1, player_attack_specialTilesLen);
+		dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[1],player_attack_specialPal);
+		break;
+    default:
+        dmaCopy(playerTiles, gfx1, playerTilesLen);
+        dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[1], playerPalLen);
+		break;
+	}
+
+
     oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
 			player->pos_x,
