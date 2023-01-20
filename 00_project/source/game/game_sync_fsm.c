@@ -17,13 +17,7 @@
 #include "game_controller.h"
 
 int wait_time = 0;
-
-void ISR_TIMER1(){
-	if(wait_time < 10)
-		wait_time++;
-	else
-		show_settings(158, 9);
-}
+u8 my_score;
 
 //===================================================================
 // Variables
@@ -196,19 +190,34 @@ void go_for_end_round()
 
     // screen stuff
 
-    show_settings(158, 100);
+    u8 local, remote;
+    get_scores(&local, &remote);
+    if(my_score == local)
+    	youlose();
+    else
+    	youwin();
+    show_settings(local+remote,local);
 
-    //youwin();
+    //show_settings(158, 100);
+   /*wait_time = 0;
+   TIMER_DATA(1) = TIMER_FREQ_64(1);
+   TIMER0_CR = TIMER_ENABLE | TIMER_DIV_64; //| TIMER_IRQ_REQ;
+   //irqSet(IRQ_TIMER1, &ISR_TIMER1);
+   irqEnable(IRQ_TIMER1);
 
+   while(TIMER_DATA(1) != 10){
+	   if(wait_time < 10)
+		   wait_time++;
+	   else
+		   break;
+   }*/
+
+   /*u8 local, remote;
+    get_scores(&local , &remote);
+    if(my_score == local)
+    	youwin();*/
 
     swiWaitForVBlank();
-
-    /*wait_time = 0;
-    	TIMER_DATA(1) = TIMER_FREQ_1024(1000);
-    	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
-    	irqSet(IRQ_TIMER1, &ISR_TIMER1);
-    	irqEnable(IRQ_TIMER1);*/
-
 
     //if (get_player_local()->health < get_player_remote()->health)
     //	youlose();
@@ -228,11 +237,14 @@ void go_for_new_round()
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
+    my_score = scr;
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
 
     // timer and screen stuff
     swiWaitForVBlank();
+    init_main_screen();
+    sprite_initializer();
     show_timer();
     manage_timer();
 }
