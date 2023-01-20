@@ -19,8 +19,6 @@
 #include <stdio.h>
 
 
-u16* gfx;
-
 int rand_ticks;
 
 void get_input(RequestedAction* action, RequestedMovement* movement) {

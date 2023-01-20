@@ -348,7 +348,7 @@ void sprite_pos_local(const Player*  player) {
 		   -1,           // Affine rotation to use (-1 none)
 		   false,        // Double size if rotating
 		   false,        // Hide this sprite
-		   false, false, // Horizontal or vertical flip
+		   player->dir==DIRECTION_LEFT, false, // Horizontal or vertical flip
 		   false         // Mosaic
 		);
 
@@ -369,7 +369,7 @@ void sprite_pos_remote(const Player* player){
 			-1,           // Affine rotation to use (-1 none)
 			false,        // Double size if rotating
 			false,        // Hide this sprite
-			false, false, // Horizontal or vertical flip
+			player->dir==DIRECTION_LEFT, false, // Horizontal or vertical flip
 			false         // Mosaic
 		);
 
