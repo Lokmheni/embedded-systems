@@ -329,7 +329,45 @@ void sprite_initializer(){
 
     vramSetBankF(VRAM_F_LCD);
 
+#ifndef NEW_LIBNDS_VERSION
+    gfx =
+        oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(playerTiles, gfx, playerTilesLen);
+    dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
 
+
+    gfx_atk =
+        oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player_attack_normalTiles, gfx_atk, player_attack_normalTilesLen);
+    dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[1],
+            player_attack_normalPalLen);
+
+    gfx_spc =
+        oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player_attack_specialTiles, gfx_spc, player_attack_specialTilesLen);
+    dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[2],
+            player2_attack_specialPalLen);
+
+    gfx1 =
+        oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player2Tiles, gfx1, player2TilesLen);
+    dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[3], player2PalLen);
+
+
+    gfx1_atk =
+        oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player2_attack_normalTiles, gfx1_atk,
+            player2_attack_normalTilesLen);
+    dmaCopy(player2_attack_normalPal, &VRAM_F_EXT_PALETTE[4],
+            player2_attack_normalPalLen);
+
+    gfx1_spc =
+        oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+    dmaCopy(player2_attack_specialTiles, gfx1_spc,
+            player2_attack_specialTilesLen);
+    dmaCopy(player2_attack_specialPal, &VRAM_F_EXT_PALETTE[5],
+            player2_attack_specialPalLen);
+#else
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
     dmaCopy(playerPal, &VRAM_F_EXT_SPR_PALETTE[0], playerPalLen);
@@ -358,6 +396,7 @@ void sprite_initializer(){
 	gfx1_spc= oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(player2_attack_specialTiles, gfx1_spc, player2_attack_specialTilesLen);
 	dmaCopy(player2_attack_specialPal, &VRAM_F_EXT_SPR_PALETTE[5],player2_attack_specialPalLen);
+#endif
 
     vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 }
