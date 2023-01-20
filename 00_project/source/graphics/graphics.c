@@ -390,6 +390,7 @@ void set_healthbars(){
 	swiCopy(BlackTile, &BG_TILE_RAM_SUB(3)[128], 32);
 	swiCopy(RedTile, &BG_TILE_RAM_SUB(3)[160], 32);
 	swiCopy(YellowTile, &BG_TILE_RAM_SUB(3)[192], 32);
+    dmaCopy(TransTile, &BG_TILE_RAM_SUB(3)[0], 64);
 	// 5) Initialize the palette (5 components)
 	BG_PALETTE_SUB[1] = GREEN;
 	BG_PALETTE_SUB[2] = BLUE;
@@ -400,7 +401,7 @@ void set_healthbars(){
 
 	int i;
 	for(i = 0; i < 468*2; i++){
-		BG_MAP_RAM_SUB(1)[i] = -1;
+		BG_MAP_RAM_SUB(1)[i] = 0;
 	}
 
 }
