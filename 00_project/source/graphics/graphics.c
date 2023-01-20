@@ -285,6 +285,26 @@ void show_settings(int games_played, int games_won){
 	int games_won_dozens = (games_won%100)/10;
 	int games_won_units = (games_won%100)%10;
 
+	BGCTRL_SUB[1] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
+	//Copy the tiles and the palette to the corresonding location
+	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
+
+	u8 pal_l8, pal_h8;
+	u16* image = BG_TILE_RAM_SUB(1);
+	for(i=0; i<numbersTilesLen/2; i++){
+		pal_l8 = (u8) (image[i]);
+		pal_h8 = (u8)(image[i] >> 8);
+		if(pal_l8 != 0)
+			pal_l8 = 0;
+		else
+			pal_l8 = 1;
+		if(pal_h8 != 0)
+			pal_h8 = 0;
+		else
+			pal_h8 = 1;
+		image[i] = pal_h8<<8 | pal_l8;
+	}
+
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_hundreds, 10, 0);
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_dozens, 14, 0);
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_units, 18, 0);
