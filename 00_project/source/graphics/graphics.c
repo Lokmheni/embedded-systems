@@ -325,8 +325,8 @@ void sprite_initializer(){
 	oamInit(&oamMain, SpriteMapping_1D_32, true);
 	//using extended palettes:
 	vramSetBankF(VRAM_F_LCD);
-	dmaCopy(playerPal, &VRAM_F_EXT_PALETTE[0], playerPalLen);
-	dmaCopy(player2Pal, &VRAM_F_EXT_PALETTE[1], player2PalLen);
+	dmaCopy(playerPal, &VRAM_F_EXT_SPR_PALETTE[0], playerPalLen);
+	dmaCopy(player2Pal, &VRAM_F_EXT_SPR_PALETTE[1], player2PalLen);
 	vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
 
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
@@ -337,22 +337,22 @@ void sprite_initializer(){
 
     gfx_atk = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
     dmaCopy(player_attack_normalTiles, gfx_atk, player_attack_normalTilesLen);
-    dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[2],
+    dmaCopy(player_attack_normalPal, &VRAM_F_EXT_SPR_PALETTE[2],
             player_attack_normalPal);
 
 	gfx_spc = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
     dmaCopy(player_attack_specialTiles, gfx_spc, player_attack_specialTilesLen);
-    dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[3],
+    dmaCopy(player_attack_specialPal, &VRAM_F_EXT_SPR_PALETTE[3],
             player_attack_specialPal);
 
 	gfx1_atk= oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
     dmaCopy(player_attack_normalTiles, gfx1_atk, player_attack_normalTilesLen);
-    dmaCopy(player_attack_normalPal, &VRAM_F_EXT_PALETTE[4],
+    dmaCopy(player_attack_normalPal, &VRAM_F_EXT_SPR_PALETTE[4],
             player_attack_normalPal);
 
 	gfx1_spc= oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(player_attack_specialTiles, gfx1_spc, player_attack_specialTilesLen);
-	dmaCopy(player_attack_specialPal, &VRAM_F_EXT_PALETTE[5],player_attack_specialPal);
+	dmaCopy(player_attack_specialPal, &VRAM_F_EXT_SPR_PALETTE[5],player_attack_specialPal);
 }
 
 void sprite_pos_local(const Player*  player) {
@@ -420,10 +420,10 @@ void sprite_pos_remote(const Player* player){
 			player->pos_x,
 			player->pos_y,  // Coordinates
 			0,                          // Priority
-			1,                          // Palette to use
+			pal,                          // Palette to use
 			SpriteSize_32x32,           // Sprite size
 			SpriteColorFormat_256Color, // Color format
-			gfx1,         // Loaded graphic to display
+			_gfx,         // Loaded graphic to display
 			-1,           // Affine rotation to use (-1 none)
 			false,        // Double size if rotating
 			false,        // Hide this sprite
