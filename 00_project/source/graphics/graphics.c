@@ -358,7 +358,6 @@ void sprite_pos_remote(const Player* player){
 
 	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
-	
 
 	oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
