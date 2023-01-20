@@ -118,7 +118,6 @@ int main(void)
     RequestedAction   a;
     RequestedMovement m;
     WifiMsg           msg;
-//    consoleDemoInit();
 
 
     for (;;)
