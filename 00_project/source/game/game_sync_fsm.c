@@ -189,21 +189,30 @@ void go_for_end_round()
     game_state = GAME_IN_ROUND_END;
 
     // screen stuff
-    youwin();
-    //show_settings(158, 100);
 
-    TIMER_DATA(1) = TIMER_FREQ_1024(10);
-   TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024; //| TIMER_IRQ_REQ;
+    u8 local, remote;
+    get_scores(&local, &remote);
+    if(my_score == local)
+    	youlose();
+    else
+    	youwin();
+    show_settings(100,100);
+
+    //show_settings(158, 100);
+   /*wait_time = 0;
+   TIMER_DATA(1) = TIMER_FREQ_64(1);
+   TIMER0_CR = TIMER_ENABLE | TIMER_DIV_64; //| TIMER_IRQ_REQ;
    //irqSet(IRQ_TIMER1, &ISR_TIMER1);
    irqEnable(IRQ_TIMER1);
 
    while(TIMER_DATA(1) != 10){
-	continue;
-   }
+	   if(wait_time < 10)
+		   wait_time++;
+	   else
+		   break;
+   }*/
 
-  show_settings(100,100);
-
-    /*u8 local, remote;
+   /*u8 local, remote;
     get_scores(&local , &remote);
     if(my_score == local)
     	youwin();*/
@@ -234,6 +243,8 @@ void go_for_new_round()
 
     // timer and screen stuff
     swiWaitForVBlank();
+    init_main_screen();
+    sprite_initializer();
     show_timer();
     manage_timer();
 }

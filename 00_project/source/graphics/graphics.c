@@ -170,6 +170,7 @@ void updateChrono(const Player* t, const Player* s){
 }
 
 void init_screens(){
+
 	// Configure the SUB engine in Rotoscale Mode
 	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
 	// Configure the corresponding VRAM memory bank correctly
@@ -180,10 +181,9 @@ void init_screens(){
 	// 1) VRAM Configuration for MAIN engine
 	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
 	// 2) Main engine configuration in rotoscale mode
-	REG_DISPCNT = MODE_5_2D | DISPLAY_BG2_ACTIVE;
+	REG_DISPCNT = MODE_5_2D | DISPLAY_BG2_ACTIVE; //|  DISPLAY_BG3_ACTIVE ;
 	// 3) Configure the background
 	BGCTRL[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-
 	show_logo();
 	init_sub_screen();
 }
@@ -202,7 +202,7 @@ void init_sub_screen() {
 
 void show_logo(){
 	// Transfer image and palette to the corresponding memory locations
-	swiCopy(streetfighterBitmap, BG_GFX, streetfighterBitmapLen/2);
+	swiCopy(streetfighterBitmap, BG_MAP_RAM(0), streetfighterBitmapLen/2);
 	swiCopy(streetfighterPal, BG_PALETTE, streetfighterPalLen/2);
 	//Affine Marix Transformation
 	#ifndef	NEW_LIBNDS_VERSION
@@ -225,8 +225,6 @@ void show_logo(){
 
 void init_main_screen(Player* t){
 	REG_DISPCNT = MODE_5_2D | DISPLAY_BG0_ACTIVE;
-	//Activate and configure VRAM bank to work in background mode
-	VRAM_A_CR = VRAM_ENABLE | VRAM_A_MAIN_BG;
 	//BG0 configuration for the background
 	BGCTRL[0] = BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1) | BG_32x32;
 	//Copy data to display background (tiles, palette and map)
@@ -645,23 +643,23 @@ void gameover(){
 }
 
 void youwin(){
-	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
-	// Configure the corresponding VRAM memory bank correctly
-	VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
-	// Configure background BG2 in rotoscale mode using 8bit pixels
-	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	swiCopy(youwinBitmap, BG_GFX_SUB, youwinBitmapLen/2);
-	swiCopy(youwinPal, BG_PALETTE_SUB, youwinPalLen/2);
+
+	REG_DISPCNT = MODE_5_2D | DISPLAY_BG0_ACTIVE;
+	//BG0 configuration for the background
+	BGCTRL[0] = BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4) | BG_32x32;
+	//Copy data to display background (tiles, palette and map)
+	swiCopy(youwinTiles, BG_TILE_RAM(4), youwinTilesLen/2);
+	swiCopy(youwinPal, BG_PALETTE, youwinPalLen/2);
+	swiCopy(youwinMap, BG_MAP_RAM(25), youwinMapLen/2);
 }
 
 void youlose(){
-	// Configure the SUB engine in Rotoscale Mode
-	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG2_ACTIVE;
-	// Configure the corresponding VRAM memory bank correctly
-	VRAM_H_CR = VRAM_ENABLE | VRAM_H_SUB_BG;
-	// Configure background BG2 in rotoscale mode using 8bit pixels
-	BGCTRL_SUB[2] = BG_BMP_BASE(0) | BG_BMP8_256x256;
-	swiCopy(youwinBitmap, BG_GFX_SUB, youwinBitmapLen/2);
-	swiCopy(youwinPal, BG_PALETTE_SUB, youwinPalLen/2);
+
+	REG_DISPCNT = MODE_5_2D | DISPLAY_BG0_ACTIVE;
+	//BG0 configuration for the background
+	BGCTRL[0] = BG_COLOR_256 | BG_MAP_BASE(25) | BG_TILE_BASE(4) | BG_32x32;
+	//Copy data to display background (tiles, palette and map)
+	swiCopy(youloseTiles, BG_TILE_RAM(4), youloseTilesLen/2);
+	swiCopy(youlosePal, BG_PALETTE, youlosePalLen/2);
+	swiCopy(youloseMap, BG_MAP_RAM(25), youloseMapLen/2);
 }
