@@ -325,7 +325,6 @@ void sprite_initializer(){
 	oamInit(&oamMain, SpriteMapping_1D_32, true);
 	//using extended palettes:
 
-    dmaCopy(playerPal, &VRAM_F_EXT_SPR_PALETTE[0], playerPalLen);
 
 
     vramSetBankF(VRAM_F_LCD);
@@ -333,6 +332,7 @@ void sprite_initializer(){
 
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
+    dmaCopy(playerPal, &VRAM_F_EXT_SPR_PALETTE[0], playerPalLen);
 
 
     gfx_atk = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
@@ -363,55 +363,41 @@ void sprite_initializer(){
 }
 
 void sprite_pos_local(const Player*  player) {
-	
+    u16* _gfx;
+    int  pal;
+
+    switch (player->action)
+        {
+        case ACTION_TYPE_NORMAL_ATTACK:
+            _gfx = gfx_atk;
+            pal  = 1;
+            break;
+        case ACTION_TYPE_SPECIAL_ATTACK:
+            _gfx = gfx_spc;
+            pal  = 2;
+            break;
+        default:
+            _gfx = gfx;
+            pal  = 0;
+            break;
+        }
 //idle
 	oamSet(&oamMain, // oam handler
 		   0,        // Number of sprite
 		  player->pos_x,
 		  player->pos_y, // Coordinates
 		   0,                          // Priority
-		   0,                          // Palette to use
+		   pal,                          // Palette to use
 		   SpriteSize_32x32,           // Sprite size
 		   SpriteColorFormat_256Color, // Color format
-		   gfx,          // Loaded graphic to display
+		   _gfx,          // Loaded graphic to display
 		   -1,           // Affine rotation to use (-1 none)
 		   false,        // Double size if rotating
-		   player->action==ACTION_TYPE_NORMAL_ATTACK||player->action==ACTION_TYPE_SPECIAL_ATTACK,        // Hide this sprite
+		   false,        // Hide this sprite
 		   player->dir==DIRECTION_LEFT, false, // Horizontal or vertical flip
 		   false         // Mosaic
 		);
 
-    oamSet(&oamMain, // oam handler
-           1,        // Number of sprite
-           player->pos_x,
-           player->pos_y,              // Coordinates
-           0,                          // Priority
-           1,                          // Palette to use
-           SpriteSize_32x32,           // Sprite size
-           SpriteColorFormat_256Color, // Color format
-           gfx_atk,                        // Loaded graphic to display
-           -1,                         // Affine rotation to use (-1 none)
-           false,                      // Double size if rotating
-           player->action!=ACTION_TYPE_NORMAL_ATTACK,                      // Hide this sprite
-           player->dir == DIRECTION_LEFT, false, // Horizontal or vertical flip
-           false                                 // Mosaic
-    );
-
-    oamSet(&oamMain, // oam handler
-           3,        // Number of sprite
-           player->pos_x,
-           player->pos_y,              // Coordinates
-           0,                          // Priority
-           2,                          // Palette to use
-           SpriteSize_32x32,           // Sprite size
-           SpriteColorFormat_256Color, // Color format
-           gfx_spc,                    // Loaded graphic to display
-           -1,                         // Affine rotation to use (-1 none)
-           false,                      // Double size if rotating
-           player->action != ACTION_TYPE_SPECIAL_ATTACK, // Hide this sprite
-           player->dir == DIRECTION_LEFT, false, // Horizontal or vertical flip
-           false                                 // Mosaic
-    );
 
     oamUpdate(&oamMain);
 }
@@ -433,13 +419,13 @@ void sprite_pos_remote(const Player* player){
         break;
     default:
         _gfx = gfx1;
-        pal  = 6;
+        pal  = 3;
         break;
     }
 
 
     oamSet(&oamMain, // oam handler
-			4,        // Number of sprite
+			1,        // Number of sprite
 			player->pos_x,
 			player->pos_y,  // Coordinates
 			0,                          // Priority
