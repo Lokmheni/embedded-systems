@@ -60,5 +60,7 @@ bool get_touch_input(TouchInput* touchinput);
 //blocking call (infinite loop that gets stuck)
 bool get_touch_to_restart(TouchInput* touchinput);
 
+bool get_key_to_continue();
+
 
 #endif // __INPUT_H_

@@ -16,6 +16,15 @@
 #include "../graphics/graphics.h"
 #include "game_controller.h"
 
+int wait_time = 0;
+
+void ISR_TIMER1(){
+	if(wait_time < 10)
+		wait_time++;
+	else
+		show_settings(158, 9);
+}
+
 //===================================================================
 // Variables
 //===================================================================
@@ -186,13 +195,36 @@ void go_for_end_round()
     game_state = GAME_IN_ROUND_END;
 
     // screen stuff
+
+    show_settings(158, 100);
+
+    //youwin();
+
+
     swiWaitForVBlank();
-    gameover();
+
+    /*wait_time = 0;
+    	TIMER_DATA(1) = TIMER_FREQ_1024(1000);
+    	TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1024 | TIMER_IRQ_REQ;
+    	irqSet(IRQ_TIMER1, &ISR_TIMER1);
+    	irqEnable(IRQ_TIMER1);*/
+
+
+    //if (get_player_local()->health < get_player_remote()->health)
+    //	youlose();
+    //else if(get_player_remote()->health < get_player_local()->health)
+   //youwin();
+   //   if(get_key_to_continue()){
+    //show_settings(158,0);
+   //}
+    //gameover();
+
+
 }
 
 void go_for_new_round()
 {
-    /// @todo change BG and send ctrl changeBG instr
+	// @todo change BG and send ctrl changeBG instr
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);

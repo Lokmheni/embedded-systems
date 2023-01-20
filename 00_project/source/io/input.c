@@ -19,8 +19,6 @@
 #include <stdio.h>
 
 
-u16* gfx;
-
 int rand_ticks;
 
 void get_input(RequestedAction* action, RequestedMovement* movement) {
@@ -129,4 +127,20 @@ bool get_touch_to_restart(TouchInput* touchinput) {
 		}
 	}
 }
+
+bool get_key_to_continue(){
+	//bool set_up = true;
+	int keys;
+	//Read held keys
+	scanKeys();
+	keys = keysHeld();
+	while(1){
+		if((keys & KEY_A))
+			return 1;
+		else
+			return 0;
+	}
+}
+
+
 
