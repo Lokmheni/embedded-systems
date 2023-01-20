@@ -119,6 +119,7 @@ int main(void)
     RequestedMovement m;
     WifiMsg           msg;
 
+
     for (;;)
         {
            receive_messages(&msg);
