@@ -49,6 +49,7 @@
  * (On the repo see 00_PROJECT/html/index.html)
  */
 
+
 #include <nds.h>
 
 #include "constants.h"
@@ -56,6 +57,8 @@
 #include "game/game_sync_fsm.h"
 #include "graphics/graphics.h"
 #include "io/input.h"
+#include "graphics/chrono_display.h"
+#include "numbers.h"
 
 
 int main(void)
@@ -115,10 +118,12 @@ int main(void)
     RequestedAction   a;
     RequestedMovement m;
     WifiMsg           msg;
+//    consoleDemoInit();
+
 
     for (;;)
         {
-            receive_messages(&msg);
+           receive_messages(&msg);
             get_input(&a, &m);
             if (get_game_state() != GAME_IN_PROGRESS)
                 {
@@ -126,17 +131,17 @@ int main(void)
                         a = REQ_ACTION_START_GAME;
                 }
             exec_sync_fsm(a, m, msg, get_timer_timeout());
+    	swiWaitForVBlank();
 
-            swiWaitForVBlank();
-            sprite_pos_local(get_player_local());
-            sprite_pos_remote(get_player_remote());
+        sprite_pos_local(get_player_local());
+        sprite_pos_remote(get_player_remote());
             if (get_game_state() == GAME_IN_PROGRESS)
                 {
-
                     updateChrono(get_player_local(), get_player_remote());
                 }
 
             /// @todo move oamUpdate to graphics
-            oamUpdate(&oamMain);
+            //oamUpdate(&oamMain);
+
         }
 }
