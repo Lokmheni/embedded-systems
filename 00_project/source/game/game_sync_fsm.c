@@ -17,7 +17,7 @@
 #include "game_controller.h"
 
 int wait_time = 0;
-u8* my_score;
+u8 my_score;
 
 //===================================================================
 // Variables
@@ -237,7 +237,7 @@ void go_for_new_round()
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
-    my_score = &scr;
+    my_score = scr;
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
 
