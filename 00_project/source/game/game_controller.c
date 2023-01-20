@@ -289,6 +289,7 @@ void local_attack_handler(u8 dmg_x, u8 dmg_y, u8 dmg)
     if (is_remote)
         {
             send_damage(dmg_x, dmg_y, dmg);
+            play_sound_effect(SOUND_EFFECT_ATTACK);
         }
     else
         {

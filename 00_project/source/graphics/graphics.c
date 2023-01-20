@@ -137,6 +137,7 @@ int colore_cornice;
 u16* gfx, *gfx1;
 
 bool timer_timeout;
+bool timer_timeout=false;
 
 void ISR_TIMER0(){
 	int time_remaining = set_time_remaining(min, sec, msec);
