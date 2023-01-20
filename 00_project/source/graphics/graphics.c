@@ -355,7 +355,10 @@ void sprite_pos_local(const Player*  player) {
 void sprite_pos_remote(const Player* player){
     u16* gfx1;
 	gfx1 = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+
+	dmaCopy(player2Pal, SPRITE_PALETTE, player2PalLen);
 	dmaCopy(player2Tiles, gfx1, player2TilesLen);
+	
 
 	oamSet(&oamMain, // oam handler
 			1,        // Number of sprite
