@@ -196,7 +196,7 @@ void go_for_end_round()
     	youlose();
     else
     	youwin();
-    show_settings(100,100);
+    show_settings(local+remote,local);
 
     //show_settings(158, 100);
    /*wait_time = 0;
