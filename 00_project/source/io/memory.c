@@ -19,31 +19,44 @@
 #include <sys/dir.h>
 
 
-FILE* file = NULL;
-DIR*  dir  = NULL;
+const char* const file_name_games_won    = "/streetfighter_gb.txt";
+const char* const file_name_games_played = "/streetfighter_gw.txt";
 
 
 const char* const file_name = "/streetfighter/scores.txt";
 
+
 bool store_stats(int nbr_games, int nbr_won)
 {
-    file = fopen(file_name, "w+");
-    if (file != NULL)
-        {
-            fprintf(file, "%i\n%i\n", nbr_won, nbr_games);
-            fclose(file);
-            return true;
-        }
-    return false;
+    FILE* file = fopen(file_name_games_played, "w+");
+    if (file == NULL)
+        return false;
+    fprintf(file, "%i\n", nbr_games);
+    fclose(file);
+
+    file = fopen(file_name_games_won, "w+");
+    if (file == NULL)
+        return false;
+    fprintf(file, "%i\n", nbr_won);
+    fclose(file);
+
+    return true;
 }
 
 bool get_stats(int* nbr_games, int* nbr_won)
 {
-    file = fopen(file_name, "r");
-    if (file != NULL)
-        {
-            fclose(file);
-            return true;
-        }
-    return false;
+    FILE* file = fopen(file_name_games_played, "r");
+    if (file == NULL)
+        return false;
+    fscanf(file, "%i\n", nbr_games);
+    fclose(file);
+
+    file = fopen(file_name_games_won, "r");
+    if (file == NULL)
+        return false;
+    fscanf(file, "%i\n", nbr_won);
+    fclose(file);
+
+
+    return true;
 }
