@@ -18,31 +18,32 @@
 #include <string.h>
 #include <sys/dir.h>
 
-u8 games_played, games_won;
 
 FILE* file = NULL;
 DIR*  dir  = NULL;
 
-struct dirent* entry;
-struct stat    st;
 
+const char* const file_name = "/streetfighter/scores.txt";
 
-const char* const target_dir = "/streetfighter/";
-
-void store_stats(u8 nbr_games, u8 nbr_won)
+bool store_stats(int nbr_games, int nbr_won)
 {
-
-    if ((entry = readdir(dir)) == NULL)
+    file = fopen(file_name, "w+");
+    if (file != NULL)
         {
-            // Close and reopen the directory
-            closedir(dir);
-            dir   = opendir(target_dir);
-            entry = readdir(dir);
+            fprintf(file, "%i\n%i\n", nbr_won, nbr_games);
+            fclose(file);
+            return true;
         }
+    return false;
 }
 
-void get_stats(u8* nbr_games, u8* nbr_won)
+bool get_stats(int* nbr_games, int* nbr_won)
 {
-    *nbr_games = games_played;
-    *nbr_won   = games_won;
+    file = fopen(file_name, "r");
+    if (file != NULL)
+        {
+            fclose(file);
+            return true;
+        }
+    return false;
 }
