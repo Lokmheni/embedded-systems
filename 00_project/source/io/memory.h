@@ -14,9 +14,29 @@
 #define __MEMORY_H
 
 
-void store_stats( int nbr_games, int nbr_won );
-
-void get_stats( int* nbr_games, int* nbr_won );
+#include <nds.h>
 
 
-#endif  // __MEMORY_H
+/**
+ * @brief Store values to permanent memory
+ *
+ * @param nbr_games total number of games played
+ * @param nbr_won total number of games won
+ * @return true on success
+ * @return false writing failed
+ */
+bool store_stats(int nbr_games, int nbr_won);
+
+
+/**
+ * @brief Get the stored game statistics from permanent memory
+ *
+ * @param nbr_games total number of games played
+ * @param nbr_won total number of games won
+ * @return true if values were read correctly
+ * @return false if something failed
+ */
+bool get_stats(int* nbr_games, int* nbr_won);
+
+
+#endif // __MEMORY_H

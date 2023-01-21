@@ -9,15 +9,41 @@
  *
  */
 
-int games_played, games_won;
 
 #include "memory.h"
 
+#include <dirent.h>
+#include <fat.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/dir.h>
 
-void store_stats(int nbr_games, int nbr_won) {
+
+FILE* file = NULL;
+DIR*  dir  = NULL;
+
+
+const char* const file_name = "/streetfighter/scores.txt";
+
+bool store_stats(int nbr_games, int nbr_won)
+{
+    file = fopen(file_name, "w+");
+    if (file != NULL)
+        {
+            fprintf(file, "%i\n%i\n", nbr_won, nbr_games);
+            fclose(file);
+            return true;
+        }
+    return false;
 }
 
-void get_stats(int* nbr_games, int* nbr_won) {
-	*nbr_games  = games_played;
-	*nbr_won = games_won;
+bool get_stats(int* nbr_games, int* nbr_won)
+{
+    file = fopen(file_name, "r");
+    if (file != NULL)
+        {
+            fclose(file);
+            return true;
+        }
+    return false;
 }

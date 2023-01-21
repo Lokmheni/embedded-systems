@@ -9,12 +9,12 @@
  *
  */
 
-
 #include "game_sync_fsm.h"
 
 #include "../constants.h"
 #include "../graphics/graphics.h"
 #include "game_controller.h"
+#include "../io/memory.h"
 
 int wait_time = 0;
 u8 my_score;
@@ -194,52 +194,31 @@ void go_for_end_round()
     // screen stuff
 
     u8 local, remote;
+    int higher_won, higher_played;
+
+    //get_stats(&higher_played, &higher_won);
     get_scores(&local, &remote);
-    if(my_score == local)
+
+    if(my_score == local){
     	youlose();
-    else
+    }
+    else{
     	youwin();
-    show_settings(local+remote,local);
+    }
 
-    //show_settings(158, 100);
-   /*wait_time = 0;
-   TIMER_DATA(1) = TIMER_FREQ_64(1);
-   TIMER0_CR = TIMER_ENABLE | TIMER_DIV_64; //| TIMER_IRQ_REQ;
-   //irqSet(IRQ_TIMER1, &ISR_TIMER1);
-   irqEnable(IRQ_TIMER1);
-
-   while(TIMER_DATA(1) != 10){
-	   if(wait_time < 10)
-		   wait_time++;
-	   else
-		   break;
-   }*/
-
-   /*u8 local, remote;
-    get_scores(&local , &remote);
-    if(my_score == local)
-    	youwin();*/
+    //get_stats(&higher_played, &higher_won);
+    show_settings(local+remote,local, higher_played, higher_won);
 
     swiWaitForVBlank();
-
-    //if (get_player_local()->health < get_player_remote()->health)
-    //	youlose();
-    //else if(get_player_remote()->health < get_player_local()->health)
-   //youwin();
-   //   if(get_key_to_continue()){
-    //show_settings(158,0);
-   //}
-    //gameover();
-
-
 }
 
 void go_for_new_round()
 {
 	// @todo change BG and send ctrl changeBG instr
-    new_round();
+	new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
+    store_stats(scr, dontcare);
     my_score = scr;
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
