@@ -69,6 +69,9 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                  get_player_local()->health < get_player_remote()->health))
                 {
                     round_done = true;
+                    u8 dontcare, rmt;
+                    get_scores(&dontcare, &rmt);
+                    set_score_remote(rmt + 1);
                     go_for_end_round();
                 }
             else if ((con_state == CONNECTION_TYPE_NULL &&
