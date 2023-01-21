@@ -207,7 +207,7 @@ void go_for_end_round()
     }
 
     //get_stats(&higher_played, &higher_won);
-    show_settings(local+remote,local, higher_played);
+    show_settings(local+remote,local, higher_played, higher_won);
 
     swiWaitForVBlank();
 }
