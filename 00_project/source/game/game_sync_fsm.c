@@ -69,6 +69,9 @@ bool exec_sync_fsm(RequestedAction a, RequestedMovement m, WifiMsg msg,
                  get_player_local()->health < get_player_remote()->health))
                 {
                     round_done = true;
+                    u8 dontcare, rmt;
+                    get_scores(&dontcare, &rmt);
+                    set_score_remote(rmt + 1);
                     go_for_end_round();
                 }
             else if ((con_state == CONNECTION_TYPE_NULL &&
@@ -198,37 +201,8 @@ void go_for_end_round()
     	youwin();
     show_settings(local+remote,local);
 
-    //show_settings(158, 100);
-   /*wait_time = 0;
-   TIMER_DATA(1) = TIMER_FREQ_64(1);
-   TIMER0_CR = TIMER_ENABLE | TIMER_DIV_64; //| TIMER_IRQ_REQ;
-   //irqSet(IRQ_TIMER1, &ISR_TIMER1);
-   irqEnable(IRQ_TIMER1);
-
-   while(TIMER_DATA(1) != 10){
-	   if(wait_time < 10)
-		   wait_time++;
-	   else
-		   break;
-   }*/
-
-   /*u8 local, remote;
-    get_scores(&local , &remote);
-    if(my_score == local)
-    	youwin();*/
 
     swiWaitForVBlank();
-
-    //if (get_player_local()->health < get_player_remote()->health)
-    //	youlose();
-    //else if(get_player_remote()->health < get_player_local()->health)
-   //youwin();
-   //   if(get_key_to_continue()){
-    //show_settings(158,0);
-   //}
-    //gameover();
-
-
 }
 
 void go_for_new_round()
