@@ -270,7 +270,7 @@ int set_time_remaining(int min, int sec, int msec){
 	return (time_round - time_passed);
 }
 
-void show_settings(int games_played, int games_won){
+void show_settings(int games_played, int games_won, int higher_won){
 	// Configure the SUB engine in Rotoscale Mode
 	REG_DISPCNT_SUB = MODE_5_2D | DISPLAY_BG1_ACTIVE | DISPLAY_BG2_ACTIVE;
 	BGCTRL_SUB[2] = BG_BMP_BASE(5) | BG_BMP8_256x256;
@@ -290,6 +290,10 @@ void show_settings(int games_played, int games_won){
 	int games_won_dozens = (games_won%100)/10;
 	int games_won_units = (games_won%100)%10;
 
+	int higher_won_hundreds = higher_won / 100;
+	int higher_won_dozens = (higher_won%100)/10;
+	int higher_won_units = (higher_won%100)%10;
+
 	BGCTRL_SUB[1] = BG_32x32 | BG_COLOR_256 | BG_MAP_BASE(0) | BG_TILE_BASE(1);
 	//Copy the tiles and the palette to the corresonding location
 	swiCopy(numbersTiles, BG_TILE_RAM_SUB(1), numbersTilesLen);
@@ -302,11 +306,11 @@ void show_settings(int games_played, int games_won){
 		if(pal_l8 != 0)
 			pal_l8 = 0;
 		else
-			pal_l8 = 1;
+			pal_l8 = 3;
 		if(pal_h8 != 0)
 			pal_h8 = 0;
 		else
-			pal_h8 = 1;
+			pal_h8 = 3;
 		image[i] = pal_h8<<8 | pal_l8;
 	}
 
@@ -316,6 +320,9 @@ void show_settings(int games_played, int games_won){
 	printDigit(BG_MAP_RAM_SUB(0) , games_won_hundreds, 10, 8);
 	printDigit(BG_MAP_RAM_SUB(0) , games_won_dozens, 14, 8);
 	printDigit(BG_MAP_RAM_SUB(0) , games_won_units, 18, 8);
+	printDigit(BG_MAP_RAM_SUB(0) , higher_won_hundreds, 10, 16);
+	printDigit(BG_MAP_RAM_SUB(0) , higher_won_dozens, 14, 16);
+	printDigit(BG_MAP_RAM_SUB(0) , higher_won_units, 18, 16);
 }
 
 void sprite_initializer(){

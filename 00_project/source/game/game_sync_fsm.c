@@ -9,12 +9,12 @@
  *
  */
 
-
 #include "game_sync_fsm.h"
 
 #include "../constants.h"
 #include "../graphics/graphics.h"
 #include "game_controller.h"
+#include "../io/memory.h"
 
 int wait_time = 0;
 u8 my_score;
@@ -194,13 +194,28 @@ void go_for_end_round()
     // screen stuff
 
     u8 local, remote;
-    get_scores(&local, &remote);
-    if(my_score == local)
-    	youlose();
-    else
-    	youwin();
-    show_settings(local+remote,local);
+    int higher_won, higher_played;
 
+    get_stats(&higher_played, &higher_won);
+    get_scores(&local, &remote);
+
+    if(my_score == local){
+    	higher_played++;
+    	store_stats(higher_played, higher_won);
+    	get_stats(&higher_played, &higher_won);
+       	youlose();
+    }
+    else{
+    	higher_played++;
+    	higher_won++;
+    	store_stats(higher_played, higher_won);
+    	get_stats(&higher_played, &higher_won);
+    	youwin();
+    }
+
+
+
+    show_settings(local+remote,local, higher_won);
 
     swiWaitForVBlank();
 }
