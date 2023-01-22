@@ -59,11 +59,13 @@
 #include "graphics/chrono_display.h"
 #include "graphics/graphics.h"
 #include "io/input.h"
+#include "io/memory.h"
 #include "numbers.h"
 
 
 int main(void)
 {
+
     //===================================================================
     // Setup Graphics (ordering relevant)
     //===================================================================

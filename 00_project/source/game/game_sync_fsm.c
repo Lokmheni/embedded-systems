@@ -200,13 +200,16 @@ void go_for_end_round()
     get_scores(&local, &remote);
 
     if(my_score == local){
+    	higher_played++;
+    	higher_won++;
     	youlose();
     }
     else{
+    	higher_played++;
     	youwin();
     }
-
-    //get_stats(&higher_played, &higher_won);
+    store_stats(higher_played, higher_won);
+    get_stats(&higher_played, &higher_won);
     show_settings(local+remote,local, higher_played, higher_won);
 
     swiWaitForVBlank();
@@ -218,7 +221,6 @@ void go_for_new_round()
 	new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
-    store_stats(scr, dontcare);
     my_score = scr;
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
