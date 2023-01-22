@@ -67,7 +67,6 @@ int main(void)
     //===================================================================
     init_screens();
 
-    ///@todo move oamInit to graphics
     oamInit(&oamMain, SpriteMapping_1D_32, false);
 
     //===================================================================
