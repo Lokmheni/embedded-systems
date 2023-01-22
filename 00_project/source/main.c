@@ -49,7 +49,7 @@
  * (On the repo see 00_PROJECT/html/index.html)
  */
 
-
+#include <fat.h>
 #include <nds.h>
 
 #include "constants.h"
@@ -76,6 +76,8 @@ int main(void)
     //===================================================================
     init_sound();
     play_music();
+
+    fatInitDefault();
 
     //===================================================================
     // Setup Game
