@@ -52,15 +52,11 @@
 
 #include <fat.h>
 #include <nds.h>
+#include <stdio.h>
 
-#include "constants.h"
 #include "game/game_controller.h"
 #include "game/game_sync_fsm.h"
-#include "graphics/chrono_display.h"
 #include "graphics/graphics.h"
-#include "io/input.h"
-#include "io/memory.h"
-#include "numbers.h"
 
 
 int main(void)
@@ -146,8 +142,5 @@ int main(void)
                 {
                     updateChrono(get_player_local(), get_player_remote());
                 }
-
-            /// @todo move oamUpdate to graphics
-            // oamUpdate(&oamMain);
         }
 }
