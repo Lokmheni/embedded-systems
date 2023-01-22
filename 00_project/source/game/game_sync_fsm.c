@@ -27,6 +27,8 @@ ConnectionHierarchy con_state = CONNECTION_TYPE_NULL;
 /// @brief game state
 GameState game_state          = GAME_IN_END;
 
+int higher_won, higher_played;
+
 
 //===================================================================
 // Getters
@@ -194,15 +196,17 @@ void go_for_end_round()
     // screen stuff
 
     u8 local, remote;
-    int higher_won, higher_played;
 
     //get_stats(&higher_played, &higher_won);
     get_scores(&local, &remote);
-
+    get_stats(&higher_played, &higher_won);
     if(my_score == local){
+    	higher_played++;
     	youlose();
     }
     else{
+    	higher_played++;
+    	higher_won++;
     	youwin();
     }
 
@@ -218,7 +222,7 @@ void go_for_new_round()
 	new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
-    store_stats(scr, dontcare);
+    store_stats(higher_played, higher_won);
     my_score = scr;
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;

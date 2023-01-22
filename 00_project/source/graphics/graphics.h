@@ -63,6 +63,7 @@ void sprite_pos_remote(const Player* player);
  */
 int set_time_remaining(int min, int sec, int msec);
 
+
 // show statistics
 void show_settings(int games_played, int games_won, int higher_played, int higher_won);
 

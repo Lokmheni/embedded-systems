@@ -42,6 +42,7 @@ bool get_stats(int* nbr_games, int* nbr_won)
     file = fopen(file_name, "r");
     if (file != NULL)
         {
+    		fscanf("%i\n%i\n", nbr_won, nbr_games);
             fclose(file);
             return true;
         }
