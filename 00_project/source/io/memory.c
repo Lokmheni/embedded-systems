@@ -12,38 +12,45 @@
 
 #include "memory.h"
 
-#include <dirent.h>
 #include <fat.h>
 #include <stdio.h>
-#include <string.h>
-#include <sys/dir.h>
 
 
-FILE* file = NULL;
-DIR*  dir  = NULL;
+#define F_GAMES_WON    "/sf_gb.txt"
+#define F_GAMES_PLAYED "/sf_gw.txt"
 
-
-const char* const file_name = "/streetfighter/scores.txt";
 
 bool store_stats(int nbr_games, int nbr_won)
 {
-    file = fopen(file_name, "w+");
-    if (file != NULL)
-        {
-            fprintf(file, "%i\n%i\n", nbr_won, nbr_games);
-            fclose(file);
-            return true;
-        }
-    return false;
+    FILE* file = fopen(F_GAMES_PLAYED, "w+");
+    if (file == NULL)
+        return false;
+    fprintf(file, "%i\n", nbr_games);
+    fclose(file);
+
+    file = fopen(F_GAMES_WON, "w+");
+    if (file == NULL)
+        return false;
+    fprintf(file, "%i\n", nbr_won);
+    fclose(file);
+
+    return true;
 }
 
 bool get_stats(int* nbr_games, int* nbr_won)
 {
-    file = fopen(file_name, "r");
-    if (file != NULL)
-        {
-            fclose(file);
-            return true;
-        }
-    return false;
+    FILE* file = fopen(F_GAMES_PLAYED, "r");
+    if (file == NULL)
+        return false;
+    fscanf(file, "%i\n", nbr_games);
+    fclose(file);
+
+    file = fopen(F_GAMES_WON, "r");
+    if (file == NULL)
+        return false;
+    fscanf(file, "%i\n", nbr_won);
+    fclose(file);
+
+
+    return true;
 }

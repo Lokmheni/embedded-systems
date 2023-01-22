@@ -50,19 +50,22 @@
  */
 
 
+#include <fat.h>
 #include <nds.h>
 
 #include "constants.h"
 #include "game/game_controller.h"
 #include "game/game_sync_fsm.h"
+#include "graphics/chrono_display.h"
 #include "graphics/graphics.h"
 #include "io/input.h"
-#include "graphics/chrono_display.h"
+#include "io/memory.h"
 #include "numbers.h"
 
 
 int main(void)
 {
+
     //===================================================================
     // Setup Graphics (ordering relevant)
     //===================================================================
@@ -76,6 +79,11 @@ int main(void)
     //===================================================================
     init_sound();
     play_music();
+
+    //===================================================================
+    // Setup FAT
+    //===================================================================
+    fatInitDefault();
 
     //===================================================================
     // Setup Game
@@ -122,7 +130,7 @@ int main(void)
 
     for (;;)
         {
-           receive_messages(&msg);
+            receive_messages(&msg);
             get_input(&a, &m);
             if (get_game_state() != GAME_IN_PROGRESS)
                 {
@@ -130,17 +138,16 @@ int main(void)
                         a = REQ_ACTION_START_GAME;
                 }
             exec_sync_fsm(a, m, msg, get_timer_timeout());
-    	swiWaitForVBlank();
+            swiWaitForVBlank();
 
-        sprite_pos_local(get_player_local());
-        sprite_pos_remote(get_player_remote());
+            sprite_pos_local(get_player_local());
+            sprite_pos_remote(get_player_remote());
             if (get_game_state() == GAME_IN_PROGRESS)
                 {
                     updateChrono(get_player_local(), get_player_remote());
                 }
 
             /// @todo move oamUpdate to graphics
-            //oamUpdate(&oamMain);
-
+            // oamUpdate(&oamMain);
         }
 }
