@@ -13,11 +13,11 @@
 
 #include "../constants.h"
 #include "../graphics/graphics.h"
-#include "game_controller.h"
 #include "../io/memory.h"
+#include "game_controller.h"
 
 int wait_time = 0;
-u8 my_score;
+u8  my_score;
 
 //===================================================================
 // Variables
@@ -193,33 +193,35 @@ void go_for_end_round()
 
     // screen stuff
 
-    u8 local, remote;
+    u8  local, remote;
     int higher_won, higher_played;
+    higher_played = higher_won = 0;
 
-    //get_stats(&higher_played, &higher_won);
+    // get_stats(&higher_played, &higher_won);
     get_stats(&higher_played, &higher_won);
     get_scores(&local, &remote);
 
-    if(my_score == local){
-    	higher_played++;
-    	higher_won++;
-    	youlose();
-    }
-    else{
-    	higher_played++;
-    	youwin();
-    }
+    if (my_score == local)
+        {
+            higher_played++;
+            youlose();
+        }
+    else
+        {
+            higher_won++;
+            higher_played++;
+            youwin();
+        }
     store_stats(higher_played, higher_won);
-    get_stats(&higher_played, &higher_won);
-    show_settings(local+remote,local, higher_played, higher_won);
+    show_settings(local + remote, local, higher_played, higher_won);
 
     swiWaitForVBlank();
 }
 
 void go_for_new_round()
 {
-	// @todo change BG and send ctrl changeBG instr
-	new_round();
+    // @todo change BG and send ctrl changeBG instr
+    new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
     my_score = scr;
