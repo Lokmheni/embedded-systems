@@ -209,7 +209,7 @@ void go_for_end_round()
     	higher_won++;
     	youwin();
     }
-
+    store_stats(higher_played, higher_won);
     //get_stats(&higher_played, &higher_won);
     show_settings(local+remote,local, higher_played, higher_won);
 
@@ -222,7 +222,6 @@ void go_for_new_round()
 	new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);
-    store_stats(higher_played, higher_won);
     my_score = scr;
     send_ctrl_instruction(SET_STAGE | IS_PLAY, scr, 0);
     game_state = GAME_IN_PROGRESS;
