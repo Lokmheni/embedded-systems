@@ -2,7 +2,7 @@
  * @file input.c
  * @author Simon Thür and Lokman Mheni
  * @brief
- * @version 0.1
+ * @version 1.0
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -68,16 +68,6 @@ int get_keys(){
 		return 0;
 }
 
-/*void manage_key(int keys){
-	int x = 0, y = 192;
-	//Modify position of the sprite accordingly
-	if((keys & KEY_RIGHT)  || (keys & KEY_DOWN)|| (keys & KEY_LEFT) || (keys & KEY_UP)){
-		if((keys & KEY_RIGHT) && (x < (SCREEN_WIDTH - SPRITE_WIDTH))) x+=2;
-		if((keys & KEY_DOWN) && (y < (SCREEN_HEIGHT - SPRITE_HEIGHT))) y+=2;
-		if((keys & KEY_LEFT) && (x  > 0)) x-=2;
-		if((keys & KEY_UP) && (y  > 0)) y-=2;
-	}
-}*/
 
 bool get_touch_input(TouchInput* touchinput) {
 	*touchinput = TOUCH_INPUT_NONE;
@@ -105,7 +95,6 @@ bool get_touch_input(TouchInput* touchinput) {
 }
 
 bool get_touch_to_restart(TouchInput* touchinput) {
-	//bool set_up = true;
 		while(1){
 			//Read the touchscreen position
 			touchPosition touch;
@@ -129,7 +118,6 @@ bool get_touch_to_restart(TouchInput* touchinput) {
 }
 
 bool get_key_to_continue(){
-	//bool set_up = true;
 	int keys;
 	//Read held keys
 	scanKeys();

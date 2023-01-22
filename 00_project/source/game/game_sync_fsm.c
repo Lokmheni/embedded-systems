@@ -146,7 +146,6 @@ void go_for_singleplayer()
 {
     if (con_state != CONNECTION_TYPE_NULL)
         {
-            /// @todo update BG
             u8 scr, dontcare;
             get_scores(&scr, &dontcare);
             // inform remote of quit
@@ -165,7 +164,6 @@ void go_for_game_init()
 {
     if (con_state != CONNECTION_TYPE_NULL)
         {
-            /// @todo update BG <-Not happening, too much effort in frontend
             send_ctrl_instruction(RESET_GAME | IS_PLAY | START_GAME, 0, 0);
             reset_game(con_state != CONNECTION_TYPE_NULL);
             con_state = CONNECTION_TYPE_CONTESTED;
@@ -220,7 +218,6 @@ void go_for_end_round()
 
 void go_for_new_round()
 {
-    // @todo change BG and send ctrl changeBG instr
     new_round();
     u8 scr, dontcare;
     get_scores(&scr, &dontcare);

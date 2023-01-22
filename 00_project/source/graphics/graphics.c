@@ -2,7 +2,7 @@
  * @file graphics.c
  * @author Simon Thür and Lokman Mheni
  * @brief
- * @version 0.1
+ * @version 1.0
  * @date 2022-12-02
  *
  * @copyright Copyright (c) 2022
@@ -11,26 +11,19 @@
 
 
 #include "graphics.h"
-#include <nds.h>
+
 #include "paysage.h"
 #include "player.h"
 #include "play_mode.h"
 #include "player2.h"
-#include "../io/input.h"
-#include "../settings.h"
 #include "streetfighter.h"
-#include <math.h>
 #include "numbers.h"
-#include "string.h"
 #include "chrono_display.h"
 #include "gameover.h"
 #include "health.h"
 #include "youwin.h"
 #include "youlose.h"
 #include "statistics.h"
-#include "../game/game_controller.h"
-
-
 #include "player_attack_normal.h"
 #include "player_attack_special.h"
 #include "player2_attack_normal.h"

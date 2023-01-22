@@ -1,0 +1,7 @@
+var searchData=
+[
+  ['update_5fgame_5fcomplete_530',['update_game_complete',['../game__controller_8c.html#ae8ee7a121e8e230c451463e990eb49dc',1,'update_game_complete(RequestedAction action, RequestedMovement movement, WifiMsg remote_info):&#160;game_controller.c'],['../game__controller_8h.html#ae8ee7a121e8e230c451463e990eb49dc',1,'update_game_complete(RequestedAction action, RequestedMovement movement, WifiMsg remote_info):&#160;game_controller.c']]],
+  ['update_5fgame_5fmov_531',['update_game_mov',['../game__controller_8c.html#a2f99b93e6d1edf2ccd7382ce9466802d',1,'update_game_mov(RequestedAction action, RequestedMovement movement, WifiMsg remote_info):&#160;game_controller.c'],['../game__controller_8h.html#a2f99b93e6d1edf2ccd7382ce9466802d',1,'update_game_mov(RequestedAction action, RequestedMovement movement, WifiMsg remote_info):&#160;game_controller.c']]],
+  ['updatechrono_532',['updateChrono',['../graphics_8c.html#aa393e7dd00d65118a95282e0fe973282',1,'updateChrono(const Player *t, const Player *s):&#160;graphics.c'],['../graphics_8h.html#aa393e7dd00d65118a95282e0fe973282',1,'updateChrono(const Player *t, const Player *s):&#160;graphics.c']]],
+  ['updatechronodisp_533',['updateChronoDisp',['../chrono__display_8c.html#a37083a75d5fc03b4e348ae082b07b901',1,'updateChronoDisp(u16 *map, int min, int sec, int msec):&#160;chrono_display.c'],['../chrono__display_8h.html#a37083a75d5fc03b4e348ae082b07b901',1,'updateChronoDisp(u16 *map, int min, int sec, int msec):&#160;chrono_display.c']]]
+];
