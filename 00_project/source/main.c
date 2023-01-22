@@ -81,12 +81,12 @@ int main(void)
     consoleDemoInit();
     fatInitDefault();
 
-    int *a,*b;
+    int a,b;
 
     store_stats(1,2);
-    get_stats(a,b);
+    get_stats(&a,&b);
 
-    printf("\n%d\n%d", &a,&b);
+    printf("\n%d\n%d", a,b);
 
     for(;;)
     	return 0;
