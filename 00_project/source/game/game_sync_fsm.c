@@ -197,6 +197,7 @@ void go_for_end_round()
     int higher_won, higher_played;
 
     //get_stats(&higher_played, &higher_won);
+    get_stats(&higher_played, &higher_won);
     get_scores(&local, &remote);
 
     if(my_score == local){
