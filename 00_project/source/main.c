@@ -58,15 +58,28 @@
 #include "graphics/chrono_display.h"
 #include "graphics/graphics.h"
 #include "io/input.h"
+#include "io/memory.h"
 #include "numbers.h"
 
 
 int main(void)
 {
 
+	consoleDemoInit();
     fatInitDefault();
 
+    int a, b;
 
+    store_stats(1,2);
+    get_stats(&a,&b);
+
+    printf("\n%d\n%d", a, b);
+
+    for(;;)
+    	return 0;
+}
+
+/*
     //===================================================================
     // Setup Graphics (ordering relevant)
     //===================================================================
@@ -146,4 +159,4 @@ int main(void)
             /// @todo move oamUpdate to graphics
             // oamUpdate(&oamMain);
         }
-}
+}*/
