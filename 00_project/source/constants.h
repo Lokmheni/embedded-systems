@@ -37,8 +37,8 @@
 #define JUMP_SPEED     18
 #define GRAVITY        2 // to see in relation to jump_speed
 
-#define DAMAGE_NORMAL  5
-#define DAMAGE_SPECIAL 10
+#define DAMAGE_NORMAL  4
+#define DAMAGE_SPECIAL 4 * DAMAGE_NORMAL
 #define MAX_HEALTH     100
 #define BLOCK_FACTOR   2
 
