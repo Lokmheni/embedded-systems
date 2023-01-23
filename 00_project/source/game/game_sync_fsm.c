@@ -261,9 +261,32 @@ void execute_commands(WifiMsg req)
             if (req.dat1 & RESET_GAME)
                 reset_game(true);
             if (req.dat1 & SET_STAGE)
-                set_stage();
+                {
+                    set_stage();
+                    init_main_screen();
+                    sprite_initializer();
+                    show_timer();
+                    manage_timer();
+                }
             if (req.dat1 & WINNER_REMOTE)
-                inc_score_lcoal();
+                {
+                    inc_score_lcoal();
+                    u8  local, remote;
+                    int higher_won, higher_played;
+                    higher_played = higher_won = 0;
+
+                    // get_stats(&higher_played, &higher_won);
+                    get_stats(&higher_played, &higher_won);
+                    get_scores(&local, &remote);
+
+                    higher_won++;
+                    higher_played++;
+                    youwin();
+
+                    store_stats(higher_played, higher_won);
+                    show_settings(local + remote, local, higher_played,
+                                  higher_won);
+                }
 
             if (req.dat1 & (RESET_GAME | SET_STAGE))
                 manage_timer();
