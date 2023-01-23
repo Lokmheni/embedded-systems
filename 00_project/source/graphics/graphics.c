@@ -219,7 +219,6 @@ void show_logo(){
 	#endif
 }
 
-
 void init_main_screen(Player* t){
 	REG_DISPCNT = MODE_5_2D | DISPLAY_BG0_ACTIVE;
 	//BG0 configuration for the background
@@ -303,18 +302,16 @@ void show_settings(int games_played, int games_won, int higher_played, int highe
 		if(pal_l8 != 0)
 			pal_l8 = 0;
 		else
-			pal_l8 = 3;
+			pal_l8 = 2;
 		if(pal_h8 != 0)
 			pal_h8 = 0;
 		else
-			pal_h8 = 3;
+			pal_h8 = 2;
 		image[i] = pal_h8<<4 | pal_l8;
 	}
 
-	//printDigit(BG_MAP_RAM_SUB(0) , games_played_hundreds, 10, 0);
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_dozens, 8, 0);
 	printDigit(BG_MAP_RAM_SUB(0) , games_played_units, 12, 0);
-	//printDigit(BG_MAP_RAM_SUB(0) , games_won_hundreds, 10, 8);
 	printDigit(BG_MAP_RAM_SUB(0) , games_won_dozens, 24, 0);
 	printDigit(BG_MAP_RAM_SUB(0) , games_won_units, 28, 0);
 	printDigit(BG_MAP_RAM_SUB(0) , higher_played_hundreds, 10, 8);
@@ -372,11 +369,11 @@ void sprite_initializer(){
             player2_attack_specialTilesLen);
     dmaCopy(player2_attack_specialPal, &VRAM_F_EXT_PALETTE[5],
             player2_attack_specialPalLen);
+
 #else
 	gfx = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	dmaCopy(playerTiles, gfx, playerTilesLen);
     dmaCopy(playerPal, &VRAM_F_EXT_SPR_PALETTE[0], playerPalLen);
-
 
     gfx_atk = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
     dmaCopy(player_attack_normalTiles, gfx_atk, player_attack_normalTilesLen);
