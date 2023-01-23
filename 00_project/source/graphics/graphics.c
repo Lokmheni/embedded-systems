@@ -82,7 +82,7 @@ u8 YellowTile[64] = {
 };
 
 int min = 0, sec = 0, msec = 0,
-    time_round = 1000 * 60 * 2; // 120 seconds for each round
+    time_round = 1000 * 30; // 30 seconds for each round
 
 int colore_cornice;
 
